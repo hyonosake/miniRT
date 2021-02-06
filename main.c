@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 03:47:19 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/06 17:53:58 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_scene		*define_scene()
 	new->canvas = NULL;
 	new->cameras = NULL;
 	//new->objects = NULL;
-	//new->lights = NULL;
+	new->lights = NULL;
+	new->ambient = NULL;
 	return (new);
 }
 
@@ -41,5 +42,6 @@ int main(int ac, char **av)
 		free(line);
 	}
 	print_cameras(scene);
+	print_amb_light(scene);
 	return (0);
 }

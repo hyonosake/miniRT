@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:02:49 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 03:46:37 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/06 15:29:41 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ int		atoi_modified(char **line)
 
 	sign = 1;
 	result = 0;  
-	//if (**line == '+' || **line == '-')
-	//{
-	//	if (**line  == '-')
-	//		sign *= (-1);
-	//	*line += 1;
-	//}
 	while (ft_isdigit(**line))
 	{
 		result = result * 10 + (**line - '0');
@@ -83,3 +77,4 @@ double	atof_modified(char **line)
 	}
 	return (min * ((double)parts[0] + (double)parts[1] / pow(10, power)));
 }
+

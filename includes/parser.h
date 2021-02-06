@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:32:45 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 03:11:45 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/06 15:43:45 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 # define PARSER_H
 
 void			parse_line(char *line, t_scene *scene);
-void			add_canvas(t_scene *scene, t_canvas *new);
 void			parse_resolution(char *line, t_scene *scene);
+t_point			*parse_point(char **line);
+t_vector		*parse_vector(char **line);
+t_color			*color_create(int r, int g, int b);
 void			parse_cameras(char *line, t_scene *scene);
-void			add_camera(t_scene *scene, t_camera *cam);
+t_color			*parse_color_triplet(char **line);
+void			parse_amb_light(char *line, t_scene *scene);
+
+
 
 #endif

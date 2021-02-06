@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:14:19 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 03:30:17 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/06 13:58:13 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,15 @@ t_vector	*v_from_string(char **line)
 	double	c[3];
 
 	c[0] = atof_modified(line);
-	printf("1. standing on %c\n", **line);
 	if (**line != ',')
 		error_throw(-2);
 	++(*line);
-	printf("2. standing on %c\n", **line);
 	skip_spaces(line);
-	printf("3. standing on %c\n", **line);
 	c[1] = atof_modified(line);
-	printf("4. standing on %c\n", **line);
 	if (**line != ',')
 		error_throw(-2);
 	++(*line);
 	skip_spaces(line);
-	printf("[%f %f %f]\n", c[0], c[1], c[2]);
 	c[2] = atof_modified(line);
-	printf("here\n");
 	return(v_from_values(c[0], c[1], c[2]));	
 }

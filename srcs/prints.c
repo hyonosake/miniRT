@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/06 03:26:47 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/06 17:57:44 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,17 @@ void	print_canvas(t_scene *scene)
 
 void	print_vector(t_vector *v)
 {
-	printf("vector: [%f %f %f]\tmod = %f\n", v->xv, v->yv, v->zv, v->mod);
+	printf("vector:\t[%g.3 %g.3 %g.3]\tmod = %g.3\n", v->xv, v->yv, v->zv, v->mod);
 }
 
 void	print_point(t_point *v)
 {
-	printf("point: [%f %f %f]\n", v->xp, v->yp, v->zp);
+	printf("point:\t[%g.3 %g.3 %g.3]\n", v->xp, v->yp, v->zp);
+}
+
+void	print_color(t_color *color)
+{
+	printf("RGB\t[%d %d %d]\n", color->r, color->g, color->b);
 }
 
 void	print_cameras(t_scene *scene)
@@ -41,19 +46,39 @@ void	print_cameras(t_scene *scene)
 	t_camera	*tmp;
 	int i = 0;
 	if (!scene->cameras)
-		write(1, "No cams found\n", 16);
-	else
 	{
-		tmp = scene->cameras;
-		while (tmp)
-		{
-			printf("--------- CAM No %d ---------\n", i);
-			i++;
-			print_vector(scene->cameras->dir);
-			print_point(scene->cameras->orig);
-			printf("-----------------------------\n");
-			tmp = tmp->next;
-		}
-		
+		write(1, "No cams found\n", 16);
+		return ;
 	}
+	tmp = scene->cameras;
+	while (tmp)
+	{
+		printf("\n--------- CAM No %d ----------\n", i);			i++;
+		print_vector(tmp->dir);
+		print_point(tmp->orig);
+		printf("fov:\t%g.3 rad\n", tmp->fov);
+		printf("-----------------------------\n");
+		tmp = tmp->next;
+	}
+}
+
+void	print_amb_light(t_scene *scene)
+{
+	int i = 0;
+	t_light *tmp;
+	tmp = scene->ambient;
+	if (!tmp)
+	{
+		write(1, "No ambient lights\n", 25);
+		return ;
+	}
+	while (tmp)
+	{
+		printf("\n--------- AMB No %d ----------\n", i);			i++;
+		print_color(tmp->color);
+		printf("intens\t%g.3\n", tmp->intensity);
+		printf("-----------------------------\n");
+		tmp = tmp->next;
+	}
+	
 }

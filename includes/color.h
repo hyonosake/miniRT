@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:30:42 by alex              #+#    #+#             */
-/*   Updated: 2021/02/05 20:31:31 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 15:35:53 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,6 @@ typedef struct		s_color
 	unsigned int	g;
 	unsigned int	b;
 }					t_color;
+
+
 #endif

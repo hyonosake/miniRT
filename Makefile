@@ -1,6 +1,6 @@
 NAME = miniRT
 CC = gcc
-FLAGS = -lmlx -framework OpenGL -framework AppKit
+FLAGS =  -framework OpenGL -framework AppKit #-lmlx
 SRDIR = ./srcs
 SRCS = $(SRDIR)/*.c
 OBJS = $(SRC:.c=.o)

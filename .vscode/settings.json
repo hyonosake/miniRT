@@ -1,6 +1,8 @@
 {
 	"files.associations": {
 		"minirt.h": "c",
-		"__locale": "c"
+		"__locale": "c",
+		"mlx.h": "c",
+		"parsing_utils.h": "c"
 	}
 }
