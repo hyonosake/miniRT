@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_scene.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:03:13 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/06 17:52:55 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 20:13:11 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,42 @@ void	add_camera(t_scene *scene, t_camera *cam)
 	tmp->next = cam;
 }
 
-void		add_light(t_light **lights, t_light *amb)
+void		add_amb_light(t_scene *scene, t_light *amb)
+{
+	if (scene->ambient)
+		error_throw(-2);
+	scene->ambient = amb;
+}
+
+void		add_light(t_scene *scene, t_light *l)
 {
 	t_light *tmp;
 
-	tmp = *lights;
+	tmp = scene->lights;
 	if (!tmp)
 	{
-		*lights = amb;
+		scene->lights = l;
 		return ;
 	}
 	while(tmp->next)
 		tmp = tmp->next;
-	tmp->next = amb;
+	tmp->next = l;
 }
+
+void		add_object(t_scene *scene, t_object *obj)
+{
+	t_object *tmp;
+
+	tmp = scene->objects;
+	if (!tmp)
+	{
+		scene->objects = obj;
+		return ;
+	}
+	while(tmp->next)
+		tmp = tmp->next;
+	tmp->next = obj;
+}
+
+
 

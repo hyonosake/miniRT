@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 17:53:58 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 21:27:05 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,35 @@ t_scene		*define_scene()
 		error_throw(-1);
 	new->canvas = NULL;
 	new->cameras = NULL;
-	//new->objects = NULL;
+	new->objects = NULL;
 	new->lights = NULL;
 	new->ambient = NULL;
 	return (new);
 }
 
-int main(int ac, char **av)
+void	parse_input(t_scene *scene, char *name)
 {
-	t_scene	*scene;
-	//char *line = "1 ";
-	//double a = atof_modified(&line);
-	//printf("%f\n", a);
-	scene = define_scene();
 	char *line;
 	int res;
-	int fd = open(av[1], O_RDONLY);
+	int	i;
+
+	i = 0;
+	while (name[i] != '.' && name[i])
+		i++;
+	int fd = open(name, O_RDONLY);
+	if (!name[i] || (name[i+1] != 'r' && name[i+2] != 't') || fd < 0)
+		error_throw(-3);
 	while((res = get_next_line(fd, &line)) > 0)
 	{
 		parse_line(line, scene);
 		free(line);
 	}
-	print_cameras(scene);
-	print_amb_light(scene);
+	print_scene(scene);
+}
+int main(int ac, char **av)
+{
+	t_scene	*scene;
+	scene = define_scene();
+	parse_input(scene, av[1]);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:14:19 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 13:58:13 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 21:16:50 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ t_vector 		*v_cross_product(t_vector *v1, t_vector *v2)
 	t_vector	*new;
 
 	new = v_from_values(0,0,0);
-	new->xv = v1->yv * v1->zv -	v1->zv * v1->yv;
-	new->yv = v1->zv * v1->xv -	v1->xv * v1->zv;
-	new->zv = v1->xv * v1->yv -	v1->yv * v1->xv;
+	new->xv = v1->yv * v2->zv -	v1->zv * v2->yv;
+	new->yv = v1->zv * v2->xv -	v1->xv * v2->zv;
+	new->zv = v1->xv * v2->yv -	v1->yv * v2->xv;
 	new->mod = sqrt(v_dot_product(new,new));
 	return (new);
 }

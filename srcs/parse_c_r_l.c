@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_c_r_l.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 17:57:25 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 21:02:20 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void			parse_amb_light(char *line, t_scene *scene)
 	if(!(new = (t_light *)malloc(sizeof(t_light))))
 		error_throw(-1);
 	skip_spaces(&line);
-	new->dir = NULL;
 	new->orig = NULL;
 	new->next = NULL;
 	new->intensity = atof_modified(&line);
@@ -88,5 +87,25 @@ void			parse_amb_light(char *line, t_scene *scene)
 	skip_spaces(&line);
 	if (*line != '\0')
 		error_throw(-2);
-	add_light(&scene->ambient, new);
+	add_amb_light(scene, new);
+}
+
+
+void			parse_lights(char *line, t_scene *scene)
+{
+	t_light		*new;
+	
+	if(!(new = (t_light *)malloc(sizeof(t_light))))
+		error_throw(-1);
+	skip_spaces(&line);
+	new->orig = p_from_string(&line);
+	new->next = NULL;
+	skip_spaces(&line);
+	new->intensity = atof_modified(&line);
+	skip_spaces(&line);
+	new->color = parse_color_triplet(&line);
+	skip_spaces(&line);
+	if (*line != '\0' || new->intensity < 0 || new->intensity > 1)
+		error_throw(-2);
+	add_light(scene, new);
 }

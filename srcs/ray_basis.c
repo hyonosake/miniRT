@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_basis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:09:11 by alex              #+#    #+#             */
-/*   Updated: 2021/02/05 15:13:11 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 20:58:02 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ t_ray		*ray_dir_from_basis(t_camera *cam, t_basis *b, double *c)
 		error_throw(-1);
 	new->dir = v_from_basis(b, c);
 	new->orig = p_cpy(cam->orig);
+	return (new);
+}
+
+t_ray		*new_ray(t_vector *v, t_point *p)
+{
+	t_ray	*new;
+	if (!(new = (t_ray *)malloc(sizeof(t_ray))))
+		error_throw(-1);
+	new->orig = p;
+	new->dir = v;
 	return (new);
 }
 
