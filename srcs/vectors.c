@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   vectors.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:18:11 by alex              #+#    #+#             */
-/*   Updated: 2021/02/05 15:15:08 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 01:35:46 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-void error_throw(int a)
-{
-	char ch = a;
-	write(1, &ch, 1);
-}
 t_vector		*v_from_values(double x, double y, double z)
 {
 	t_vector	*new;

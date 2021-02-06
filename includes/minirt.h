@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/05 22:02:41 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 01:43:46 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include "scene.h"
 # include "parsing_utils.h"
 # include "parser.h"
+# include "prints.h"
 
+t_scene		*define_scene();
 
 #endif

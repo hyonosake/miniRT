@@ -1,24 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_utils.h                                     :+:      :+:    :+:   */
+/*   add_scene.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/05 14:08:11 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 03:03:23 by ffarah           ###   ########.fr       */
+/*   Created: 2021/02/06 01:03:13 by ffarah            #+#    #+#             */
+/*   Updated: 2021/02/06 01:12:13 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR_UTILS_H
-# define VECTOR_UTILS_H
-# include "minirt.h"
+#include "../includes/minirt.h"
 
-double			v_dot_product(t_vector *v1, t_vector *v2);
-t_vector 		*v_cross_product(t_vector *v1, t_vector *v2);
-int 			v_isnull(t_vector *v1);
-t_vector		*v_cpy(t_vector *v);
-t_point			*p_cpy(t_point *p);
-t_point		*p_from_string(char **line);
-t_vector	*v_from_string(char **line);
-#endif
+

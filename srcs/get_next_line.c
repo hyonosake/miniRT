@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 23:39:48 by alex              #+#    #+#             */
-/*   Updated: 2021/02/05 14:49:10 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 02:34:43 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
+#include "../includes/minirt.h"
 
 int				get_next_line(int fd, char **line)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 13:15:38 by alex              #+#    #+#             */
-/*   Updated: 2021/02/05 14:49:12 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/06 02:34:32 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
+#include "../includes/minirt.h"
 
 char				*ft_strjoin(char *orig, char *to_add)
 {
