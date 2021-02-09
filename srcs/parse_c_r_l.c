@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_c_r_l.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 21:02:20 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/08 17:31:48 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,15 @@ t_color			*parse_color_triplet(char **line)
 	int		rgb[3];
 	skip_spaces(line);
 	rgb[0] = atoi_modified(line);
+	skip_spaces(line);
 	if (**line == ',')
 		++(*line);
+	skip_spaces(line);
 	rgb[1] = atoi_modified(line);
+	skip_spaces(line);
 	if (**line == ',')
 		++(*line);
+	skip_spaces(line);
 	rgb[2] = atoi_modified(line);
 	return (color_create(rgb[0], rgb[1], rgb[2]));
 }

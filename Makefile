@@ -1,11 +1,12 @@
 NAME = miniRT
 CC = gcc
-FLAGS =  -framework OpenGL -framework AppKit #-lmlx
+FLAGS =  -lmlx -framework OpenGL -framework AppKit
 SRDIR = ./srcs
 SRCS = $(SRDIR)/*.c
 OBJS = $(SRC:.c=.o)
 
 $(NAME):	$(OBJS)
+		
 		$(CC) $(FLAGS) $(SRCS) main.c -o $(NAME)
 
 all:	$(NAME)

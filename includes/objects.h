@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/06 21:20:07 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/08 19:21:13 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,17 @@ typedef struct			s_square
 	t_vector			*v2;
 	double				a;
 }						t_square;
+
+typedef struct			s_trace
+{
+	double				solution;
+	t_point				*p_intersect;
+	t_vector			*normal;
+	t_vector			*view;
+	t_object			*obj;
+	t_vector			*bisect;
+	t_color				*col;
+}						t_trace;
 
 
 #endif

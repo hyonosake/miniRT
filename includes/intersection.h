@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.h                                            :+:      :+:    :+:   */
+/*   intersection.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/05 20:30:42 by alex              #+#    #+#             */
-/*   Updated: 2021/02/08 19:24:40 by alex             ###   ########.fr       */
+/*   Created: 2021/02/08 19:23:50 by alex              #+#    #+#             */
+/*   Updated: 2021/02/08 19:26:58 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
+#ifndef INTERSECTION_H
+# define INTERSECTION_H
 
-typedef struct		s_color
-{
-	unsigned int	r;
-	unsigned int	g;
-	unsigned int	b;
-}					t_color;
-int			bitshift_me_please(t_color *color);
-int			intensity_and_color(t_color *color, double intensity);
-
+double		return_min_positive(double r1, double r2);
+void				sphere_intersection(t_ray *ray, t_sphere *sp, t_trace *ans, t_color *color);
+t_trace 		*ray_objects_intersection(t_object *objs, t_ray *ray);
+void			loop_through_pixels(void *mlx, void *window, t_scene *scene);
 
 #endif

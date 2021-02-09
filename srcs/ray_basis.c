@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_basis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:09:11 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 20:58:02 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/08 18:26:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ t_vector		*v_from_basis(t_basis *b, double *c)
 	t_vector	*new;
 	if (!(new = (t_vector *)malloc(sizeof(t_vector))))
 		error_throw(-1);
+	//printf("[%.3f %.3f %.3f]\n",c[0],c[1],c[2]);
 	new->xv = b->i->xv * c[0] +  b->j->xv * c[1] +  b->k->xv * c[2];
 	new->yv = b->i->yv * c[0] +  b->j->yv * c[1] +  b->k->yv * c[2];
 	new->zv = b->i->zv * c[0] +  b->j->zv * c[1] +  b->k->zv * c[2];
-	new->mod = v_dot_product(new, new);
+	new->mod = sqrt(v_dot_product(new, new));
 	return (new);
 }
 
@@ -54,6 +55,7 @@ t_ray		*ray_dir_from_basis(t_camera *cam, t_basis *b, double *c)
 		error_throw(-1);
 	new->dir = v_from_basis(b, c);
 	new->orig = p_cpy(cam->orig);
+	v_normalize(new->dir);
 	return (new);
 }
 

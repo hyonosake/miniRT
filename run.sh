@@ -1,0 +1,2 @@
+gcc minilibx/libmlx.a -framework OpenGL -framework AppKit main.c srcs/add_scene.c srcs/atoi_atof.c srcs/camera.c srcs/color.c srcs/error.c srcs/get_next_line.c srcs/get_next_line_utils.c srcs/lights.c srcs/parse_c_r_l.c srcs/parser.c srcs/parsing_utils.c srcs/prints.c srcs/ray_basis.c srcs/scene.c srcs/vector_utils.c srcs/vectors.c srcs/intersection.c
+./a.out sample.rt
