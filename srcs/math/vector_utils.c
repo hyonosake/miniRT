@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   vector_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:14:19 by alex              #+#    #+#             */
-/*   Updated: 2021/02/08 19:44:37 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/09 16:52:24 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
+#include "../../includes/minirt.h"
 
 double			v_dot_product(t_vector *v1, t_vector *v2)
 {

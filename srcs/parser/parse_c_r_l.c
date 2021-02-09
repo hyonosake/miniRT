@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_c_r_l.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/02/08 17:31:48 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/09 18:10:43 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
-#include "../includes/parser.h"
+#include "../../includes/minirt.h"
 
 void			parse_resolution(char *line, t_scene *scene)
 {

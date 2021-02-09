@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/06 21:01:36 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/09 18:12:59 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,12 +152,10 @@ void	print_objects(t_scene *scene)
 			heh = (t_plane *)tmp->content;
 			printf("\t   --- A PLANE ---\n");
 			print_point(heh->orig);
-			print_vector(heh->v1);
-			print_vector(heh->v2);
+			print_vector(heh->normal);
 		}
 		
 		print_color(tmp->color);
-		print_ray(tmp->intersect);
 		printf("--------------------------------------\n");
 		tmp = tmp->next;
 	}

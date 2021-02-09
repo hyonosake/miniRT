@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/09 14:26:10 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/09 18:13:42 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,82 +14,81 @@
 #include <stdio.h>
 
 
-double			define_light(t_trace *trace, t_light *lights, double ambient)
-{
-	t_light		*tmp;
-	double		index;
-	t_vector	*h;
-	t_vector	*l;
-	double		plus;
+//double			define_light(t_object *ans, t_light *lights, t_light *ambient, t_ray *ray)
+//{
+//	t_light		*tmp;
+//	double		index;
+//	t_vector	*h;
+//	t_vector	*l;
+//	double		plus;
 	
-	tmp = lights;
-	index = ambient;
-	while (tmp)
-	{
-		l = v_from_p(tmp->orig, trace->p_intersect);
-		v_normalize(l);
-		h = v_add(trace->view, l);
-		v_normalize(h);
-		double plus2 = v_dot_product(trace->normal, trace->view);
-		plus = v_dot_product(trace->normal, l);
-		if (plus < 0)
-			plus = 0;
-		if (plus2 < 0)
-			plus2 = 0;
-		index += (0.7 *pow(plus, 7) + 0.3 * pow(plus2,2))* tmp->intensity; //pow(plus, 25)
-		//printf("index: %.3f\n", index);
-		if (index > 1)
-		{
-			index = 1;
-			return (1);
-		}
-		tmp = tmp->next;
-	}
-	return (index);
-}
+//	tmp = lights;
+//	while (tmp)
+//	{
+//		l = v_from_p(tmp->orig, ans->intersection->orig);
+//		v_normalize(l);
+//		t_vector *temp = v_by_scalar(ray->dir, -1);
+//		v_normalize(temp);
+//		h = v_add(temp, l);
+//		v_normalize(h);
+//		//double plus2 = v_dot_product(ans->intersection->dir, tmp);
+//		plus = v_dot_product(h, l);
+//		if (plus < 0)
+//			plus = 0;
+//		index += (0.7 *pow(plus, 7))* tmp->intensity; //pow(plus, 25)
+//		//printf("index: %.3f\n", index);
+//		if (index > 1)
+//		{
+//			index = 1;
+//			return (1);
+//		}
+//		tmp = tmp->next;
+//	}
+//	return (index);
+//}
 
 
 
-void			loop_through_pixels(void *mlx, void *window, t_scene *scene)
-{
-	t_ray		*ray;
-	t_basis		*c_basis;
-	t_vector	*up;
-	t_trace		*ans;
-	unsigned int c;
-	t_object	*ob;
-	double 		coeffs[3];
-	int			rgb[3];
-	int			x_pix;
-	int			y_pix;
+//void			loop_through_pixels(void *mlx, void *window, t_scene *scene)
+//{
+//	t_ray		*ray;
+//	t_basis		*c_basis;
+//	t_vector	*up;
+//	t_object	*ans;
+//	unsigned int c;
+//	t_object	*ob;
+//	double 		coeffs[3];
+//	int			rgb[3];
+//	int			x_pix;
+//	int			y_pix;
 
-	c_basis = basis_init(scene->cameras->dir);
-	x_pix = 0;
-	while(x_pix < scene->canvas->width)
-	{
-		while(y_pix < scene->canvas->height)
-		{
-			coeffs[0] = x_pix - scene->canvas->width / 2;
- 			coeffs[1] = scene->canvas->height / 2 - y_pix;
- 			coeffs[2] = scene->canvas->width / (2 *tan(scene->cameras->fov / 2));
-			ray = ray_dir_from_basis(scene->cameras, c_basis, coeffs);
-			ans = ray_objects_intersection(scene->objects, ray);
-			if (!ans)
-				mlx_pixel_put(mlx, window, x_pix, y_pix, 0);
-			else
-			{
-				double a = define_light(ans, scene->lights, scene->ambient->intensity);
-				//define intensity in lighs function;
-				mlx_pixel_put(mlx, window, x_pix, y_pix,
-						intensity_and_color(ans->col, a));
-			}
-			free(ray);
-			y_pix++;
-		}
-		y_pix = 0;
-		x_pix++;
-	}
-}
+//	c_basis = basis_init(scene->cameras->dir);
+//	x_pix = 0;
+//	while(x_pix < scene->canvas->width)
+//	{
+//		while(y_pix < scene->canvas->height)
+//		{
+//			coeffs[0] = x_pix - scene->canvas->width / 2;
+// 			coeffs[1] = scene->canvas->height / 2 - y_pix;
+// 			coeffs[2] = scene->canvas->width / (2 *tan(scene->cameras->fov / 2));
+//			ray = ray_dir_from_basis(scene->cameras, c_basis, coeffs);
+//			ans = ray_objects_intersection(scene->objects, ray);
+//			if (!ans)
+//				mlx_pixel_put(mlx, window, x_pix, y_pix, 0);
+//			else
+//			{
+//				double a = define_light(ans, scene->lights, scene->ambient, ray);
+//				//define intensity in lighs function;
+//				mlx_pixel_put(mlx, window, x_pix, y_pix,
+//						166672265);
+//			}
+//			free(ray);
+//			y_pix++;
+//		}
+//		y_pix = 0;
+//		x_pix++;
+//	}
+//}
 t_scene		*define_scene()
 {
 	t_scene *new;
@@ -127,7 +126,7 @@ void	parse_input(t_scene *scene, int ac, char **av)
 		parse_line(line, scene);
 		free(line);
 	}
-	//print_scene(scene);
+	print_scene(scene);
 }
 int			main(int ac, char **av)
 {
@@ -137,8 +136,6 @@ int			main(int ac, char **av)
 	char	*line;
 	scene = define_scene();
 	parse_input(scene, ac, av);
-	mlx = mlx_init();
-	window = mlx_new_window(mlx, scene->canvas->width, scene->canvas->height, "plswork");
 	// t_ray	*new;
 	// new = (t_ray *)malloc(sizeof(t_ray));
 	// new->dir = v_from_values(0,0,1);
@@ -149,7 +146,10 @@ int			main(int ac, char **av)
 	// ans = ray_objects_intersection(scene->objects, new);
 	// printf("normal:\n");
 
-	loop_through_pixels(mlx, window, scene);
-	mlx_loop(mlx);
+
+	//mlx = mlx_init();
+	//window = mlx_new_window(mlx, scene->canvas->width, scene->canvas->height, "plswork");
+	//loop_through_pixels(mlx, window, scene);
+	//mlx_loop(mlx);
 	return (0);
 }

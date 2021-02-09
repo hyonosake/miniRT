@@ -6,11 +6,11 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 23:39:48 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 02:34:43 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/09 16:52:13 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
+#include "../../includes/minirt.h"
 
 int				get_next_line(int fd, char **line)
 {

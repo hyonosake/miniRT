@@ -6,11 +6,11 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:51:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/06 19:52:50 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/09 16:52:46 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
+#include "../../includes/minirt.h"
 
 int		ft_isdigit(char ch)
 {

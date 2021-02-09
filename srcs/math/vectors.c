@@ -6,11 +6,11 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:18:11 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 01:35:46 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/09 16:52:27 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
+#include "../../includes/minirt.h"
 
 t_vector		*v_from_values(double x, double y, double z)
 {

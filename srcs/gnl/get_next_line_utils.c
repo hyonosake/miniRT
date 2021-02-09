@@ -6,11 +6,11 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 13:15:38 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 02:34:32 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/09 16:52:04 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
+#include "../../includes/minirt.h"
 
 char				*ft_strjoin(char *orig, char *to_add)
 {
