@@ -10,7 +10,7 @@
 ///*                                                                            */
 ///* ************************************************************************** */
 
-//#include "../includes/minirt.h"
+#include "../includes/minirt.h"
 
 //int			bitshift_me_please(t_color *color)
 //{
@@ -32,77 +32,93 @@
 //	return (ans);
 //}
 
-//double		return_min_positive(double r1, double r2)
-//{
-//	if (r1 < 0 || r2 < 0)
-//		return (0);
-//	if (r1 > 0 && r1 <= r2)
-//		return (r1);
-//	else if (r2 > 0 && r2 < r1)
-//		return (r2);
-//	return (0);
-//}
+double		return_min_positive(double r1, double r2, double min_t)
+{
+	if (r1 < 0 || r2 < 0)
+		return (min_t);
+	if (r1 > 0 && r1 <= r2)
+		return (r1);
+	else if (r2 > 0 && r2 < r1)
+		return (r2);
+	return (min_t);
+}
 
-//double		sphere_intersection(t_ray *ray, t_sphere *sp, double min_t)
-//{
-//	double	res[2];
-//	double	coeffs[3];
-//	double	det;
-//	double	ret_val;
+double		sphere_intersection(t_ray *ray, t_sphere *sp, double min_t)
+{
+	//double	res[2];
+	double	coeffs[3];
+	double	det;
+	double	ret_val;
+	t_vector *centers;
+	
+	centers = v_from_p(ray->orig, sp->orig);
+	coeffs[0] = v_dot_product(ray->dir, ray->dir);
+	coeffs[1] = 2 * v_dot_product(centers, ray->dir);
+	coeffs[2] = v_dot_product(centers, centers) - sp->rsq;
+	det = pow(coeffs[1], 2) - 4 * coeffs[0] * coeffs[2];
+	if (det < 0)
+		return (min_t);
+	ret_val = return_min_positive(
+		(- coeffs[1] + sqrt(det)) / (2 * coeffs[0]),
+		(- coeffs[1] - sqrt(det)) / (2 * coeffs[0]), min_t);
+	free(centers);
+	return (ret_val);
+}
 
-//	t_vector *centers = v_from_p(ray->orig, sp->orig);
-//	coeffs[0] = v_dot_product(ray->dir, ray->dir);
-//	coeffs[1] = 2 * v_dot_product(centers, ray->dir);
-//	coeffs[2] = v_dot_product(centers, centers) - sp->rsq;
-//	det = pow(coeffs[1], 2) - 4 * coeffs[0] * coeffs[2];
-//	if (det < 0)
-//		return (min_t);
-//	res[0] = (- coeffs[1] + sqrt(det)) / (2 * coeffs[0]);
-//	res[1] = (- coeffs[1] - sqrt(det)) / (2 * coeffs[0]);
-//	ret_val = return_min_positive(res[0], res[1]);
-//	free(centers);
-//	if (ret_val != 0 && ret_val < min_t)
-//		return (ret_val);
-//	return (min_t);
-//}
+t_intersect		*init_objects(t_object *object, double res, t_ray *ray)
+{
+	t_intersect	*ans;
 
-//t_object		*ray_objects_intersection(t_object *objs, t_ray *ray)
-//{
-//	t_object	*tmp;
-//	double		res;
-//	double		min_t;
-//	t_object	*ans;
+	if (!object || res == MAX)
+		return NULL;
+	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
+		error_throw(-1);
+	if (object->type == OBJ_SPHERE)
+	{
+		ans->color = object->color;
+		ans->p_inter = p_from_v(ray->dir, res);
+		ans->to_cam = v_by_scalar(ray->dir, -1);
+		ans->normal = v_from_p(((t_sphere *)object->content)->orig, ans->p_inter);
+	}
+	return (ans);
+}
 
-//	min_t = MAX;
-//	tmp = objs;
-//	ans = (t_object *)malloc(sizeof(t_object));
-//	ans->type = 0;
-//	ans->content = NULL;
-//	ans->intersection = NULL;
-//	ans->color = NULL;
-//	while (tmp)
-//	{
-//		if (tmp->type == OBJ_SPHERE)
-//		{
-//			res = sphere_intersection(ray, (t_sphere *)tmp->content, min_t);
-//			if (res < min_t)
-//			{
-//				res = min_t;
-//				ans = tmp;
-//				ans->intersection->orig = p_from_v(ray->dir, res);
-//				ans->intersection->dir = v_from_p(ans->intersection->orig,
-//						((t_sphere *)tmp->content)->orig);
-//				v_normalize(ans->intersection->dir);
-//			}	
-//		}
-//		else
-//			printf("noooo way ;( \n");
-//		tmp = tmp->next;
-//	}
-//	if (min_t == MAX)
-//	{
-//		free(ans);
-//		return (NULL);
-//	}
-//	return (ans);
-//}
+double			plane_intersection(t_plane *plane, double min_t, t_ray *ray)
+{
+	return 0.0;
+}
+t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
+{
+	t_object	*tmp;
+	double		res;
+	double		min_t;
+	t_object	*ans;
+
+	min_t = MAX;
+	tmp = objs;
+	ans = NULL;
+	while (tmp)
+	{
+		if (tmp->type == OBJ_SPHERE)
+		{
+			if ((res = sphere_intersection(ray, (t_sphere *)tmp->content, min_t)) < min_t)
+			{
+				min_t = res;
+				ans = tmp;
+			}
+		}
+		else if (tmp->type == OBJ_PLANE)
+		{
+			if ((res = plane_intersection((t_plane *)tmp->content, min_t, ray))< min_t)
+			{
+				min_t = res;
+				ans = tmp;
+			}
+		}
+		else
+			printf("noooo way ;( \n");
+		tmp = tmp->next;
+	}
+	return (init_objects(ans, min_t, ray));
+}
+

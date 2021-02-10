@@ -3,92 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/09 18:13:42 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/10 14:52:39 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minirt.h"
 #include <stdio.h>
 
-
-//double			define_light(t_object *ans, t_light *lights, t_light *ambient, t_ray *ray)
-//{
-//	t_light		*tmp;
-//	double		index;
-//	t_vector	*h;
-//	t_vector	*l;
-//	double		plus;
+int					bitshift_multiply(t_color *col, double intens)
+{
+	int				res;
+	int				rgb[3];
 	
-//	tmp = lights;
-//	while (tmp)
-//	{
-//		l = v_from_p(tmp->orig, ans->intersection->orig);
-//		v_normalize(l);
-//		t_vector *temp = v_by_scalar(ray->dir, -1);
-//		v_normalize(temp);
-//		h = v_add(temp, l);
-//		v_normalize(h);
-//		//double plus2 = v_dot_product(ans->intersection->dir, tmp);
-//		plus = v_dot_product(h, l);
-//		if (plus < 0)
-//			plus = 0;
-//		index += (0.7 *pow(plus, 7))* tmp->intensity; //pow(plus, 25)
-//		//printf("index: %.3f\n", index);
-//		if (index > 1)
-//		{
-//			index = 1;
-//			return (1);
-//		}
-//		tmp = tmp->next;
-//	}
-//	return (index);
-//}
+	rgb[0] = col->r * intens;
+	rgb[1] = col->g * intens;
+	rgb[2] = col->b * intens;
+	res =  rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+	return (res);
+}
 
 
+int					blinn_phong(t_intersect *ans, t_light *lights, t_light *amb)
+{
+	t_vector		*l;
+	t_light			*tmp;
+	t_vector		*h;
+	unsigned int	col;
+	double			spec;
+	double 			intensity;
+	double			diffuse;
+	tmp = lights;
+	if (!ans)
+		return BACKGROUND_COLOR;
+	while (tmp)
+	{
+		spec = 0;
+		l = v_from_p(tmp->orig, ans->p_inter);
+		v_normalize(l);
+		//h = v_add(l,ans->to_cam);
+		//v_normalize(h);
+		//spec = v_dot_product(ans->normal, h);
+		diffuse = v_dot_product(ans->normal, ans->to_cam);
+		// if (spec < 0)
+		// 	spec = 0;
+		if (diffuse < 0)
+			diffuse = 0;
+		intensity = amb->intensity;
+		if (intensity > 1)
+			return (intensity);
+		tmp = tmp->next;
+	}
+	return (bitshift_multiply(ans->color, intensity));
+}
 
-//void			loop_through_pixels(void *mlx, void *window, t_scene *scene)
-//{
-//	t_ray		*ray;
-//	t_basis		*c_basis;
-//	t_vector	*up;
-//	t_object	*ans;
-//	unsigned int c;
-//	t_object	*ob;
-//	double 		coeffs[3];
-//	int			rgb[3];
-//	int			x_pix;
-//	int			y_pix;
 
-//	c_basis = basis_init(scene->cameras->dir);
-//	x_pix = 0;
-//	while(x_pix < scene->canvas->width)
-//	{
-//		while(y_pix < scene->canvas->height)
-//		{
-//			coeffs[0] = x_pix - scene->canvas->width / 2;
-// 			coeffs[1] = scene->canvas->height / 2 - y_pix;
-// 			coeffs[2] = scene->canvas->width / (2 *tan(scene->cameras->fov / 2));
-//			ray = ray_dir_from_basis(scene->cameras, c_basis, coeffs);
-//			ans = ray_objects_intersection(scene->objects, ray);
-//			if (!ans)
-//				mlx_pixel_put(mlx, window, x_pix, y_pix, 0);
-//			else
-//			{
-//				double a = define_light(ans, scene->lights, scene->ambient, ray);
-//				//define intensity in lighs function;
-//				mlx_pixel_put(mlx, window, x_pix, y_pix,
-//						166672265);
-//			}
-//			free(ray);
-//			y_pix++;
-//		}
-//		y_pix = 0;
-//		x_pix++;
-//	}
-//}
+void			loop_through_pixels(void *mlx, void *window, t_scene *scene)
+{
+	t_ray		*ray;
+	t_basis		*c_basis;
+	t_vector	*up;
+	t_intersect	*ans;
+	int			col;
+	double 		coeffs[3];
+	int			x_pix;
+	int			y_pix;
+
+	c_basis = basis_init(scene->cameras->dir);
+	x_pix = 0;
+	while(x_pix < scene->canvas->width)
+	{
+		y_pix = 0;
+		while(y_pix < scene->canvas->height)
+		{
+			coeffs[0] = x_pix - scene->canvas->width / 2;
+			coeffs[1] = scene->canvas->height / 2 - y_pix;
+			coeffs[2] = scene->canvas->width / (2 *tan(scene->cameras->fov / 2));
+			ray = ray_dir_from_basis(scene->cameras, c_basis, coeffs);
+			ans = ray_objects_intersection(scene->objects, ray);
+			if (!ans)
+				mlx_pixel_put(mlx, window, x_pix, y_pix, 0);
+			else
+			{
+				col = blinn_phong(ans,scene->lights, scene->ambient);
+				mlx_pixel_put(mlx, window, x_pix, y_pix, col);
+			}
+			free(ray);
+			y_pix++;
+		}
+		x_pix++;
+	}
+}
+
 t_scene		*define_scene()
 {
 	t_scene *new;
@@ -147,9 +155,9 @@ int			main(int ac, char **av)
 	// printf("normal:\n");
 
 
-	//mlx = mlx_init();
-	//window = mlx_new_window(mlx, scene->canvas->width, scene->canvas->height, "plswork");
-	//loop_through_pixels(mlx, window, scene);
-	//mlx_loop(mlx);
+	mlx = mlx_init();
+	window = mlx_new_window(mlx, scene->canvas->width, scene->canvas->height, "tracer");
+	loop_through_pixels(mlx, window, scene);
+	mlx_loop(mlx);
 	return (0);
 }

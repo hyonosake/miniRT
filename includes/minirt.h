@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/09 18:11:06 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/10 14:48:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # define MAX 1000000
+# define BACKGROUND_COLOR 0
 # define OBJ_SPHERE 1
 # define OBJ_PLANE 2
 # define OBJ_SQUARE 3
