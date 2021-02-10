@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:29:54 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 20:00:29 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/10 16:28:16 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,5 @@ typedef struct		s_scene
 	t_light			*ambient;
 }					t_scene;
 
-
-
+t_scene		*define_scene(void);
 #endif

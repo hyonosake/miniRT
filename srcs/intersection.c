@@ -12,25 +12,6 @@
 
 #include "../includes/minirt.h"
 
-//int			bitshift_me_please(t_color *color)
-//{
-//	int ans = color->r << 16 | color->g << 8 | color->b;
-//	printf("[%i %i %i]\n", color->r, color->g, color->b);
-//	printf("ans = %d\n", ans);
-//	return (ans);
-//}
-
-//int			intensity_and_color(t_color *color, double intensity)
-//{
-//	int ans;
-//	int rgb[3];
-
-//	rgb[0] = color->r * intensity;
-//	rgb[1] = color->g * intensity;
-//	rgb[2] = color->b * intensity;
-//	ans = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
-//	return (ans);
-//}
 
 double		return_min_positive(double r1, double r2, double min_t)
 {
@@ -78,14 +59,47 @@ t_intersect		*init_objects(t_object *object, double res, t_ray *ray)
 		ans->color = object->color;
 		ans->p_inter = p_from_v(ray->dir, res);
 		ans->to_cam = v_by_scalar(ray->dir, -1);
-		ans->normal = v_from_p(((t_sphere *)object->content)->orig, ans->p_inter);
+		ans->normal = v_from_p(ans->p_inter, ((t_sphere *)object->content)->orig);
+		v_normalize(ans->normal);
+	}
+	if (object->type == OBJ_PLANE)
+	{
+		print_vector(((t_plane *)object)->normal);
+		printf("ok?\n");
+		ans->color = object->color;
+		ans->p_inter = p_from_v(ray->dir, res);
+		ans->to_cam = v_by_scalar(ray->dir, -1);
+		ans->normal = v_cpy(((t_plane *)object)->normal);
+		print_vector(ans->normal);
+		v_normalize(ans->normal);
 	}
 	return (ans);
 }
 
 double			plane_intersection(t_plane *plane, double min_t, t_ray *ray)
 {
-	return 0.0;
+	t_vector	*tmp;
+	double		coeffs[2];
+	double		res;
+
+	//printf("1\n");
+	//print_point(plane->orig);
+	//print_point(ray->orig);
+	tmp = v_from_p(plane->orig, ray->orig);			//sega_here
+	//printf("2\n");
+	v_normalize(tmp);
+	//printf("3\n");
+	coeffs[0] = v_dot_product(tmp, plane->normal);
+	//printf("4\n");
+	free(tmp);
+	coeffs[1] = v_dot_product(ray->dir, plane->normal);
+	if (!coeffs[1])
+		coeffs[1] = 0.0001;
+	res = coeffs[0] / coeffs[1];
+	
+	if (res < min_t)
+		return (res);
+	return (min_t);
 }
 t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 {
@@ -109,8 +123,11 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 		}
 		else if (tmp->type == OBJ_PLANE)
 		{
-			if ((res = plane_intersection((t_plane *)tmp->content, min_t, ray))< min_t)
+			print_point(((t_plane *)tmp->content)->orig);
+			if ((res = plane_intersection((t_plane *)tmp->content, min_t, ray)) < min_t)
 			{
+				
+				//printf("inside=(\n");
 				min_t = res;
 				ans = tmp;
 			}

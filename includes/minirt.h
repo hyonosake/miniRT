@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/10 14:48:26 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/10 16:59:14 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # define MAX 1000000
-# define BACKGROUND_COLOR 0
+# define BACKGROUND_COLOR 0x0
 # define OBJ_SPHERE 1
 # define OBJ_PLANE 2
 # define OBJ_SQUARE 3
@@ -43,7 +43,5 @@
 # include "intersection.h"
 # include "prints.h"
 
-
-t_scene		*define_scene();
 
 #endif

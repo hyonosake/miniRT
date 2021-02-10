@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/10 14:52:39 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/10 17:56:27 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,20 @@ int					bitshift_multiply(t_color *col, double intens)
 {
 	int				res;
 	int				rgb[3];
-	
+	int i;
+
+	i = 0;
 	rgb[0] = col->r * intens;
 	rgb[1] = col->g * intens;
 	rgb[2] = col->b * intens;
+	while (i < 3)
+	{
+		if (rgb[i] > 255)
+			rgb[i] = 255;
+		i++;
+	}
 	res =  rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+	printf("col = %d\n", res);
 	return (res);
 }
 
@@ -38,6 +47,7 @@ int					blinn_phong(t_intersect *ans, t_light *lights, t_light *amb)
 	tmp = lights;
 	if (!ans)
 		return BACKGROUND_COLOR;
+	intensity = amb->intensity;
 	while (tmp)
 	{
 		spec = 0;
@@ -46,16 +56,22 @@ int					blinn_phong(t_intersect *ans, t_light *lights, t_light *amb)
 		//h = v_add(l,ans->to_cam);
 		//v_normalize(h);
 		//spec = v_dot_product(ans->normal, h);
-		diffuse = v_dot_product(ans->normal, ans->to_cam);
+		//print_vector(ans->normal);
+		diffuse = v_dot_product(ans->normal, l);
+		//print_vector(ans->normal);
+		//print_vector(l);
+		//printf("dot: %.3f\n", diffuse);
 		// if (spec < 0)
 		// 	spec = 0;
 		if (diffuse < 0)
 			diffuse = 0;
-		intensity = amb->intensity;
-		if (intensity > 1)
-			return (intensity);
+		//printf("diffuse = %.3f\n", diffuse);
+		intensity+=  (pow(spec, 15) + pow(diffuse, 2)) * tmp->intensity;
+		if (intensity >= 1)
+			break ;
 		tmp = tmp->next;
 	}
+	printf("intens = %.2f\n", intensity);
 	return (bitshift_multiply(ans->color, intensity));
 }
 
@@ -78,37 +94,21 @@ void			loop_through_pixels(void *mlx, void *window, t_scene *scene)
 		y_pix = 0;
 		while(y_pix < scene->canvas->height)
 		{
+			//printf("[%i %i]", x_pix, y_pix);
 			coeffs[0] = x_pix - scene->canvas->width / 2;
 			coeffs[1] = scene->canvas->height / 2 - y_pix;
 			coeffs[2] = scene->canvas->width / (2 *tan(scene->cameras->fov / 2));
 			ray = ray_dir_from_basis(scene->cameras, c_basis, coeffs);
 			ans = ray_objects_intersection(scene->objects, ray);
-			if (!ans)
-				mlx_pixel_put(mlx, window, x_pix, y_pix, 0);
-			else
-			{
-				col = blinn_phong(ans,scene->lights, scene->ambient);
-				mlx_pixel_put(mlx, window, x_pix, y_pix, col);
-			}
+			col = blinn_phong(ans,scene->lights, scene->ambient);
+			//printf("here??\n");
+			mlx_pixel_put(mlx, window, x_pix, y_pix, col);
+			//printf("still here?\n");
 			free(ray);
 			y_pix++;
 		}
 		x_pix++;
 	}
-}
-
-t_scene		*define_scene()
-{
-	t_scene *new;
-	
-	if (!(new = (t_scene *)malloc(sizeof(t_scene))))
-		error_throw(-1);
-	new->canvas = NULL;
-	new->cameras = NULL;
-	new->objects = NULL;
-	new->lights = NULL;
-	new->ambient = NULL;
-	return (new);
 }
 
 void	parse_input(t_scene *scene, int ac, char **av)

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:03:13 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/06 20:13:11 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/09 18:19:56 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void		add_canvas(t_scene *scene, t_canvas *new)
 	scene->canvas = new;
 }
 
-void	add_camera(t_scene *scene, t_camera *cam)
+void			add_camera(t_scene *scene, t_camera *cam)
 {
-	t_camera *tmp;
+	t_camera	*tmp;
 
 	tmp = scene->cameras;
 	if (!tmp)
@@ -35,16 +35,16 @@ void	add_camera(t_scene *scene, t_camera *cam)
 	tmp->next = cam;
 }
 
-void		add_amb_light(t_scene *scene, t_light *amb)
+void			add_amb_light(t_scene *scene, t_light *amb)
 {
 	if (scene->ambient)
 		error_throw(-2);
 	scene->ambient = amb;
 }
 
-void		add_light(t_scene *scene, t_light *l)
+void			add_light(t_scene *scene, t_light *l)
 {
-	t_light *tmp;
+	t_light		*tmp;
 
 	tmp = scene->lights;
 	if (!tmp)
@@ -57,9 +57,9 @@ void		add_light(t_scene *scene, t_light *l)
 	tmp->next = l;
 }
 
-void		add_object(t_scene *scene, t_object *obj)
+void			add_object(t_scene *scene, t_object *obj)
 {
-	t_object *tmp;
+	t_object	*tmp;
 
 	tmp = scene->objects;
 	if (!tmp)
