@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:14:19 by alex              #+#    #+#             */
-/*   Updated: 2021/02/09 16:52:24 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/11 12:36:07 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int 			v_isnull(t_vector *v1)
 
 t_vector		*v_cpy(t_vector *v)
 {
-	return(v_from_values(v->mod, v->yv, v->zv));
+	return(v_from_values(v->xv, v->yv, v->zv));
 }
 
 t_point			*p_cpy(t_point *p)
