@@ -6,46 +6,96 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:51:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/09 16:52:46 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/12 20:26:55 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
+#include <ctype.h>
 
-int		ft_isdigit(char ch)
+void			skip_spaces(char **line)
+{
+	while (**line == ' ' || **line == '\t')
+		++(*line);
+}
+
+int				ft_isdigit(char ch)
 {
 	if (ch >= '0' && ch <= '9')
 		return (1);
 	return (0);
 }
 
-void		skip_spaces(char **line)
+int				ft_isspace(char ch)
 {
-	while ((**line > 8 && **line < 14) || **line == 32)
+	if (ch == ' ' || ch == '\t')
+		return (1);
+	return (0);
+}
+
+
+int				atoi_modified(char **line)
+{
+	int	result;
+
+	result = 0; 
+	skip_spaces(line);
+	while (ft_isdigit(**line))
+	{
+		result = result * 10 + (**line - '0');
 		++(*line);
-}
-
-int ft_isspace(char ch)
-{
-	if ((ch > 8 && ch< 14) || ch == 32)
-		return 1;
-	return 0;
-}
-
-t_vector			*parse_vector(char **line)
-{
-	t_vector		*new;
-	skip_spaces(line);
-	new = v_from_string(line);
-	skip_spaces(line);
-	return (new);
+	}
+	return(result);
 }
 
 t_point			*parse_point(char **line)
 {
-	t_point		*new;
+	double	index[3];
+
 	skip_spaces(line);
-	new = p_from_string(line);
+	index[0] = atof_modified(line);
 	skip_spaces(line);
-	return (new);
+	if (**line != ',')
+	{
+		error_throw(-2);
+		printf("here\n");
+	}
+	++(*line);
+	skip_spaces(line);
+	index[1] = atof_modified(line);
+	skip_spaces(line);
+	if (**line != ',')
+		error_throw(-2);
+	++(*line);
+	skip_spaces(line);
+	index[2] = atof_modified(line);
+	if (**line && !(ft_isspace(**line)))
+		error_throw(-2);
+	return (p_from_values(index[0], index[1], index[2]));
+}
+
+t_vector	*parse_vector(char **line)
+{
+	double	index[3];
+
+	skip_spaces(line);
+	index[0] = atof_modified(line);
+	skip_spaces(line);
+	if (**line != ',')
+		error_throw(-2);
+	++(*line);
+	skip_spaces(line);
+	index[1] = atof_modified(line);
+	skip_spaces(line);
+	if (**line != ',')
+		error_throw(-2);
+	++(*line);
+	skip_spaces(line);
+	index[2] = atof_modified(line);
+	if (**line && **line != '\t' && **line != ' ')
+	{
+		printf("hea\n");
+		error_throw(-2);
+	}
+	return (v_from_values(index[0], index[1], index[2]));
 }

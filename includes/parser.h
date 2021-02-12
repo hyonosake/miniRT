@@ -6,19 +6,18 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:32:45 by alex              #+#    #+#             */
-/*   Updated: 2021/02/09 18:10:12 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/12 19:41:48 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-
-int				ft_isdigit(char ch);
+# include "minirt.h"
 void			skip_spaces(char **line);
+int				ft_isdigit(char ch);
 int				ft_isspace(char ch);
 int				atoi_modified(char **line);
 double			atof_modified(char **line);
-
 
 void			parse_line(char *line, t_scene *scene);
 void			parse_resolution(char *line, t_scene *scene);

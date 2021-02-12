@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:15:16 by alex              #+#    #+#             */
-/*   Updated: 2021/02/06 19:20:10 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/11 20:59:14 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ typedef struct		s_light
 	double 			intensity;
 	struct s_light	*next;
 }					t_light;
+
 
 #endif

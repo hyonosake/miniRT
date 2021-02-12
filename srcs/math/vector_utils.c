@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:14:19 by alex              #+#    #+#             */
-/*   Updated: 2021/02/12 10:22:26 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/12 19:39:51 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,42 +57,6 @@ t_vector		*v_cpy(t_vector *v)
 t_point			*p_cpy(t_point *p)
 {
 	return (p_from_values(p->xp, p->yp, p->zp));
-}
-
-t_point		*p_from_string(char **line)
-{
-	double	c[3];
-
-	c[0] = atof_modified(line);
-	if (**line != ',')
-		error_throw(-2);
-	++(*line);
-	skip_spaces(line);
-	c[1] = atof_modified(line);
-	if (**line != ',')
-		error_throw(-2);
-	++(*line);
-	skip_spaces(line);
-	c[2] = atof_modified(line);
-	return(p_from_values(c[0], c[1], c[2]));	
-}
-
-t_vector	*v_from_string(char **line)
-{
-	double	c[3];
-
-	c[0] = atof_modified(line);
-	if (**line != ',')
-		error_throw(-2);
-	++(*line);
-	skip_spaces(line);
-	c[1] = atof_modified(line);
-	if (**line != ',')
-		error_throw(-2);
-	++(*line);
-	skip_spaces(line);
-	c[2] = atof_modified(line);
-	return(v_from_values(c[0], c[1], c[2]));	
 }
 
 void		v_normalize(t_vector *v)

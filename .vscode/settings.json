@@ -5,6 +5,8 @@
 		"mlx.h": "c",
 		"parsing_utils.h": "c",
 		"stdio.h": "c",
-		"algorithm": "c"
+		"algorithm": "c",
+		"complex": "c",
+		"chrono": "c"
 	}
 }

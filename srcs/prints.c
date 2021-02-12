@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/09 18:12:59 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/12 15:51:56 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ void	print_scene(t_scene *scene)
 {
 	print_canvas(scene);
 	print_amb_light(scene);
+	print_cameras(scene);
 	print_lights(scene);
 	print_objects(scene);
 }

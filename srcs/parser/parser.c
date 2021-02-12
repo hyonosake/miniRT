@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/02/12 12:57:42 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/12 19:45:24 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void			parse_sphere(char *line, t_scene *scene)
 	if(!(new = (t_sphere *)malloc(sizeof(t_sphere))))
 		error_throw(-1);
 	skip_spaces(&line);
-	new->orig = p_from_string(&line);
+	new->orig = parse_point(&line);
 	skip_spaces(&line);
 	new->r = atof_modified(&line) / 2;
 	new->rsq = pow(new->r, 2);
@@ -77,11 +77,10 @@ void			parse_plane(char *line, t_scene *scene)
 	if(!(new = (t_plane *)malloc(sizeof(t_plane))))
 		error_throw(-1);
 	skip_spaces(&line);
-	new->orig = p_from_string(&line);
+	new->orig = parse_point(&line);
 	print_point(new->orig);
 	skip_spaces(&line);
-	new->normal = v_from_string(&line);
-	v_normalize(new->normal);
+	new->normal = parse_vector(&line);
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);

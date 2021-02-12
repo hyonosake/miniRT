@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/10 16:59:14 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/12 15:46:53 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# define MAX 1000000
+# define MAX 10000
 # define BACKGROUND_COLOR 0x0
 # define OBJ_SPHERE 1
 # define OBJ_PLANE 2
@@ -28,6 +28,7 @@
 # define AMBIENT 1
 # define DIRECT 2
 # define POINTING 3
+# define ESC
 # include "../minilibx/mlx.h"
 # include "vectors.h"
 # include "camera.h"

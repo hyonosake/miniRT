@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/12 12:29:42 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/12 20:27:26 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	tmp = scene->lights;
 	if (!ans)
 		return BACKGROUND_COLOR;
-	rgb[0] = scene->ambient->color->r * scene->ambient->intensity / 255 * ans->color->r;
-	rgb[1] = scene->ambient->color->g * scene->ambient->intensity / 255 * ans->color->g;
-	rgb[2] = scene->ambient->color->b * scene->ambient->intensity / 255 * ans->color->b;
+	//rgb[0] = scene->ambient->color->r * scene->ambient->intensity / 255 * ans->color->r;
+	//rgb[1] = scene->ambient->color->g * scene->ambient->intensity / 255 * ans->color->g;
+	//rgb[2] = scene->ambient->color->b * scene->ambient->intensity / 255 * ans->color->b;
 	while (tmp)
 	{
 		l = v_from_p(tmp->orig, ans->p_inter);
@@ -66,13 +66,16 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 			// specular = v_dot_product(l, h);
 			// if (specular < 0)
 			// 	specular = 0;
-			rgb[0] += (tmp->color->r * tmp->intensity / 255) * diffuse * ans->color->r;
-			rgb[1] += (tmp->color->g * tmp->intensity / 255) * diffuse * ans->color->g;
-			rgb[2] += (tmp->color->b * tmp->intensity / 255) * diffuse * ans->color->b;
+			//rgb[0] += (tmp->color->r * tmp->intensity / 255) * diffuse * ans->color->r;
+			//rgb[1] += (tmp->color->g * tmp->intensity / 255) * diffuse * ans->color->g;
+			//rgb[2] += (tmp->color->b * tmp->intensity / 255) * diffuse * ans->color->b;
 		}
 		free(ray);
 		tmp = tmp->next;
 	}
+	rgb[0] = ans->color->r * (scene->ambient->intensity + diffuse);
+	rgb[1] = ans->color->g * (scene->ambient->intensity + diffuse);
+	rgb[2] = ans->color->b * (scene->ambient->intensity + diffuse);
 	return (bitshift_multiply(rgb));
 }
 
@@ -86,17 +89,21 @@ void			loop_through_pixels(void *mlx, void *window, t_scene *scene)
 	double 		coeffs[3];
 	int			x_pix;
 	int			y_pix;
+	double		px;
+	double		py;
 
 	c_basis = basis_init(scene->cameras->dir);
 	x_pix = 0;
+	px = 0;
+	py = 0;
 	while(x_pix < scene->canvas->width)
 	{
 		y_pix = 0;
 		while(y_pix < scene->canvas->height)
 		{
-			coeffs[0] = x_pix - scene->canvas->width / 2;
-			coeffs[1] = scene->canvas->height / 2 - y_pix;
-			coeffs[2] = scene->canvas->width / (2 *tan(scene->cameras->fov / 2));
+			coeffs[0] = (x_pix - scene->canvas->width / 2);
+			coeffs[1] = (scene->canvas->height/ 2 - y_pix);
+			coeffs[2] = scene->canvas->width / (2 * tan(scene->cameras->fov / 2));
 			ray = ray_dir_from_basis(scene->cameras, c_basis, coeffs);
 			ans = ray_objects_intersection(scene->objects, ray);
 			col = blinn_phong(ans, scene);
@@ -146,7 +153,6 @@ int			main(int ac, char **av)
 	void	*window;
 	scene = define_scene();
 	parse_input(scene, ac, av);
-
 
 	mlx = mlx_init();
 	window = mlx_new_window(mlx, scene->canvas->width, scene->canvas->height, "tracer");
