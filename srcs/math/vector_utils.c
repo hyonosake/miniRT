@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:14:19 by alex              #+#    #+#             */
-/*   Updated: 2021/02/11 12:36:07 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/12 10:22:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void		v_normalize(t_vector *v)
 
 t_point		*p_from_v(t_vector *v, double c)
 {
-	t_point *new;
 	return (p_from_values(v->xv * c, v->yv * c, v->zv * c));
 }
 
