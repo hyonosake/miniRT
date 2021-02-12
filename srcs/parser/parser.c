@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/02/09 18:17:08 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/12 12:57:42 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void			parse_plane(char *line, t_scene *scene)
 	print_point(new->orig);
 	skip_spaces(&line);
 	new->normal = v_from_string(&line);
+	v_normalize(new->normal);
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);

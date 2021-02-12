@@ -6,23 +6,23 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/12 11:30:58 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/12 12:29:42 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minirt.h"
 #include <stdio.h>
 
-int					bitshift_multiply(t_color *col, double intens)
+int					bitshift_multiply(double *col)
 {
 	int				res;
 	int				rgb[3];
 	int i;
 
 	i = 0;
-	rgb[0] = col->r * intens;
-	rgb[1] = col->g * intens;
-	rgb[2] = col->b * intens;
+	rgb[0] = col[0];
+	rgb[1] = col[1];
+	rgb[2] = col[2];
 	while (i < 3)
 	{
 		if (rgb[i] > 255)
@@ -38,38 +38,42 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 {
 	t_vector		*l;
 	t_light			*tmp;
-	//t_vector		*h;
+	// t_vector		*h;
+	// double			specular;
 	t_intersect		*shad;
-	double 			intensity;
+	double			rgb[3];
 	double			diffuse;
-	int				aaa;
 	tmp = scene->lights;
 	if (!ans)
 		return BACKGROUND_COLOR;
-	intensity = scene->ambient->intensity;
-	aaa = 0;
+	rgb[0] = scene->ambient->color->r * scene->ambient->intensity / 255 * ans->color->r;
+	rgb[1] = scene->ambient->color->g * scene->ambient->intensity / 255 * ans->color->g;
+	rgb[2] = scene->ambient->color->b * scene->ambient->intensity / 255 * ans->color->b;
 	while (tmp)
 	{
 		l = v_from_p(tmp->orig, ans->p_inter);
 		v_normalize(l);
-		t_vector *light_col = v_from_values(tmp->color->r / 255,
-					tmp->color->g / 255, tmp->color->b / 255);
+		
 		//need to do smth and free
+		// h = v_add(l, ans->to_cam);
+		// v_normalize(h);
 		t_ray *ray = new_ray(v_cpy(l), p_cpy(ans->p_inter));
 		if ((shad = ray_objects_intersection(scene->objects, ray)) == NULL)
 		{
-			diffuse = v_dot_product(ans->normal, l);
+			diffuse = v_dot_product(ans->normal, l) * 0.9;
 			if (diffuse < 0)
 				diffuse = 0;
-			light_col = v_by_scalar(light_col, tmp->intensity * (diffuse));
-			aaa = (int)(light_col->xv * ans->color->r) << 16 |
-			 (int)(light_col->yv * ans->color->g) << 8 |
-			 (int)(light_col->zv * ans->color->b);
+			// specular = v_dot_product(l, h);
+			// if (specular < 0)
+			// 	specular = 0;
+			rgb[0] += (tmp->color->r * tmp->intensity / 255) * diffuse * ans->color->r;
+			rgb[1] += (tmp->color->g * tmp->intensity / 255) * diffuse * ans->color->g;
+			rgb[2] += (tmp->color->b * tmp->intensity / 255) * diffuse * ans->color->b;
 		}
 		free(ray);
 		tmp = tmp->next;
 	}
-	return (aaa);
+	return (bitshift_multiply(rgb));
 }
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_c_r_l.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/02/09 18:10:43 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/12 12:58:58 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void			parse_cameras(char *line, t_scene *scene)
 		error_throw(-1);
 	new->orig = parse_point(&line);
 	new->dir = parse_vector(&line);
+	v_normalize(new->dir);
 	if (new->dir->mod != 1)
-		error_throw(-2);
+		printf("cam v input is not normed\n");;
 	skip_spaces(&line);
 	new->fov = atoi_modified(&line);
 	if (new->fov < 1 || new->fov > 179)
