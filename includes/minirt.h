@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/12 15:46:53 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/17 17:34:34 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@
 # include "lights.h"
 # include "objects.h"
 # include "scene.h"
+# include "matrix.h"
+# include "transform.h"
 # include "add_scene.h"
 # include "parser.h"
 # include "intersection.h"
 # include "prints.h"
 
-
+void			loop_through_pixels(t_scene *scene, t_camera *current_cam);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:16:48 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/06 21:37:49 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/15 18:49:33 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ void	print_amb_light(t_scene *scene);
 void	print_lights(t_scene *scene);
 void	print_objects(t_scene *scene);
 void	print_scene(t_scene *scene);
+void	print_basis(t_basis *b);
 #endif

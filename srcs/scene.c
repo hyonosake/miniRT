@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:43 by alex              #+#    #+#             */
-/*   Updated: 2021/02/09 18:20:00 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/16 21:24:47 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@ t_scene		*define_scene()
 	new->objects = NULL;
 	new->lights = NULL;
 	new->ambient = NULL;
+	new->mlx = NULL;
+	new->window = NULL;
 	return (new);
 }

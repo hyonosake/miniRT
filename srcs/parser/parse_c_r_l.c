@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_c_r_l.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/02/12 20:29:34 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/16 21:23:23 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ void			parse_cameras(char *line, t_scene *scene)
 	
 	if(!(new = (t_camera *)malloc(sizeof(t_camera))))
 		error_throw(-1);
-	new->dir = parse_vector(&line);
-	skip_spaces(&line);
 	new->orig = parse_point(&line);
 	skip_spaces(&line);
-	new->fov = atoi_modified(&line);
+	new->dir = parse_vector(&line);
+	skip_spaces(&line);
+	new->fov = atoi_modified(&line) * M_PI / 180;
 	skip_spaces(&line);
 	if (*line || new->fov > 179 || new->fov < 1)
 		error_throw(-2);
+	new->next = NULL;
+	v_normalize(new->dir);
 	add_camera(scene, new);
 }
 
@@ -90,6 +92,11 @@ void			parse_lights(char *line, t_scene *scene)
 	
 	if(!(new = (t_light *)malloc(sizeof(t_light))))
 		error_throw(-1);
-	
+	new->orig = parse_point(&line);
+	skip_spaces(&line);
+	new->intensity = atof_modified(&line);
+	skip_spaces(&line);
+	new->color = parse_color_triplet(&line);
+	new->next = NULL;
 	add_light(scene, new);
 }

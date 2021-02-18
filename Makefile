@@ -18,6 +18,9 @@ SRCS =		srcs/add_scene.c \
 			srcs/parser/parse_c_r_l.c \
 			srcs/parser/parser.c \
 			srcs/parser/parsing_utils.c \
+			srcs/matrix.c \
+			srcs/tranform_1.c \
+			srcs/tranform_2.c \
 			main.c
 
 OBJS =		${SRC:.c=.o}

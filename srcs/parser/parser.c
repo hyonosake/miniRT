@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/02/12 19:45:24 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/16 22:02:50 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void			parse_line(char *line, t_scene *scene)
 	char		*s;
 	
 	s = line;
+	printf("%c%c\n", line[0], line[1]);
 	if (!line || *line == '\0')
 		return ;
 	else if (s[0] == 'R' && (s++))
@@ -30,10 +31,7 @@ void			parse_line(char *line, t_scene *scene)
 	else if (s[0] == 's' && s[1] == 'p' && (s += 2))
 		parse_sphere(s, scene);
 	else if (s[0] == 'p' && s[1] == 'l' && (s += 2))
-	{
-		printf("here\n");
 		parse_plane(s, scene); 
-	}
 	else
 		error_throw(-2);
 }
@@ -78,7 +76,6 @@ void			parse_plane(char *line, t_scene *scene)
 		error_throw(-1);
 	skip_spaces(&line);
 	new->orig = parse_point(&line);
-	print_point(new->orig);
 	skip_spaces(&line);
 	new->normal = parse_vector(&line);
 	skip_spaces(&line);

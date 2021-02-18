@@ -3,96 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/12 20:27:26 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/18 17:22:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minirt.h"
 #include <stdio.h>
 
-int					bitshift_multiply(double *col)
+int 				col_to_int(t_color *color, double *intens)
 {
+	int				r[3];
+	int				i;
 	int				res;
-	int				rgb[3];
-	int i;
-
 	i = 0;
-	rgb[0] = col[0];
-	rgb[1] = col[1];
-	rgb[2] = col[2];
-	while (i < 3)
+	r[0] = color->r * intens[0];
+	r[1] = color->g * intens[1];
+	r[2] = color->b * intens[2];
+	while (i < 2)
 	{
-		if (rgb[i] > 255)
-			rgb[i] = 255;
+		if (r[i] > 255)
+			r[i] = 255;
 		i++;
 	}
-	res =  rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+	res = r[0] << 16 | r[1] << 8 | r[2];
 	return (res);
 }
 
 
 int					blinn_phong(t_intersect *ans, t_scene *scene)
 {
-	t_vector		*l;
+	t_vector		*to_light;
+	t_vector		*bisect;
+	t_intersect		*shadow;
 	t_light			*tmp;
-	// t_vector		*h;
-	// double			specular;
-	t_intersect		*shad;
-	double			rgb[3];
+	t_ray			*shadow_ray;
+	double			intens[3];
 	double			diffuse;
+	double			specular;
+
+	if (ans == NULL)
+		return (BACKGROUND_COLOR);
 	tmp = scene->lights;
-	if (!ans)
-		return BACKGROUND_COLOR;
-	//rgb[0] = scene->ambient->color->r * scene->ambient->intensity / 255 * ans->color->r;
-	//rgb[1] = scene->ambient->color->g * scene->ambient->intensity / 255 * ans->color->g;
-	//rgb[2] = scene->ambient->color->b * scene->ambient->intensity / 255 * ans->color->b;
+	intens[0] = scene->ambient->color->r/255 * scene->ambient->intensity;
+	intens[1] = scene->ambient->color->g/255 * scene->ambient->intensity;
+	intens[2] = scene->ambient->color->b/255 * scene->ambient->intensity;
 	while (tmp)
 	{
-		l = v_from_p(tmp->orig, ans->p_inter);
-		v_normalize(l);
-		
-		//need to do smth and free
-		// h = v_add(l, ans->to_cam);
-		// v_normalize(h);
-		t_ray *ray = new_ray(v_cpy(l), p_cpy(ans->p_inter));
-		if ((shad = ray_objects_intersection(scene->objects, ray)) == NULL)
+		to_light = v_from_p(ans->p_inter, tmp->orig);
+		v_normalize(to_light);
+		shadow_ray = new_ray(to_light, ans->p_inter);
+		shadow = ray_objects_intersection(scene->objects, shadow_ray);
+		if (shadow)
 		{
-			diffuse = v_dot_product(ans->normal, l) * 0.9;
-			if (diffuse < 0)
-				diffuse = 0;
-			// specular = v_dot_product(l, h);
-			// if (specular < 0)
-			// 	specular = 0;
-			//rgb[0] += (tmp->color->r * tmp->intensity / 255) * diffuse * ans->color->r;
-			//rgb[1] += (tmp->color->g * tmp->intensity / 255) * diffuse * ans->color->g;
-			//rgb[2] += (tmp->color->b * tmp->intensity / 255) * diffuse * ans->color->b;
+			tmp = tmp->next;
+			continue ;
 		}
-		free(ray);
+		diffuse = v_dot_product(ans->normal, to_light);
+		if (diffuse < 0)
+			diffuse = 0;
+		specular = v_dot_product(ans->normal, bisect);
+		if (specular < 0)
+			specular = 0;
+		intens[0] += tmp->color->r/255 * pow(diffuse,2) * tmp->intensity;
+		intens[1] += tmp->color->g/255 * pow(diffuse,2) * tmp->intensity;
+		intens[2] += tmp->color->b/255 * pow(diffuse,2) * tmp->intensity;
 		tmp = tmp->next;
 	}
-	rgb[0] = ans->color->r * (scene->ambient->intensity + diffuse);
-	rgb[1] = ans->color->g * (scene->ambient->intensity + diffuse);
-	rgb[2] = ans->color->b * (scene->ambient->intensity + diffuse);
-	return (bitshift_multiply(rgb));
+	return (col_to_int(ans->color, intens));
 }
 
 
-void			loop_through_pixels(void *mlx, void *window, t_scene *scene)
+void			loop_through_pixels(t_scene *scene, t_camera *current_cam)
 {
 	t_ray		*ray;
-	t_basis		*c_basis;
 	t_intersect	*ans;
 	int			col;
-	double 		coeffs[3];
+	double 		c[3];
 	int			x_pix;
 	int			y_pix;
 	double		px;
 	double		py;
 
-	c_basis = basis_init(scene->cameras->dir);
 	x_pix = 0;
 	px = 0;
 	py = 0;
@@ -101,20 +95,17 @@ void			loop_through_pixels(void *mlx, void *window, t_scene *scene)
 		y_pix = 0;
 		while(y_pix < scene->canvas->height)
 		{
-			coeffs[0] = (x_pix - scene->canvas->width / 2);
-			coeffs[1] = (scene->canvas->height/ 2 - y_pix);
-			coeffs[2] = scene->canvas->width / (2 * tan(scene->cameras->fov / 2));
-			ray = ray_dir_from_basis(scene->cameras, c_basis, coeffs);
+			c[0] = (x_pix - scene->canvas->width / 2);
+			c[1] = (scene->canvas->height/ 2 - y_pix);
+			c[2] = scene->canvas->width / (2 * tan(scene->cameras->fov / 2));
+			ray = new_ray(v_from_values(c[0],c[1], c[2]), p_from_values(0, 0, 0));
+			v_normalize(ray->dir);
 			ans = ray_objects_intersection(scene->objects, ray);
 			col = blinn_phong(ans, scene);
-			mlx_pixel_put(mlx, window, x_pix, y_pix, col);
+			mlx_pixel_put(scene->mlx, scene->window, x_pix, y_pix, col);
+			free(ray->dir);
+			free(ray->orig);
 			free(ray);
-			if (ans)
-			{
-				free(ans->normal);
-				free(ans->p_inter);
-				free(ans->to_cam);
-			}
 			y_pix++;
 		}
 		x_pix++;
@@ -144,19 +135,22 @@ void	parse_input(t_scene *scene, int ac, char **av)
 		parse_line(line, scene);
 		free(line);
 	}
-	print_scene(scene);
 }
+
 int			main(int ac, char **av)
 {
 	t_scene	*scene;
-	void	*mlx;
-	void	*window;
 	scene = define_scene();
+	t_basis	*c_matrix;
 	parse_input(scene, ac, av);
-
-	mlx = mlx_init();
-	window = mlx_new_window(mlx, scene->canvas->width, scene->canvas->height, "tracer");
-	loop_through_pixels(mlx, window, scene);
-	mlx_loop(mlx);
+	print_scene(scene);
+	t_camera *tmp;
+	tmp = scene->cameras;
+	transform_scene(scene, tmp);
+	print_scene(scene);
+	scene->mlx = mlx_init();
+	scene->window = mlx_new_window(scene->mlx, scene->canvas->width, scene->canvas->height, "tracer");
+	loop_through_pixels(scene, tmp);
+	mlx_loop(scene->mlx);
 	return (0);
 }

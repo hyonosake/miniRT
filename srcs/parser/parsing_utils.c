@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:51:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/12 20:26:55 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/15 19:52:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,6 @@ t_vector	*parse_vector(char **line)
 	skip_spaces(line);
 	index[2] = atof_modified(line);
 	if (**line && **line != '\t' && **line != ' ')
-	{
-		printf("hea\n");
 		error_throw(-2);
-	}
 	return (v_from_values(index[0], index[1], index[2]));
 }

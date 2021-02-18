@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/12 15:51:56 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/15 18:49:18 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,4 +169,12 @@ void	print_scene(t_scene *scene)
 	print_cameras(scene);
 	print_lights(scene);
 	print_objects(scene);
+}
+
+void	print_basis(t_basis *b)
+{
+	printf("%.2f\t%.2f\t%.2f\n%.2f\t%.2f\t%.2f\n%.2f\t%.2f\t%.2f\n",
+				b->i->xv, b->j->xv, b->k->xv,
+				b->i->yv, b->j->yv, b->k->yv,
+				b->i->zv, b->j->zv, b->k->zv);
 }
