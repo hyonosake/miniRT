@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tranform_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 15:58:59 by alex              #+#    #+#             */
-/*   Updated: 2021/02/18 17:39:04 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/18 18:30:40 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ void			transform_objects(t_scene *scene, t_basis *c_matrix, t_point *c_orig)
 
 void			transform_sphere(t_sphere *sphere, t_basis *c_matrix, t_point *c_orig)
 {
-	sphere->orig = (t_point *)vector_from_transform(c_matrix, (t_vector *)sphere->orig);
 	sphere->orig = point_from_transform(c_orig, sphere->orig);
+	sphere->orig = (t_point *)vector_from_transform(c_matrix, (t_vector *)sphere->orig);
 }
 
 void			transform_plane(t_plane *plane,  t_basis *c_matrix, t_point *c_orig)
 {
 	plane->normal = vector_from_transform(c_matrix, plane->normal);
-	plane->orig = (t_point *)vector_from_transform(c_matrix, (t_vector *)plane->orig);
 	plane->orig = point_from_transform(c_orig, plane->orig);
+	plane->orig = (t_point *)vector_from_transform(c_matrix, (t_vector *)plane->orig);
 }
 
 void			transform_current_cam(t_camera *current_cam, t_basis *c_matrix)
@@ -69,9 +69,8 @@ void			transform_lights(t_light *lights, t_basis *c_matrix, t_point *c_orig)
 	tmp = lights;
 	while(tmp)
 	{
-		tmp->orig = (t_point *)vector_from_transform(c_matrix, (t_vector *)tmp->orig);
 		tmp->orig = point_from_transform(c_orig, tmp->orig);
-		
+		tmp->orig = (t_point *)vector_from_transform(c_matrix, (t_vector *)tmp->orig);
 		tmp = tmp->next;
 	}
 }

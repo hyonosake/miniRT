@@ -81,8 +81,10 @@ double			plane_intersection(t_plane *plane, double min_t, t_ray *ray)
 	double		coeffs[2];
 	double		res;
 
-	tmp = v_from_p(plane->orig, ray->orig);
+	tmp = v_from_p(ray->orig, plane->orig);
 	// v_normalize(tmp);
+	//printf("tmp in plane:\n");
+	//print_vector(tmp);
 	coeffs[0] = v_dot_product(tmp, plane->normal);
 	free(tmp);
 	coeffs[1] = v_dot_product(ray->dir, plane->normal);
