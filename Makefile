@@ -21,6 +21,7 @@ SRCS =		srcs/add_scene.c \
 			srcs/matrix.c \
 			srcs/tranform_1.c \
 			srcs/tranform_2.c \
+			srcs/free.c \
 			main.c
 
 OBJS =		${SRC:.c=.o}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:15:16 by alex              #+#    #+#             */
-/*   Updated: 2021/02/11 20:59:14 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/19 10:29:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef struct		s_light
 {
+	int				type;
 	t_point			*orig;
 	t_color			*color;
 	double 			intensity;

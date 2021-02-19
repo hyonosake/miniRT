@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/18 21:20:15 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/19 12:44:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,20 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	while (tmp)
 	{
 		to_light = v_from_p(ans->p_inter, tmp->orig);
-		v_normalize(to_light);
-		shadow_ray = new_ray(to_light, ans->p_inter);
+		shadow_ray = new_ray(v_cpy(to_light), ans->p_inter);
+		v_normalize(shadow_ray->dir);
 		shadow = ray_objects_intersection(scene->objects, shadow_ray);
-		if (shadow)
+		if (shadow && shadow->res < to_light->mod)
 		{
+			// printf("to_l:\t");
+			// print_vector(to_light);
+			// printf("p_inter:\t");
+			// print_point(shadow->p_inter);
+			//printf("SHADOW!\t");
 			tmp = tmp->next;
 			continue ;
 		}
+		v_normalize(to_light);
 		diffuse = v_dot_product(ans->normal, to_light);
 		if (diffuse < 0)
 			diffuse = 0;
@@ -103,9 +109,7 @@ void			loop_through_pixels(t_scene *scene, t_camera *current_cam)
 			ans = ray_objects_intersection(scene->objects, ray);
 			col = blinn_phong(ans, scene);
 			mlx_pixel_put(scene->mlx, scene->window, x_pix, y_pix, col);
-			free(ray->dir);
-			free(ray->orig);
-			free(ray);
+			free_ray(ray);
 			y_pix++;
 		}
 		x_pix++;
@@ -140,11 +144,13 @@ void	parse_input(t_scene *scene, int ac, char **av)
 int			main(int ac, char **av)
 {
 	t_scene	*scene;
+	t_camera *tmp;
+
+
 	scene = define_scene();
 	t_basis	*c_matrix;
 	parse_input(scene, ac, av);
-	print_scene(scene);
-	t_camera *tmp;
+	//print_scene(scene);
 	tmp = scene->cameras;
 	transform_scene(scene, tmp);
 	print_scene(scene);

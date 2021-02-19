@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/17 17:34:34 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/19 12:42:36 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# define MAX 10000
+# define MAX 1000000
 # define BACKGROUND_COLOR 0x0
+# define P_LIGHT 1
+# define D_LIGHT 2
 # define OBJ_SPHERE 1
 # define OBJ_PLANE 2
 # define OBJ_SQUARE 3
@@ -39,6 +41,7 @@
 # include "lights.h"
 # include "objects.h"
 # include "scene.h"
+# include "free.h"
 # include "matrix.h"
 # include "transform.h"
 # include "add_scene.h"

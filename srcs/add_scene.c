@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   add_scene.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:03:13 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/09 18:19:56 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/19 11:53:06 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-
-void		add_canvas(t_scene *scene, t_canvas *new)
+void			add_canvas(t_scene *scene, t_canvas *new)
 {
 	if (scene->canvas)
 		error_throw(-2);
@@ -30,7 +29,7 @@ void			add_camera(t_scene *scene, t_camera *cam)
 		scene->cameras = cam;
 		return ;
 	}
-	while(tmp->next)
+	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = cam;
 }
@@ -52,7 +51,7 @@ void			add_light(t_scene *scene, t_light *l)
 		scene->lights = l;
 		return ;
 	}
-	while(tmp->next)
+	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = l;
 }
@@ -67,10 +66,7 @@ void			add_object(t_scene *scene, t_object *obj)
 		scene->objects = obj;
 		return ;
 	}
-	while(tmp->next)
+	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = obj;
 }
-
-
-

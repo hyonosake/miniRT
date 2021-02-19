@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scene.c                                            :+:      :+:    :+:   */
+/*   free.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/05 20:33:43 by alex              #+#    #+#             */
-/*   Updated: 2021/02/19 11:50:55 by alex             ###   ########.fr       */
+/*   Created: 2021/02/19 10:38:45 by alex              #+#    #+#             */
+/*   Updated: 2021/02/19 11:47:08 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
+#ifndef FREE_H
+# define FREE_H
+# include "minirt.h"
 
-t_scene		*define_scene(void)
-{
-	t_scene *new;
+void			free_ray(t_ray *ray);
+void			free_cameras(t_camera *cams);
+void			free_lights(t_light *lights);
+void			free_plane(t_plane *pl);
+void			free_objects(t_object *objs);
+void			free_scene(t_scene *scene);
 
-	if (!(new = (t_scene *)malloc(sizeof(t_scene))))
-		error_throw(-1);
-	new->canvas = NULL;
-	new->cameras = NULL;
-	new->objects = NULL;
-	new->lights = NULL;
-	new->ambient = NULL;
-	new->mlx = NULL;
-	new->window = NULL;
-	return (new);
-}
+#endif

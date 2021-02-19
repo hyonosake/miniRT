@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/15 18:49:18 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/19 13:11:35 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,15 @@ void	print_objects(t_scene *scene)
 			printf("\t   --- A PLANE ---\n");
 			print_point(heh->orig);
 			print_vector(heh->normal);
+		}
+		if (tmp->type == OBJ_SQUARE)
+		{
+			t_square *heh;
+			heh = (t_square *)tmp->content;
+			printf("\t   --- A SQUARE ---\n");
+			print_point(heh->orig);
+			print_vector(heh->normal);
+			printf("side:\t%.2f\n", heh->a);
 		}
 		
 		print_color(tmp->color);

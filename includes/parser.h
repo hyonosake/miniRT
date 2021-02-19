@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:32:45 by alex              #+#    #+#             */
-/*   Updated: 2021/02/12 19:41:48 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/19 13:05:15 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_color			*color_create(int r, int g, int b);
 void			parse_cameras(char *line, t_scene *scene);
 t_color			*parse_color_triplet(char **line);
 void			parse_amb_light(char *line, t_scene *scene);
-void			parse_lights(char *line, t_scene *scene);
+void			parse_lights(char *line, t_scene *scene, int type);
 t_object		*create_object(void *content, t_color *color, int type);
 void			parse_sphere(char *line, t_scene *scene);
 void			parse_plane(char *line, t_scene *scene);
