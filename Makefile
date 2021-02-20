@@ -1,4 +1,4 @@
-NAME =		MiniRT
+NAME =		miniRT
 CC =		gcc
 FLAGS = 	 -framework OpenGL -framework AppKit -g #-Wall -Wextra -Werror
 SRCS =		srcs/add_scene.c \

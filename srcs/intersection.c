@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/02/19 13:24:04 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/21 00:06:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,12 @@ double			plane_intersection(t_plane *plane, double min_t, t_ray *ray)
 }
 
 
-double			square_intersection(t_plane *plane, double min_t, t_ray *ray)
+double			square_intersection(t_square *square, double min_t, t_ray *ray)
 {
 	double		res;
+
+	
+	
 	return (0);
 }
 
