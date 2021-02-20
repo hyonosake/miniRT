@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/02/21 00:06:20 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/21 02:45:11 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ double			plane_intersection(t_plane *plane, double min_t, t_ray *ray)
 	free(tmp);
 	coeffs[1] = v_dot_product(ray->dir, plane->normal);
 	if (!coeffs[1])
-		coeffs[1] = 0.0000000001;
+		coeffs[1] = 0.000001;
 	res = coeffs[0] / coeffs[1];
 	if (res < min_t) 
 		return (res);
@@ -108,13 +108,112 @@ double			plane_intersection(t_plane *plane, double min_t, t_ray *ray)
 }
 
 
+
+double			dots_in_square(t_square *square, int type, t_point *q)
+{
+	double		res;
+	t_vector	*p_q;
+	t_point		*p;
+
+	if (type == 12)
+	{
+		p = v_from_values(square->v12->xv - square->a / 2, square->v12->yv, square->v12->zv);
+		p_q = v_from_p(q, p);
+		return (v_dot_product(p_q, square->v12));
+	}
+	if (type == 23)
+	{
+		p = v_from_values(square->v23->xv - square->a / 2, square->v23->yv + square->a / 2, square->v23->zv);
+		p_q = v_from_p(q, p);
+		return (v_dot_product(p_q, square->v23));
+	}
+	if (type == 34)
+	{
+		p = v_from_values(square->v34->xv - square->a / 2, square->v34->yv - square->a / 2, square->v34->zv);
+		p_q = v_from_p(q, p);
+		return (v_dot_product(p_q, square->v34));
+	}
+	if (type == 41)
+	{
+		p = v_from_values(square->v12->xv - square->a / 2, square->v12->yv - square->a / 2, square->v41->zv);
+		p_q = v_from_p(q, p);
+		return (v_dot_product(p_q, square->v41));
+	}
+	free(p_q);
+	free(p);
+}
+
+
+int			check_point_in_square(t_square *square, double min_t, double res, t_point *q);
+{
+	//t_vector	*p_q;
+	//t_point		*p;
+	double		vals[4];
+	int			sign;
+
+	p = v_from_values(square->v12->x - a /2, square->v12->y, square->v12->z);
+	p_q = v_from_p(q, p);
+	vals[0] = v_dot_product(p_q, v12);
+	free(p);
+	free(pq);
+	p = v_from_values(square->v12->x - a /2, square->v12->y, square->v12->z);
+	p_q = v_from_p(q, p);
+	vals[1] = v_dot_product(p_q, v23);
+	vals[2] = v_dot_product(p_q, v34);
+	vals[3] = v_dot_product(p_q, v23);
+	
+	
+
+	return 0;
+}
+
+double			*coord_init(int type, double a)
+{
+	double		coords[3];
+
+	if (type == 12)
+	{
+		coords[0] = -a;
+		coords[1] = 0;
+	}
+	if (type == 23)
+	{
+		coords[0] = 0;
+		coords[1] = -a;
+	}
+	if (type == 34)
+	{
+		coords[0] = a;
+		coords[1] = 0;
+	}
+	if (type == 41)
+	{
+		coords[0] = 0;
+		coords[1] = a;
+	}
+	coords[2] = 0;
+	return (&coords);
+}
+
 double			square_intersection(t_square *square, double min_t, t_ray *ray)
 {
 	double		res;
+	t_point		*check;
+	t_vector	**vectors;
+	t_basis		*fo_sq;
 
+	if ((res = plane_intersection((t_plane *)square, min_t, ray) < min_t))
+	{
+		fo_sq = basis_init(square->normal);
+		square->v12 = v_from_basis(fo_sq, coord_init(12, square->a));
+		square->v23 = v_from_basis(fo_sq, coord_init(23, square->a));
+		square->v34 = v_from_basis(fo_sq, coord_init(34, square->a));
+		square->v41 = v_from_basis(fo_sq, coord_init(41, square->a));
+		check = v_by_scalar(ray->dir, res);
+	}
 	
-	
-	return (0);
+	//basis_free(fo_sq);
+	return (res);
 }
 
 t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
