@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/02/19 13:13:00 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/22 20:16:30 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void			parse_line(char *line, t_scene *scene)
 	char		*s;
 	
 	s = line;
-	printf("%c%c\n", line[0], line[1]);
+	//printf("%c%c\n", line[0], line[1]);
 	if (!line || *line == '\0')
 		return ;
 	else if (s[0] == 'R' && (s++))
@@ -112,7 +112,7 @@ void			parse_plane(char *line, t_scene *scene)
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);
-	if (*line != '\0' || new->normal->mod != 1)
+	if (*line != '\0')
 		error_throw(-2);
 	add_object(scene, create_object((void *)new, col, OBJ_PLANE));	
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 17:59:34 by alex              #+#    #+#             */
-/*   Updated: 2021/02/18 17:39:31 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/22 21:01:42 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_basis			*find_transp_matrix(t_scene *scene, t_camera *current_cam)
 	if (!(det = find_det_three(b)))
 		return NULL;
 	inverse = basis_create();
-	printf("det = %.2f\n", det);
+	//printf("det = %.2f\n", det);
 	inverse->i->xv = minor->i->xv;
 	inverse->i->yv = minor->j->xv;
 	inverse->i->zv = minor->k->xv;
