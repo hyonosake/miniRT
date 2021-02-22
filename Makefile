@@ -6,6 +6,9 @@ SRCS =		srcs/add_scene.c \
 			srcs/color.c \
 			srcs/error.c \
 			srcs/intersection.c \
+			srcs/hit_sphere.c \
+			srcs/hit_plane.c \
+			srcs/hit_square.c \
 			srcs/lights.c \
 			srcs/prints.c \
 			srcs/scene.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/21 02:45:12 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/21 23:19:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ typedef struct			s_square
 {
 	t_point				*orig;
 	t_vector			*normal;
-	t_vector			*v12;
-	t_vector			*v23;
-	t_vector			*v34;
-	t_vector			*v41;
+	t_point				*p1;
+	t_point				*p2;
+	t_point				*p3;
+	t_point				*p4;
 	double				a;
 }						t_square;
 
