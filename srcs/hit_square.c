@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_square.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:14:03 by alex              #+#    #+#             */
-/*   Updated: 2021/02/22 22:21:33 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/23 21:57:43 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,19 +105,19 @@ double			square_intersection(t_square *square, double min_t, t_ray *ray)
 	res = min_t;
 	if ((res = plane_intersection((t_plane *)square, min_t, ray)) < min_t)
 	{
-		//printf("res = %.3f\n", res)Normalize!;
+		//printf("res = %.3f\n", res);
 		for_square = basis_init(square->normal);
 		//print_basis(for_square);
 		square->p1 = square_coord_init(1, square->a, for_square);
 		square->p2 = square_coord_init(2, square->a, for_square);
 		square->p3 = square_coord_init(3, square->a, for_square);
 		square->p4 = square_coord_init(4, square->a, for_square);
-		//printf("\n--------------------------\n");
-		//print_point(square->p1);
-		//print_point(square->p2);
-		//print_point(square->p3);
-		//print_point(square->p4);
-		//printf("\n--------------------------\n");
+		// printf("\n--------------------------\n");
+		// print_point(square->p1);
+		// print_point(square->p2);
+		// print_point(square->p3);
+		// print_point(square->p4);
+		// printf("\n--------------------------\n");
 		q = (t_point *)v_by_scalar(ray->dir, res);
 		basis_free(for_square);
 		res = check_point_in_square(square, min_t, res, q);

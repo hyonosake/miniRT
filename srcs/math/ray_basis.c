@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:09:11 by alex              #+#    #+#             */
-/*   Updated: 2021/02/15 22:46:18 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/22 23:53:11 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ t_basis			*basis_init(t_vector *forward)
 		c_basis->i = v_cross_product(up, forward);
 	}
 	c_basis->j = v_cross_product(forward, c_basis->i);
-	v_normalize(c_basis->i);
-	v_normalize(c_basis->j);
-	v_normalize(c_basis->k);
+	// v_normalize(c_basis->i);
+	// v_normalize(c_basis->j);
+	// v_normalize(c_basis->k);
 	free(up);
 	return (c_basis);
 }
@@ -47,7 +47,7 @@ t_vector		*v_from_basis(t_basis *b, double *c)
 	new->yv = b->i->yv * c[0] +  b->j->yv * c[1] +  b->k->yv * c[2];
 	new->zv = b->i->zv * c[0] +  b->j->zv * c[1] +  b->k->zv * c[2];
 	new->mod = sqrt(v_dot_product(new, new));
-	v_normalize(new);
+	//v_normalize(new);
 	return (new);
 }
 
@@ -57,6 +57,7 @@ t_ray		*ray_dir_from_basis(t_camera *cam, t_basis *b, double *c)
 	if (!(new = (t_ray *)malloc(sizeof(t_ray))))
 		error_throw(-1);
 	new->dir = v_from_basis(b, c);
+	v_normalize(new->dir);
 	new->orig = p_cpy(cam->orig);
 	//v_normalize(new->dir);
 	return (new);

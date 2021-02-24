@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/02/22 20:13:49 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/23 21:57:39 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_intersect		*init_objects(t_object *object, double res, t_ray *ray)
 	else if (object->type == OBJ_SQUARE)
 	{
 		ans = init_plane((t_plane *)object->content, res, ray, object->color);
-		//printf("res in sq = %.3f\n", res);
+		//printf("hit aquare\n");
 	}
 	else
 		ans = NULL;
