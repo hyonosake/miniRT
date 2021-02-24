@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 15:58:59 by alex              #+#    #+#             */
-/*   Updated: 2021/02/24 12:26:26 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/24 13:54:26 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void			transform_objects(t_scene *scene, t_basis *c_matrix, t_point *c_orig)
 	{
 		if (tmp->type == OBJ_SPHERE)
 			transform_sphere((t_sphere *)tmp->content, c_matrix, c_orig);
-		else if (tmp->type == OBJ_PLANE)
+		else if (tmp->type == OBJ_PLANE || tmp->type == OBJ_SQUARE)
 			transform_plane((t_plane *)tmp->content, c_matrix, c_orig);
 		else
 			printf("nooo waaaay\n");

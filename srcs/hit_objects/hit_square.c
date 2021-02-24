@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:14:03 by alex              #+#    #+#             */
-/*   Updated: 2021/02/24 12:23:12 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/24 15:21:52 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ double			check_point_in_square(t_square *square, double min_t, double res, t_poi
 
 	v[0] = dots_in_square(square, 1, q);
 	v[1] = dots_in_square(square, 2, q);
+	if (v[0] > -square->a / 2 && v[0] < square->a / 2)
+		if (v[1] > -square->a / 2 && v[1] < square->a / 2)
+			return (res);
 	v[2] = dots_in_square(square, 3, q);
 	v[3] = dots_in_square(square, 4, q);
 	// printf("[%.2f\t,%.2f\t,%.2f\t,%.2f\t]\n", v[0], v[1], v[2], v[3]);

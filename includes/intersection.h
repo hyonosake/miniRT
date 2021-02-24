@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 19:23:50 by alex              #+#    #+#             */
-/*   Updated: 2021/02/24 12:49:47 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:01:09 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ double			sphere_intersection(t_ray *ray, t_sphere *sp, double min_t);
 t_intersect		*init_objects(t_object *object, double res, t_ray *ray);
 t_intersect		*init_sphere(t_sphere *sphere, double res, t_ray *ray, t_color *col);
 t_intersect		*init_plane(t_plane *pl, double res, t_ray *ray, t_color *col);
+//t_intersect		*init_square(t_square *sq, double res, t_ray *ray, t_color *col);
 t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray);
 double			plane_intersection(t_plane *plane, double min_t, t_ray *ray);
 double			square_intersection(t_square *square, double min_t, t_ray *ray);

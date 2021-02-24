@@ -10,7 +10,7 @@
   	 	 "type": "lldb",
   		  "request": "launch",
    		 "program": "${workspaceFolder}/MiniRT",
-   		 "args": ["sample.rt"],
+   		 "args": ["samples/square.rt"],
 	}
 					]
 }

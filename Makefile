@@ -27,7 +27,7 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 			main.c
 
 OBJS =		${SRCS:.c=.o}
-MLX_FLAGS =	-Lminilibx -framework OpenGL -framework AppKit #-lminilibx
+MLX_FLAGS =	-Lminilibx -framework OpenGL -framework AppKit -lminilibx
 FLAGS =		-Wall -Wextra -Werror
 RM =		rm -rf
 CC =		gcc
@@ -35,20 +35,20 @@ CC =		gcc
 all:		$(NAME)
 
 %.o: %.c
-			$(CC) $(FLAGS) -I ./includes/ -I ./minilibx/ -c $< -o $@
+			$(CC) $(FLAGS) -I ./includes/ -I ./mlx/ -c $< -o $@
 
-$(NAME):	$(OBJS)
-			$(CC) $(MLX_FLAGS) -o $(NAME)
+$(NAME):	${OBJS}
+			$(CC) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 clean:		
 			$(RM) $(OBJS)
 fclean:		clean
 			$(RM) $(NAME)
 re:			fclean all
-
-
-			
-
-
-
-.PHONY: all clean fclean re bonus
+norm:
+			rm norm.txt
+			norminette srcs/*/*.c  includes/*.h > norm.txt
+run:		
+			make
+			./miniRT samples/square.rt
+.PHONY: all clean fclean re

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/02/23 21:57:39 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/24 14:01:35 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,9 @@ t_intersect		*init_objects(t_object *object, double res, t_ray *ray)
 	if (object->type == OBJ_SPHERE)
 		ans = init_sphere((t_sphere *)object->content, res, ray, object->color);
 	else if (object->type == OBJ_PLANE)
-	{
 		ans = init_plane((t_plane *)object->content, res, ray, object->color);
-		//printf("res in pl = %.3f\n", res);
-	}
 	else if (object->type == OBJ_SQUARE)
-	{
 		ans = init_plane((t_plane *)object->content, res, ray, object->color);
-		//printf("hit aquare\n");
-	}
 	else
 		ans = NULL;
 	return (ans);
@@ -54,7 +48,7 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 		else if (tmp->type == OBJ_SQUARE)
 			res = square_intersection((t_square *)tmp->content, min_t, ray);
 		else
-			printf("noooo way ;( \n");
+			printf("noooo way ;(\n");
 		if (res < min_t && res > 0.001)
 		{
 			min_t = res;

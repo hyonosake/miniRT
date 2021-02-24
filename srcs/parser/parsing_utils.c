@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:51:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/15 19:52:26 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/24 13:50:10 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_point			*parse_point(char **line)
 	if (**line != ',')
 	{
 		error_throw(-2);
-		printf("here\n");
+		//printf("here\n");
 	}
 	++(*line);
 	skip_spaces(line);

@@ -6,11 +6,23 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/02/24 12:38:26 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:06:20 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
+
+t_object		*create_object(void *content, t_color *color, int type)
+{
+	t_object	*new;
+	if (!(new = (t_object *)malloc(sizeof(t_object))))
+		error_throw(-1);
+	new->type = type;
+	new->content = content;
+	new->color = color;
+	new->next = NULL;
+	return (new);
+}
 
 void	parse_input(t_scene *scene, int ac, char **av)
 {
@@ -54,13 +66,10 @@ void			parse_square(char *line, t_scene *scene)
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);
-	if (*line != '\0' || new->normal->mod != 1)
+	if (*line != '\0')
 		error_throw(-2);
 	add_object(scene, create_object((void *)new, col, OBJ_SQUARE));
-	
 }
-
-
 
 void			parse_line(char *line, t_scene *scene)
 {
@@ -90,18 +99,6 @@ void			parse_line(char *line, t_scene *scene)
 		error_throw(-2);
 }
 
-
-t_object		*create_object(void *content, t_color *color, int type)
-{
-	t_object	*new;
-	if (!(new = (t_object *)malloc(sizeof(t_object))))
-		error_throw(-1);
-	new->type = type;
-	new->content = content;
-	new->color = color;
-	new->next = NULL;
-	return (new);
-}
 void			parse_sphere(char *line, t_scene *scene)
 {
 	t_sphere	*new;

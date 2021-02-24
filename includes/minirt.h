@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/24 12:54:37 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/24 13:24:00 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define DIRECT 2
 # define POINTING 3
 # define ESC 52
-# include "../minilibx/mlx.h"
+# include "../mlx/mlx.h"
 # include "get_next_line.h"
 # include "vectors.h"
 # include "vector_utils.h"
