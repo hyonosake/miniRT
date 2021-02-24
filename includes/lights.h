@@ -3,26 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   lights.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:15:16 by alex              #+#    #+#             */
-/*   Updated: 2021/02/19 10:29:27 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/24 12:53:16 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIGHTS_H
 # define LIGHTS_H
 
-#include "minirt.h"
+# include "minirt.h"
 
-typedef struct		s_light
-{
-	int				type;
-	t_point			*orig;
-	t_color			*color;
-	double 			intensity;
-	struct s_light	*next;
-}					t_light;
-
+int					blinn_phong(t_intersect *ans, t_scene *scene);
+int 				col_to_int(t_color *color, double *intens);
 
 #endif

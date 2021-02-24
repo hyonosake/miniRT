@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 15:58:59 by alex              #+#    #+#             */
-/*   Updated: 2021/02/18 18:30:40 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/24 12:26:26 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 void			transform_scene(t_scene *scene, t_camera *current_cam)
 {
 	t_basis		*c_matrix;
-	t_point		*trans_p;
-	c_matrix = find_transp_matrix(scene, current_cam);
+	c_matrix = find_transp_matrix(current_cam);
 	transform_objects(scene, c_matrix, current_cam->orig);
 	transform_lights(scene->lights, c_matrix, current_cam->orig);
-	transform_current_cam(current_cam, c_matrix);
+	transform_current_cam(current_cam);
 }
 
 void			transform_objects(t_scene *scene, t_basis *c_matrix, t_point *c_orig)
@@ -52,7 +51,7 @@ void			transform_plane(t_plane *plane,  t_basis *c_matrix, t_point *c_orig)
 	plane->orig = (t_point *)vector_from_transform(c_matrix, (t_vector *)plane->orig);
 }
 
-void			transform_current_cam(t_camera *current_cam, t_basis *c_matrix)
+void			transform_current_cam(t_camera *current_cam)
 {
 	free(current_cam->orig);
 	free(current_cam->dir);

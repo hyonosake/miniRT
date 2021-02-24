@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/19 12:42:36 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/24 12:54:37 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,25 @@
 # define AMBIENT 1
 # define DIRECT 2
 # define POINTING 3
-# define ESC
+# define ESC 52
 # include "../minilibx/mlx.h"
-# include "vectors.h"
-# include "camera.h"
-# include "color.h"
 # include "get_next_line.h"
+# include "vectors.h"
 # include "vector_utils.h"
+# include "camera.h"
 # include "ray_basis.h"
-# include "lights.h"
+# include "matrix.h"
+# include "color.h"
 # include "objects.h"
 # include "scene.h"
+# include "lights.h"
+# include "intersection.h"
 # include "free.h"
-# include "matrix.h"
 # include "transform.h"
 # include "add_scene.h"
 # include "parser.h"
-# include "intersection.h"
+# include "ray_tracer.h"
 # include "prints.h"
 
-void			loop_through_pixels(t_scene *scene, t_camera *current_cam);
+int				main(int ac, char **av);
 #endif

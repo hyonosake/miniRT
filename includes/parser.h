@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:32:45 by alex              #+#    #+#             */
-/*   Updated: 2021/02/19 13:05:15 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/24 12:38:45 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int				ft_isspace(char ch);
 int				atoi_modified(char **line);
 double			atof_modified(char **line);
 
+void			parse_input(t_scene *scene, int ac, char **av);
 void			parse_line(char *line, t_scene *scene);
 void			parse_resolution(char *line, t_scene *scene);
 t_point			*parse_point(char **line);

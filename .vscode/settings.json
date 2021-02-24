@@ -8,6 +8,9 @@
 		"algorithm": "c",
 		"complex": "c",
 		"chrono": "c",
-		"locale": "c"
+		"locale": "c",
+		"type_traits": "c",
+		"vector_utils.h": "c",
+		"intersection.h": "c"
 	}
 }

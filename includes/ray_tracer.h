@@ -1,37 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.h                                            :+:      :+:    :+:   */
+/*   ray_tracer.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/05 20:30:42 by alex              #+#    #+#             */
-/*   Updated: 2021/02/24 12:53:43 by ffarah           ###   ########.fr       */
+/*   Created: 2021/02/24 12:34:31 by ffarah            #+#    #+#             */
+/*   Updated: 2021/02/24 12:35:34 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
+#ifndef RAY_TRACER_H
+# define RAY_TRACER_H
+#include "minirt.h"
 
-# include "minirt.h"
-typedef struct		s_color
-{
-	unsigned int	r;
-	unsigned int	g;
-	unsigned int	b;
-}					t_color;
-
-typedef struct		s_light
-{
-	int				type;
-	t_point			*orig;
-	t_color			*color;
-	double 			intensity;
-	struct s_light	*next;
-}					t_light;
-
-int			bitshift_me_please(t_color *color);
-int			intensity_and_color(t_color *color, double intensity);
-
-
-#endif
+void			loop_through_pixels(t_scene *scene, t_camera *current_cam);
+#endif 

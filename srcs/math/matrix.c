@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 17:59:34 by alex              #+#    #+#             */
-/*   Updated: 2021/02/22 22:55:00 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/24 12:25:09 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_basis			*find_minor_add(t_basis *b)
 	return (new);
 }
 
-t_basis			*find_transp_matrix(t_scene *scene, t_camera *current_cam)
+t_basis			*find_transp_matrix(t_camera *current_cam)
 {
 	t_basis		*minor;
 	t_basis		*b;

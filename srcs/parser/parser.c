@@ -6,12 +6,36 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/02/22 20:16:30 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/24 12:38:26 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
+void	parse_input(t_scene *scene, int ac, char **av)
+{
+	char *line;
+	int res;
+	int	i;
+	int fd;
+	
+	fd = open(av[1], O_RDONLY);
+	i = 0;
+	if (ac == 3)
+		//parse save
+		;
+	if (ac < 2 || ac > 3)
+		error_throw(-2);
+	while (av[1][i] != '.' && av[1][i])
+		i++;
+	if (!av[1][i] || (av[1][i+1] != 'r' && av[1][i+2] != 't') || fd < 0)
+		error_throw(-3);
+	while((res = get_next_line(fd, &line)) > 0)
+	{
+		parse_line(line, scene);
+		free(line);
+	}
+}
 
 void			parse_square(char *line, t_scene *scene)
 {

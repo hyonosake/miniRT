@@ -1,46 +1,49 @@
 NAME =		miniRT
-CC =		gcc
-FLAGS = 	 -framework OpenGL -framework AppKit -g #-Wall -Wextra -Werror
-SRCS =		srcs/add_scene.c \
-			srcs/camera.c \
-			srcs/color.c \
-			srcs/error.c \
-			srcs/intersection.c \
-			srcs/hit_sphere.c \
-			srcs/hit_plane.c \
-			srcs/hit_square.c \
-			srcs/lights.c \
-			srcs/prints.c \
-			srcs/scene.c \
-			srcs/gnl/get_next_line_utils.c \
+SRCS =		srcs/gnl/get_next_line_utils.c \
 			srcs/gnl/get_next_line.c \
+			srcs/hit_objects/hit_plane.c \
+			srcs/hit_objects/hit_sphere.c \
+			srcs/hit_objects/hit_square.c \
+			srcs/math/matrix.c \
 			srcs/math/ray_basis.c \
+			srcs/math/tranform_1.c \
+			srcs/math/tranform_2.c \
 			srcs/math/vector_utils.c \
 			srcs/math/vectors.c \
 			srcs/parser/atoi_atof.c \
 			srcs/parser/parse_c_r_l.c \
 			srcs/parser/parser.c \
 			srcs/parser/parsing_utils.c \
-			srcs/matrix.c \
-			srcs/tranform_1.c \
-			srcs/tranform_2.c \
-			srcs/free.c \
+			srcs/utils/error.c \
+			srcs/utils/free.c \
+			srcs/utils/prints.c \
+			srcs/add_scene.c \
+			srcs/camera.c \
+			srcs/color.c \
+			srcs/intersection.c \
+			srcs/lights.c \
+			srcs/ray_tracer.c \
+			srcs/scene.c \
 			main.c
 
-OBJS =		${SRC:.c=.o}
+OBJS =		${SRCS:.c=.o}
+MLX_FLAGS =	-Lminilibx -framework OpenGL -framework AppKit #-lminilibx
+FLAGS =		-Wall -Wextra -Werror
+RM =		rm -rf
+CC =		gcc
 
 all:		$(NAME)
 
-.c.o:
-			$(CC) $(FLAGS) -I ./includes -c $< -o ${<:.c=.o}
+%.o: %.c
+			$(CC) $(FLAGS) -I ./includes/ -I ./minilibx/ -c $< -o $@
 
 $(NAME):	$(OBJS)
-			$(CC) $(FLAGS) -I  ./includes $(SRCS) libmlx.a -o $(NAME) -lm
+			$(CC) $(MLX_FLAGS) -o $(NAME)
 
 clean:		
-			rm -rf $(OBJS)
+			$(RM) $(OBJS)
 fclean:		clean
-			rm -rf $(NAME)
+			$(RM) $(NAME)
 re:			fclean all
 
 

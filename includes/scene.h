@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:29:54 by alex              #+#    #+#             */
-/*   Updated: 2021/02/16 21:25:08 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/24 12:52:44 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define SCENE_H
 
 # include "minirt.h"
-
 typedef struct		s_canvas
 {
 	int 			width;
