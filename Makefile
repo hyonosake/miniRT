@@ -52,3 +52,4 @@ run:
 			make
 			./miniRT samples/square.rt
 .PHONY: all clean fclean re
+.SILENT:

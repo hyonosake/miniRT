@@ -1,33 +1,33 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tranform_1.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/16 15:58:59 by alex              #+#    #+#             */
-/*   Updated: 2021/02/26 16:08:35 by ffarah           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+///* ************************************************************************** */
+///*                                                                            */
+///*                                                        :::      ::::::::   */
+///*   tranform_1.c                                       :+:      :+:    :+:   */
+///*                                                    +:+ +:+         +:+     */
+///*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+///*                                                +#+#+#+#+#+   +#+           */
+///*   Created: 2021/02/16 15:58:59 by alex              #+#    #+#             */
+///*   Updated: 2021/02/27 00:20:02 by ffarah           ###   ########.fr       */
+///*                                                                            */
+///* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
 void			transform_scene(t_scene *scene, t_camera *current_cam)
 {
 	t_basis		*c_matrix;
-	t_point		p_current;
+	t_vector		p_current;
 	t_vector	d_current;
 	
-	p_current = *(t_point *)v_cpy((t_vector *)current_cam->orig);
+	p_current = *copy_vector(current_cam->orig);
 	d_current = *v_from_values(current_cam->dir->xv, current_cam->dir->yv, current_cam->dir->zv);
 	c_matrix = find_transp_matrix(&d_current);
 	transform_objects(scene, c_matrix, &p_current);
 	transform_lights(scene->lights, c_matrix, &p_current);
-	transform_current_cam(&p_current, c_matrix, scene->cameras);
-	
+	transform_cams(&p_current, c_matrix, current_cam);
+	print_scene(scene);
 }
 
-void			transform_objects(t_scene *scene, t_basis *c_matrix, t_point *c_orig)
+void			transform_objects(t_scene *scene, t_basis *c_matrix, t_vector *c_orig)
 {
 	t_object	*tmp;
 
@@ -45,41 +45,44 @@ void			transform_objects(t_scene *scene, t_basis *c_matrix, t_point *c_orig)
 	}
 }
 
-void			transform_sphere(t_sphere *sphere, t_basis *c_matrix, t_point *c_orig)
+void			transform_sphere(t_sphere *sphere, t_basis *c_matrix, t_vector *c_orig)
 {
-	sphere->orig = point_from_transform(c_orig, sphere->orig, c_matrix);
-	//sphere->orig = (t_point *)vector_from_transform(c_matrix, (t_vector *)sphere->orig);
+	transform_point(c_orig, sphere->orig, c_matrix);
 }
 
-void			transform_plane(t_plane *plane,  t_basis *c_matrix, t_point *c_orig)
+void			transform_plane(t_plane *plane,  t_basis *c_matrix, t_vector *c_orig)
 {
-	plane->normal = vector_from_transform(c_matrix, plane->normal);
-	plane->orig = point_from_transform(c_orig, plane->orig, c_matrix);
-	//plane->orig = (t_point *)vector_from_transform(c_matrix, (t_vector *)plane->orig);
+	transform_vector(c_matrix, plane->normal);
+	transform_point(c_orig, plane->orig, c_matrix);
 }
 
-void			transform_current_cam(t_point *p_current, t_basis *c_matrix, t_camera *cams)
+void			transform_cams(t_vector *current_orig, t_basis *c_matrix, t_camera *cams)
 {
-	t_camera		*tmp;
+	t_camera	*tmp;
+	t_camera	*first;
 	tmp = cams;
-	while(tmp)
+	transform_vector(c_matrix, tmp->orig);
+	transform_point(current_orig, tmp->orig, c_matrix);
+	first = tmp;
+	tmp = tmp->next;
+	while(tmp != first)
 	{
 		//printf("1\n");
-		tmp->orig = point_from_transform(p_current, tmp->orig, c_matrix);
-		tmp->dir = vector_from_transform(c_matrix, tmp->dir);
-		print_vector(tmp->dir);
+		transform_vector(c_matrix, tmp->orig);
+		transform_point(current_orig, tmp->orig, c_matrix);
+		//print_vector(tmp->dir);
 		tmp = tmp->next;
 	}
 }
 
-void			transform_lights(t_light *lights, t_basis *c_matrix, t_point *c_orig)
+void			transform_lights(t_light *lights, t_basis *c_matrix, t_vector *current_orig)
 {
 	t_light		*tmp;
 
 	tmp = lights;
 	while(tmp)
 	{
-		tmp->orig = point_from_transform(c_orig, tmp->orig, c_matrix);
+		transform_point(current_orig, tmp->orig, c_matrix);
 		tmp = tmp->next;
 	}
 }

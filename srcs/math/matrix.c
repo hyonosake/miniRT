@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 17:59:34 by alex              #+#    #+#             */
-/*   Updated: 2021/02/26 16:08:54 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/27 01:59:19 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ double			find_det_three(t_basis *b)
 			b->j->xv * b->i->yv * b->k->zv; 
 	return res;
 }
+
 t_basis			*basis_create()
 {
 	t_basis		*new;
@@ -85,9 +86,7 @@ t_basis			*find_transp_matrix(t_vector *dir)
 	t_basis		*inverse;
 	
 	b = basis_init(dir);
-	v_normalize(b->i);
-	v_normalize(b->j);
-	v_normalize(b->k);
+	basis_normalize(b);
 	minor = find_minor_add(b);
 	if (!(det = find_det_three(b)))
 		return NULL;
@@ -111,27 +110,19 @@ t_basis			*find_transp_matrix(t_vector *dir)
 
 
 
-t_vector		*vector_from_transform(t_basis *trans, t_vector *v)
+void			transform_vector(t_basis *trans, t_vector *v)
 {
-	t_vector	*new;
-	
-	new = v_from_values(0,0,0);
-	new->xv = trans->i->xv * v->xv + trans->j->xv * v->yv + trans->k->xv * v->zv;
-	new->yv = trans->i->yv * v->xv + trans->j->yv * v->yv + trans->k->yv * v->zv;
-	new->zv = trans->i->zv * v->xv + trans->j->zv * v->yv + trans->k->zv * v->zv;
-	//free(v);
-	return (new);
+	v->xv = trans->i->xv * v->xv + trans->j->xv * v->yv + trans->k->xv * v->zv;
+	v->yv = trans->i->yv * v->xv + trans->j->yv * v->yv + trans->k->yv * v->zv;
+	v->zv = trans->i->zv * v->xv + trans->j->zv * v->yv + trans->k->zv * v->zv;
 }
 
-t_point			*point_from_transform(t_point *cam, t_point *p, t_basis *trans)
+void			transform_point(t_vector *orig, t_vector *p, t_basis *trans)
 {
-	t_point		*new;
+	t_vector	copy;
 
-	new = p_from_values(p->xp - cam->xp, p->yp - cam->yp,p->zp - cam->zp);
-	//new = (t_point *)vector_from_transform(trans, (t_vector *)new);
-	new->xp = trans->i->xv * new->xp + trans->j->xv * new->yp + trans->k->xv * new->zp;
-	new->yp = trans->i->yv * new->xp + trans->j->yv * new->yp + trans->k->yv * new->zp;
-	new->zp = trans->i->zv * new->xp + trans->j->zv * new->yp + trans->k->zv * new->zp;
+	copy = *copy_vector(p);
 	free(p);
-	return (new);
+	p = v_sub(orig, &copy);
+	transform_vector(trans, p);
 }

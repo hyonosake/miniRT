@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/26 18:25:34 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/27 01:24:26 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,34 @@
 
 
 
-int				shadow(t_object *objs, t_ray *ray)
+int				shadows(t_object *objs, t_ray *ray, double min_t)
 {
 	t_object	*tmp;
-	t_vector	n_trans;
+	//t_vector	n_trans;
 	double		res;
 
 	tmp = objs;
+	v_normalize(ray->dir);
 	while (tmp)
 	{
 		if (tmp->type == OBJ_SPHERE)
-			res = sphere_intersection(ray, (t_sphere *)tmp->content, MAX);
+			res = sphere_intersection(ray, tmp->content, MAX);
 		else if (tmp->type == OBJ_PLANE)
 		{
 			res = plane_intersection((t_plane *)tmp->content, MAX, ray);
-			((t_plane *)tmp->content
+			//((t_plane *)tmp->content
 		}
 		else if (tmp->type == OBJ_SQUARE)
 			res = square_intersection((t_square *)tmp->content, MAX, ray);
 		else
 			printf("noooo way ;(\n");
-		if (tmp->type == OBJ_SQUARE || tmp->type == OBJ_PLANE)
-		{
-			n_trans = *v_by_scalar(((t_plane *)tmp->content)->normal, -1);
-			free(((t_plane *)tmp->content)->normal);
-			((t_plane *)tmp->content)->normal = v_cpy(&tmp);
-		}	
-		if (res < MAX && res > 0.001)
+		//if (tmp->type == OBJ_SQUARE || tmp->type == OBJ_PLANE)
+		//{
+		//	n_trans = *v_by_scalar(((t_plane *)tmp->content)->normal, -1);
+		//	free(((t_plane *)tmp->content)->normal);
+		//	((t_plane *)tmp->content)->normal = v_cpy(&n_trans);
+		//}	
+		if (res < min_t && res > 0.001)
 			return (1);
 		tmp = tmp->next;
 	}
@@ -51,9 +52,9 @@ int				shadow(t_object *objs, t_ray *ray)
 
 int					blinn_phong(t_intersect *ans, t_scene *scene)
 {
-	t_vector		*to_light;
+	//t_vector		*to_light;
 	//t_vector		*bisect;
-	t_intersect		*shadow;
+	int				shadow;
 	t_light			*tmp;
 	t_ray			*shadow_ray;
 	double			intens[3];
@@ -68,36 +69,34 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	intens[2] = scene->ambient->color->b/255 * scene->ambient->intensity;
 	while (tmp)
 	{
-		to_light = v_from_p(ans->p_inter, tmp->orig);
-		shadow_ray = new_ray(v_cpy(to_light), (t_point *)v_cpy((t_vector *)ans->p_inter));
-		v_normalize(shadow_ray->dir);
-		shadow = ray_objects_intersection(scene->objects, shadow_ray);
-		if (shadow && shadow->res < to_light->mod)
+		//to_light = v_from_p(ans->p_inter, tmp->orig);
+		shadow_ray = new_ray(v_sub(ans->p_inter, tmp->orig), copy_vector(ans->p_inter));
+		shadow = shadows(scene->objects, shadow_ray, shadow_ray->dir->mod);
+		if (shadow)
 		{
 			//printf("r_dir\t");
 			//print_vector(shadow_ray->dir);
 			//printf("r orig\t");
-			//print_point(shadow_ray->orig);
+			//print_vector(shadow_ray->orig);
 			//printf("found inter in\t");
-			//print_point(shadow->p_inter);
+			//print_vector(shadow->p_inter);
 			//printf("to_l:\t");
 			//print_vector(to_light);
 			//printf("p_inter:\t");
-			//print_point(shadow->p_inter);
+			//print_vector(shadow->p_inter);
 			//printf("SHADOW!\n");
 			tmp = tmp->next;
 			continue ;
 		}
-		v_normalize(to_light);
-		diffuse = v_dot_product(ans->normal, to_light);
+		diffuse = v_dot_product(ans->normal, shadow_ray->dir);
 		if (diffuse < 0)
 			diffuse = 0;
 		//specular = v_dot_product(ans->normal, bisect);
 		if (specular < 0)
 			specular = 0;
-		intens[0] += tmp->color->r/255 * pow(diffuse,2) * tmp->intensity;
-		intens[1] += tmp->color->g/255 * pow(diffuse,2) * tmp->intensity;
-		intens[2] += tmp->color->b/255 * pow(diffuse,2) * tmp->intensity;
+		intens[0] += tmp->color->r / 255 * pow(diffuse,2) * tmp->intensity;
+		intens[1] += tmp->color->g / 255 * pow(diffuse,2) * tmp->intensity;
+		intens[2] += tmp->color->b / 255 * pow(diffuse,2) * tmp->intensity;
 		tmp = tmp->next;
 	}
 	free_ray(shadow_ray);

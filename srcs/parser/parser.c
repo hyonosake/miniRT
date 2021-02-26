@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/02/26 16:31:04 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/26 22:54:02 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	parse_input(t_scene *scene, int ac, char **av)
 		error_throw(-3);
 	while((res = get_next_line(fd, &line)) > 0)
 	{
+		if (*line == '#')
+			continue ;
 		parse_line(line, scene);
 		free(line);
 	}

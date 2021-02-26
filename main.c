@@ -6,12 +6,15 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/02/26 17:36:34 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/27 02:15:05 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minirt.h"
 #include <stdio.h>
+
+
+int	press_key(int key, t_scene *scene);
 
 void		link_cameras(t_camera *cams)
 {
@@ -22,34 +25,41 @@ void		link_cameras(t_camera *cams)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = head;
-	cams->prev = tmp;
+	//cams->prev = tmp;
 }
-
 
 int			main(int ac, char **av)
 {
 	t_scene	*scene;
-	t_camera *tmp;
 
 	scene = define_scene();
 	parse_input(scene, ac, av);
-	print_scene(scene);
-	tmp = scene->cameras;
-	transform_scene(scene, tmp);
-	print_scene(scene);
+	//transform_scene(scene, tmp);
+	scene->mlx_init = mlx_init();
+	scene->mlx_window = mlx_new_window(scene->mlx_init, scene->canvas->width, scene->canvas->height, "tracer");
+	scene->mlx_image = mlx_new_image(scene->mlx_init, scene->canvas->width, scene->canvas->height);
+	mlx_hook(scene->mlx_window, 2, 0, press_key, scene);
 	link_cameras(scene->cameras);
-	while(1)
+	//print_scene(scene);
+	transform_scene(scene, scene->cameras);
+	//print_scene(scene);
+	//loop_through_pixels(scene, scene->cameras);
+	//mlx_put_image_to_window(scene->mlx, scene->mlx_window, scene->mlx_image,0,0);
+	mlx_loop(scene->mlx_init);
+	return (0);
+}
+
+int	press_key(int key, t_scene *scene)
+{
+	if (key == KEY_TAB) //tab
 	{
-		scene->mlx_init = mlx_init();
-		scene->mlx_window = mlx_new_window(scene->mlx_init, scene->canvas->width, scene->canvas->height, "tracer");
-		scene->mlx_image = mlx_new_image(scene->mlx_init, scene->canvas->width, scene->canvas->height);
-		loop_through_pixels(scene, tmp);
-		//mlx_put_image_to_window(scene->mlx, scene->mlx_window, scene->mlx_image,0,0);
-		mlx_loop(scene->mlx_init);
-		//if (keyhook = r)
-		//tmp = tmp->next
-		//if hook = l
-		//tmp = tmp->prev
+		if (scene->cameras->next)
+			scene->cameras = scene->cameras->next;
 	}
+	else if (key == KEY_ESC)
+  			exit(0);
+	transform_scene(scene, scene->cameras);
+	print_scene(scene);
+	//loop_through_pixels(scene, scene->cameras);
 	return (0);
 }

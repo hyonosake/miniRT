@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vectors.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:18:11 by alex              #+#    #+#             */
-/*   Updated: 2021/02/18 17:22:27 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/27 01:07:01 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,41 @@ t_vector		*v_from_values(double x, double y, double z)
 	return (new);
 }
 
-t_point			*p_from_values(double x, double y, double z)
+double			v_dot_product(t_vector *v1, t_vector *v2)
 {
-	t_point		*new;
-	
-	if (!(new = (t_point *)malloc(sizeof(t_point))))
-		error_throw(-1);
-	new->xp = x;
-	new->yp = y;
-	new->zp = z;
+	double result;
+	result = v1->xv * v2->xv + v1->yv * v2->yv + v1->zv * v2->zv;
+	return (result);
+}
+
+t_vector 		*v_cross_product(t_vector *v1, t_vector *v2)
+{
+	t_vector	*new;
+
+	new = v_from_values(0,0,0);
+	new->xv = v1->yv * v2->zv -	v1->zv * v2->yv;
+	new->yv = v1->zv * v2->xv -	v1->xv * v2->zv;
+	new->zv = v1->xv * v2->yv -	v1->yv * v2->xv;
+	new->mod = sqrt(v_dot_product(new,new));
 	return (new);
 }
 
-t_vector		*v_from_p(t_point *p1, t_point *p2)
+t_vector		*point_from_vector(t_vector *v1, double d)
 {
 	t_vector	*new;
-	
 	new = v_from_values(0,0,0);
-	new->xv = p2->xp - p1->xp;
-	new->yv = p2->yp - p1->yp;
-	new->zv = p2->zp - p1->zp;
+	new->xv = v1->xv * d;
+	new->yv = v1->yv * d;
+	new->zv = v1->zv * d;
 	new->mod = sqrt(v_dot_product(new, new));
 	return (new);
 }
+
+void			v_by_scalar(t_vector *v, double d)
+{
+	v->xv = v->xv * d;
+	v->yv = v->yv * d;
+	v->zv = v->zv * d;
+	v->mod = sqrt(v_dot_product(v, v));
+}
+

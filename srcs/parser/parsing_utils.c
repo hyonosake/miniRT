@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:51:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/26 13:31:33 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/27 01:21:54 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int				atoi_modified(char **line)
 	return(result);
 }
 
-t_point			*parse_point(char **line)
+t_vector			*parse_point(char **line)
 {
 	double	index[3];
 
@@ -56,10 +56,7 @@ t_point			*parse_point(char **line)
 	index[0] = atof_modified(line);
 	skip_spaces(line);
 	if (**line != ',')
-	{
 		error_throw(-2);
-		//printf("here\n");
-	}
 	++(*line);
 	skip_spaces(line);
 	index[1] = atof_modified(line);
@@ -71,7 +68,7 @@ t_point			*parse_point(char **line)
 	index[2] = atof_modified(line);
 	if (**line && !(ft_isspace(**line)))
 		error_throw(-2);
-	return (p_from_values(index[0], index[1], index[2]));
+	return (v_from_values(index[0], index[1], index[2]));
 }
 
 t_vector	*parse_vector(char **line)
