@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vectors.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/05 15:15:20 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/26 16:11:57 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct	s_point
 	double		xp;
 	double		yp;
 	double		zp;
+	double		mod;
 }				t_point;
 
 typedef struct	s_ray

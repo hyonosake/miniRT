@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_c_r_l.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/02/19 13:04:22 by alex             ###   ########.fr       */
+/*   Updated: 2021/02/26 14:49:49 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,10 @@ void			parse_cameras(char *line, t_scene *scene)
 	skip_spaces(&line);
 	new->fov = atoi_modified(&line) * M_PI / 180;
 	skip_spaces(&line);
-	// if (new->dir->mod != 1)
-	// {
-	// 	printf("not equal 1. mod = %.20f\n", new->dir->mod);
-	// 	error_throw(-2);
-	// }
-	if (*line || new->fov > 179 || new->fov < 1)
+	if (*line || new->fov > 179 || new->fov < 1 || !check_vector_input(new->dir))
 		error_throw(-2);
 	new->next = NULL;
+	new->prev = NULL;
 	v_normalize(new->dir);
 	add_camera(scene, new);
 }

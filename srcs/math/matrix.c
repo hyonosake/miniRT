@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 17:59:34 by alex              #+#    #+#             */
-/*   Updated: 2021/02/24 12:25:09 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/26 16:08:54 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ t_basis			*find_minor_add(t_basis *b)
 	return (new);
 }
 
-t_basis			*find_transp_matrix(t_camera *current_cam)
+t_basis			*find_transp_matrix(t_vector *dir)
 {
 	t_basis		*minor;
 	t_basis		*b;
 	double		det;
 	t_basis		*inverse;
 	
-	b = basis_init(current_cam->dir);
+	b = basis_init(dir);
 	v_normalize(b->i);
 	v_normalize(b->j);
 	v_normalize(b->k);
@@ -119,18 +119,19 @@ t_vector		*vector_from_transform(t_basis *trans, t_vector *v)
 	new->xv = trans->i->xv * v->xv + trans->j->xv * v->yv + trans->k->xv * v->zv;
 	new->yv = trans->i->yv * v->xv + trans->j->yv * v->yv + trans->k->yv * v->zv;
 	new->zv = trans->i->zv * v->xv + trans->j->zv * v->yv + trans->k->zv * v->zv;
-	free(v);
+	//free(v);
 	return (new);
 }
 
-t_point			*point_from_transform(t_point *cam, t_point *p)
+t_point			*point_from_transform(t_point *cam, t_point *p, t_basis *trans)
 {
-	t_point		*tmp;
 	t_point		*new;
 
-	tmp = p_from_values(-cam->xp, -cam->yp, -cam->zp);
-	new = p_from_values(p->xp + tmp->xp, p->yp + tmp->yp,p->zp + tmp->zp);
-	free(tmp);
+	new = p_from_values(p->xp - cam->xp, p->yp - cam->yp,p->zp - cam->zp);
+	//new = (t_point *)vector_from_transform(trans, (t_vector *)new);
+	new->xp = trans->i->xv * new->xp + trans->j->xv * new->yp + trans->k->xv * new->zp;
+	new->yp = trans->i->yv * new->xp + trans->j->yv * new->yp + trans->k->yv * new->zp;
+	new->zp = trans->i->zv * new->xp + trans->j->zv * new->yp + trans->k->zv * new->zp;
 	free(p);
 	return (new);
 }

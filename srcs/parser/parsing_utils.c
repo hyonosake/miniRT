@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:51:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/24 13:50:10 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/26 13:31:33 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,18 @@ t_vector	*parse_vector(char **line)
 	if (**line && **line != '\t' && **line != ' ')
 		error_throw(-2);
 	return (v_from_values(index[0], index[1], index[2]));
+}
+
+double			ft_fabs(double value)
+{
+	if (value < 0)
+		value *= -1;
+	return (value);
+}
+
+double			check_vector_input(t_vector *v)
+{
+	if (ft_fabs(v->xv) > 1 || ft_fabs(v->yv) > 1  || ft_fabs(v->zv) > 1)
+		return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:32:45 by alex              #+#    #+#             */
-/*   Updated: 2021/02/24 12:38:45 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/26 13:31:44 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ void			parse_lights(char *line, t_scene *scene, int type);
 t_object		*create_object(void *content, t_color *color, int type);
 void			parse_sphere(char *line, t_scene *scene);
 void			parse_plane(char *line, t_scene *scene);
-
+double			ft_fabs(double value);
+double			check_vector_input(t_vector *v);
 #endif

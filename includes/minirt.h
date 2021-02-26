@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/24 13:24:00 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/26 16:27:29 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # define MAX 1000000
+# define MIN 0.0001
 # define BACKGROUND_COLOR 0x0
 # define P_LIGHT 1
 # define D_LIGHT 2

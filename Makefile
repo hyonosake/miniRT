@@ -28,7 +28,7 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 
 OBJS =		${SRCS:.c=.o}
 MLX_FLAGS =	-Lminilibx -framework OpenGL -framework AppKit -lminilibx
-FLAGS =		-Wall -Wextra -Werror
+FLAGS =		-g -Wall -Wextra -Werror
 RM =		rm -rf
 CC =		gcc
 
@@ -38,7 +38,7 @@ all:		$(NAME)
 			$(CC) $(FLAGS) -I ./includes/ -I ./mlx/ -c $< -o $@
 
 $(NAME):	${OBJS}
-			$(CC) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+			$(CC) -g $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 clean:		
 			$(RM) $(OBJS)

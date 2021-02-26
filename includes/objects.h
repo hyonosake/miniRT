@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/24 13:58:08 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/26 16:30:36 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,8 @@ typedef struct			s_square
 {
 	t_point				*orig;
 	t_vector			*normal;
-	t_point				*p1;
-	t_point				*p2;
-	t_point				*p3;
-	t_point				*p4;
 	double				a;
+	double				asq;
 }						t_square;
 
 
