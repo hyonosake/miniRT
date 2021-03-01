@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 17:59:34 by alex              #+#    #+#             */
-/*   Updated: 2021/02/28 21:48:21 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/01 20:44:13 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_basis			*find_transp_matrix(t_vector *dir)
 	if (!(det = find_det_three(b)))
 		return NULL;
 	inverse = basis_create();
-	//printf("det = %.2f\n", det);
 	inverse->i->xv = minor->i->xv;
 	inverse->i->yv = minor->j->xv;
 	inverse->i->zv = minor->k->xv;
@@ -114,21 +113,22 @@ void			transform_vector(t_basis *trans, t_vector *v)
 {
 	t_vector	c;
 	c = *copy_vector(v);
-	
 	v->xv = trans->i->xv * c.xv + trans->j->xv * c.yv + trans->k->xv * c.zv;
 	v->yv = trans->i->yv * c.xv + trans->j->yv * c.yv + trans->k->yv * c.zv;
 	v->zv = trans->i->zv * c.xv + trans->j->zv * c.yv + trans->k->zv * c.zv;
 	v_normalize(v);
 }
 
-void			transform_point(t_vector *orig, t_vector *p, t_basis *trans)
+void			transform_point(t_vector *orig, t_vector *changed, t_basis *trans)
 {
 	t_vector	c;
 	t_vector	f;
-	f = *copy_vector(p);
-	c = *v_sub(&f, orig);
-	p->xv = trans->i->xv * c.xv + trans->j->xv * c.yv + trans->k->xv * c.zv;
-	p->yv = trans->i->yv * c.xv + trans->j->yv * c.yv + trans->k->yv * c.zv;
-	p->zv = trans->i->zv * c.xv + trans->j->zv * c.yv + trans->k->zv * c.zv;
+	f = *copy_vector(changed);
+	c = *v_sub(orig, &f);
+	//print_vector(trans->i,"nvm");
+	//print_vector(&c, "coord transf");
+	changed->xv = trans->i->xv * c.xv + trans->j->xv * c.yv + trans->k->xv * c.zv;
+	changed->yv = trans->i->yv * c.xv + trans->j->yv * c.yv + trans->k->yv * c.zv;
+	changed->zv = trans->i->zv * c.xv + trans->j->zv * c.yv + trans->k->zv * c.zv;
 	
 }

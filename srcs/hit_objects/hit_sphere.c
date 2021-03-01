@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:10:18 by alex              #+#    #+#             */
-/*   Updated: 2021/03/01 16:25:27 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/01 21:10:16 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,15 @@ double			sphere_intersection(t_ray *ray, t_object *sp, double min_t)
 t_intersect		*init_sphere(t_object *sphere, double res, t_ray *ray)
 {
 	t_intersect	*ans;
-	t_vector	tmp;
 
 	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
 		error_throw(-1);
 	ans->color = sphere->color;
 	ans->res = res;
-	tmp = *point_from_vector(ray->dir, res);
-	ans->p_inter = v_add(&tmp, ray->orig);
+	ans->p_inter = point_from_vector(ray->dir, res);
 	ans->to_cam = point_from_vector(ray->dir, -1);
 	ans->normal = v_sub(((t_sphere *)sphere->content)->orig, ans->p_inter);
 	v_normalize(ans->normal);
-	// printf("res = %.2f\n", res);
-	//print_vector(ans->p_inter, "inter:");
-	//print_vector(ray->orig, "ray orig:");
-	//print_vector(ans->normal, "norm:");
 	ans->type = sphere->type;
 	if (ans->type == INSIDE_OBJ)
 		v_by_scalar(ans->normal, -1);

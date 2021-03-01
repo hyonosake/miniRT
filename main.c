@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/03/01 09:31:35 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/01 21:14:42 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int			main(int ac, char **av)
 	scene = define_scene();
 	parse_input(scene, ac, av);
 	link_cameras(scene->cameras);
-	//print_scene(scene);
+	print_cameras(scene);
+	printf("\n============= INIT =============\n");
+	transform_scene(scene);
+	print_cameras(scene);
 	scene->mlx_init = mlx_init();
 	scene->mlx_window = mlx_new_window(scene->mlx_init, scene->canvas->width, scene->canvas->height, "tracer");
 	scene->mlx_image = mlx_new_image(scene->mlx_init, scene->canvas->width, scene->canvas->height);
@@ -49,11 +52,18 @@ int	press_key(int key, t_scene *scene)
 {
 	if (key == KEY_TAB) //tab
 	{
+		printf("hey\n");
 		if (scene->cameras->next)
+		{
 			scene->cameras = scene->cameras->next;
+			//transform_scene(scene);
+			
+		}
 	}
 	else if (key == KEY_ESC)
   			exit(0);
+	transform_scene(scene);
+	print_cameras(scene);
 	loop_through_pixels(scene);
 	return (0);
 }

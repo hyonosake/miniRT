@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/01 16:56:13 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/01 21:11:47 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	t_ray			*shadow_ray;
 	double			intens[3];
 	double			diffuse;
-	double			specular;
+	//double			specular;
 
 	if (ans == NULL)
 		return (BACKGROUND_COLOR);
@@ -68,9 +68,8 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	while (tmp)
 	{
 		//print_vector(ans->p_inter, "p_inter:");
-		t_vector	*to_light = v_add(ans->p_inter, tmp->orig);
-		
-		shadow_ray = new_ray(v_add(to_light, scene->cameras->orig), copy_vector(ans->p_inter));
+		t_vector	*to_light = v_sub(ans->p_inter, tmp->orig);
+		shadow_ray = new_ray(to_light, copy_vector(ans->p_inter));
 		//print_vector(shadow_ray->dir, "shad ray:");
 		shadow = shadows(scene->objects, shadow_ray, shadow_ray->dir->mod);
 		if (shadow)
@@ -93,8 +92,8 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		if (diffuse < 0)
 			diffuse = 0;
 		//specular = v_dot_product(ans->normal, bisect);
-		if (specular < 0)
-			specular = 0;
+		//if (specular < 0)
+		//	specular = 0;
 		intens[0] += tmp->color->r / 255 * pow(diffuse,2) * tmp->intensity;
 		intens[1] += tmp->color->g / 255 * pow(diffuse,2) * tmp->intensity;
 		intens[2] += tmp->color->b / 255 * pow(diffuse,2) * tmp->intensity;

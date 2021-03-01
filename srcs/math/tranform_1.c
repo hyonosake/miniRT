@@ -24,7 +24,6 @@ void			transform_scene(t_scene *scene)
 	transform_objects(scene, c_matrix, &p_current);
 	transform_lights(scene->lights, c_matrix, &p_current);
 	transform_cams(&p_current, c_matrix, scene->cameras);
-	print_scene(scene);
 	basis_free(c_matrix);
 }
 
@@ -62,15 +61,13 @@ void			transform_cams(t_vector *current_orig, t_basis *c_matrix, t_camera *cams)
 	t_camera	*tmp;
 
 	tmp = cams;
-	transform_vector(c_matrix, tmp->orig);
+	transform_vector(c_matrix, tmp->dir);
 	transform_point(current_orig, tmp->orig, c_matrix);
 	tmp = tmp->next;
 	while(tmp != cams)
 	{
-		//printf("1\n");
-		transform_vector(c_matrix, tmp->orig);
+		transform_vector(c_matrix, tmp->dir);
 		transform_point(current_orig, tmp->orig, c_matrix);
-		//print_vector(tmp->dir);
 		tmp = tmp->next;
 	}
 }
