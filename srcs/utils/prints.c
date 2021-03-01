@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/27 02:12:09 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/01 08:58:14 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,23 @@ void	print_ray(t_ray *v)
 void	print_cameras(t_scene *scene)
 {
 	t_camera	*tmp;
-	t_camera	*first;
-	int i = 0;
+
 	if (!scene->cameras)
 	{
 		write(1, "No cams found\n", 16);
 		return ;
 	}
 	tmp = scene->cameras;
-	printf("\n------------ CAM No %d --------------\n", ++i);
+	printf("Standing on cam %d\n", tmp->id);
+	printf("\n------------ CAM No %d --------------\n", tmp->id);
 	print_vector(tmp->dir, "dir:");
 	print_vector(tmp->orig, "orig:");
 	printf("fov:\t%.3f rad\n", tmp->fov);
 	printf("--------------------------------------\n");
-	first = tmp;
 	tmp = tmp->next;
-	while (tmp != first)
+	while (tmp != scene->cameras)
 	{
-		printf("\n------------ CAM No %d --------------\n", ++i);
+		printf("\n------------ CAM No %d --------------\n", tmp->id);
 		print_vector(tmp->dir, "dir:");
 		print_vector(tmp->orig, "orig:");
 		printf("fov:\t%.3f rad\n", tmp->fov);

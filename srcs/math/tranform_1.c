@@ -12,19 +12,20 @@
 
 #include "../includes/minirt.h"
 
-void			transform_scene(t_scene *scene, t_camera *current_cam)
+void			transform_scene(t_scene *scene)
 {
 	t_basis		*c_matrix;
-	t_vector		p_current;
+	t_vector	p_current;
 	t_vector	d_current;
 	
-	p_current = *copy_vector(current_cam->orig);
-	d_current = *v_from_values(current_cam->dir->xv, current_cam->dir->yv, current_cam->dir->zv);
+	p_current = *copy_vector(scene->cameras->orig);
+	d_current = *copy_vector(scene->cameras->dir);
 	c_matrix = find_transp_matrix(&d_current);
 	transform_objects(scene, c_matrix, &p_current);
 	transform_lights(scene->lights, c_matrix, &p_current);
-	transform_cams(&p_current, c_matrix, current_cam);
+	transform_cams(&p_current, c_matrix, scene->cameras);
 	print_scene(scene);
+	basis_free(c_matrix);
 }
 
 void			transform_objects(t_scene *scene, t_basis *c_matrix, t_vector *c_orig)
@@ -59,13 +60,12 @@ void			transform_plane(t_plane *plane,  t_basis *c_matrix, t_vector *c_orig)
 void			transform_cams(t_vector *current_orig, t_basis *c_matrix, t_camera *cams)
 {
 	t_camera	*tmp;
-	t_camera	*first;
+
 	tmp = cams;
 	transform_vector(c_matrix, tmp->orig);
 	transform_point(current_orig, tmp->orig, c_matrix);
-	first = tmp;
 	tmp = tmp->next;
-	while(tmp != first)
+	while(tmp != cams)
 	{
 		//printf("1\n");
 		transform_vector(c_matrix, tmp->orig);

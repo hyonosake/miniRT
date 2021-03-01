@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/27 01:24:26 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:56:13 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,30 @@ int				shadows(t_object *objs, t_ray *ray, double min_t)
 {
 	t_object	*tmp;
 	//t_vector	n_trans;
+	//static t_object	intersected;
 	double		res;
 
-	tmp = objs;
 	v_normalize(ray->dir);
+	// if (!intersected)
+	// 	tmp = &intersected;
+	// else
+		tmp = objs;
 	while (tmp)
 	{
 		if (tmp->type == OBJ_SPHERE)
-			res = sphere_intersection(ray, tmp->content, MAX);
+			res = sphere_intersection(ray, tmp, min_t);
 		else if (tmp->type == OBJ_PLANE)
-		{
-			res = plane_intersection((t_plane *)tmp->content, MAX, ray);
-			//((t_plane *)tmp->content
-		}
+			res = plane_intersection((t_plane *)tmp->content, min_t, ray);
 		else if (tmp->type == OBJ_SQUARE)
-			res = square_intersection((t_square *)tmp->content, MAX, ray);
+			res = square_intersection((t_square *)tmp->content, min_t, ray);
 		else
-			printf("noooo way ;(\n");
-		//if (tmp->type == OBJ_SQUARE || tmp->type == OBJ_PLANE)
-		//{
-		//	n_trans = *v_by_scalar(((t_plane *)tmp->content)->normal, -1);
-		//	free(((t_plane *)tmp->content)->normal);
-		//	((t_plane *)tmp->content)->normal = v_cpy(&n_trans);
-		//}	
-		if (res < min_t && res > 0.001)
+			printf("noooo way ;(\n");	
+		if (res < min_t && res > MIN)
+		{
+			// intersected = tmp;
+			// intersected->next = NULL;
 			return (1);
+		}
 		tmp = tmp->next;
 	}
 	return (0);
@@ -52,7 +51,6 @@ int				shadows(t_object *objs, t_ray *ray, double min_t)
 
 int					blinn_phong(t_intersect *ans, t_scene *scene)
 {
-	//t_vector		*to_light;
 	//t_vector		*bisect;
 	int				shadow;
 	t_light			*tmp;
@@ -69,8 +67,11 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	intens[2] = scene->ambient->color->b/255 * scene->ambient->intensity;
 	while (tmp)
 	{
-		//to_light = v_from_p(ans->p_inter, tmp->orig);
-		shadow_ray = new_ray(v_sub(ans->p_inter, tmp->orig), copy_vector(ans->p_inter));
+		//print_vector(ans->p_inter, "p_inter:");
+		t_vector	*to_light = v_add(ans->p_inter, tmp->orig);
+		
+		shadow_ray = new_ray(v_add(to_light, scene->cameras->orig), copy_vector(ans->p_inter));
+		//print_vector(shadow_ray->dir, "shad ray:");
 		shadow = shadows(scene->objects, shadow_ray, shadow_ray->dir->mod);
 		if (shadow)
 		{

@@ -3,44 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:33:58 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/27 02:12:57 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/01 14:30:15 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+void			ray_transform(t_ray *ray, t_scene *scene, t_basis *b)
+{
+	double		c[3];
 
-void			loop_through_pixels(t_scene *scene, t_camera *current_cam)
+	if (!ray)
+		error_throw(-1);
+	c[0] = scene->canvas->x_pixel - scene->canvas->width / 2;
+	c[1] = scene->canvas->height/ 2 - scene->canvas->y_pixel;
+	c[2] = scene->canvas->width / (2 * tan(scene->cameras->fov / 2));
+	v_from_basis(b, ray->dir, c);
+}		
+
+
+void			loop_through_pixels(t_scene *scene)
 {
 	t_ray		*ray;
 	t_intersect	*ans;
-	int			col;
-	double 		c[3];
-	int			x_pix;
-	int			y_pix;
+	//int			col;
+	t_basis		*b;
 
-	x_pix = 0;
-	//print_scene(scene);
-	while(x_pix < scene->canvas->width)
+	ray = new_ray(v_from_values(0,0,0), copy_vector(scene->cameras->orig));
+	b = basis_init(scene->cameras->dir);
+	scene->canvas->x_pixel = 0;
+	while(scene->canvas->x_pixel < scene->canvas->width)
 	{
-		y_pix = 0;
-		while(y_pix < scene->canvas->height)
+		scene->canvas->y_pixel = 0;
+		while(scene->canvas->y_pixel < scene->canvas->height)
 		{
-			c[0] = (x_pix - scene->canvas->width / 2);
-			c[1] = (scene->canvas->height/ 2 - y_pix);
-			c[2] = scene->canvas->width / (2 * tan(current_cam->fov / 2));
-			printf("c[0] = %.2f\n", c[0]);
-			ray = (t_ray *)malloc(sizeof(t_ray));
-			ray->dir = v_from_values(c[0], c[1], c[2]);
-			ray->orig = copy_vector(current_cam->orig);
-			v_normalize(ray->dir);
+			//printf("[%d %d]\n",scene->canvas->x_pixel, scene->canvas->y_pixel);
+			ray_transform(ray, scene, b);
 			ans = ray_objects_intersection(scene->objects, ray);
-			col = blinn_phong(ans, scene);
-			mlx_pixel_put(scene->mlx_init, scene->mlx_window, x_pix, y_pix, col);
-			y_pix++;
+			//col = blinn_phong(ans, scene);
+			int col =  blinn_phong(ans, scene);
+			mlx_pixel_put(scene->mlx_init, scene->mlx_window, scene->canvas->x_pixel,
+								scene->canvas->y_pixel,col);
+			scene->canvas->y_pixel++;
 		}
-		x_pix++;
+		scene->canvas->x_pixel++;
 	}
+	basis_free(b);
+	free_ray(ray);
 }

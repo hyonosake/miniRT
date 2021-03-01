@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_c_r_l.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/02/27 01:40:58 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/01 09:32:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void			parse_resolution(char *line, t_scene *scene)
 void			parse_cameras(char *line, t_scene *scene)
 {
 	t_camera	*new;
+	static int	i;
 	
 	if(!(new = (t_camera *)malloc(sizeof(t_camera))))
 		error_throw(-1);
@@ -46,6 +47,7 @@ void			parse_cameras(char *line, t_scene *scene)
 		error_throw(-2);
 	new->next = NULL;
 	new->prev = NULL;
+	new->id = i++;
 	v_normalize(new->dir);
 	add_camera(scene, new);
 }

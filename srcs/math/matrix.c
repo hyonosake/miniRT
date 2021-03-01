@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 17:59:34 by alex              #+#    #+#             */
-/*   Updated: 2021/02/27 01:59:19 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/02/28 21:48:21 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,17 +112,23 @@ t_basis			*find_transp_matrix(t_vector *dir)
 
 void			transform_vector(t_basis *trans, t_vector *v)
 {
-	v->xv = trans->i->xv * v->xv + trans->j->xv * v->yv + trans->k->xv * v->zv;
-	v->yv = trans->i->yv * v->xv + trans->j->yv * v->yv + trans->k->yv * v->zv;
-	v->zv = trans->i->zv * v->xv + trans->j->zv * v->yv + trans->k->zv * v->zv;
+	t_vector	c;
+	c = *copy_vector(v);
+	
+	v->xv = trans->i->xv * c.xv + trans->j->xv * c.yv + trans->k->xv * c.zv;
+	v->yv = trans->i->yv * c.xv + trans->j->yv * c.yv + trans->k->yv * c.zv;
+	v->zv = trans->i->zv * c.xv + trans->j->zv * c.yv + trans->k->zv * c.zv;
+	v_normalize(v);
 }
 
 void			transform_point(t_vector *orig, t_vector *p, t_basis *trans)
 {
-	t_vector	copy;
-
-	copy = *copy_vector(p);
-	free(p);
-	p = v_sub(orig, &copy);
-	transform_vector(trans, p);
+	t_vector	c;
+	t_vector	f;
+	f = *copy_vector(p);
+	c = *v_sub(&f, orig);
+	p->xv = trans->i->xv * c.xv + trans->j->xv * c.yv + trans->k->xv * c.zv;
+	p->yv = trans->i->yv * c.xv + trans->j->yv * c.yv + trans->k->yv * c.zv;
+	p->zv = trans->i->zv * c.xv + trans->j->zv * c.yv + trans->k->zv * c.zv;
+	
 }
