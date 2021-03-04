@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/01 08:58:14 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/03 15:04:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	print_canvas(t_scene *scene)
 {
-	if (!scene->canvas)
-		write(1, "No scene found\n", 16);
-	else
-	{
+	// if (!&scene->canvas)
+	// 	write(1, "No scene found\n", 16);
+	// else
+	// {
 		printf("--------------- SCENE ----------------\n");
-		printf("width: %d\n", scene->canvas->width);
-		printf("height: %d\n", scene->canvas->height);
-		printf("ratio: %f\n", scene->canvas->ratio);
+		printf("width: %d\n", scene->canvas.width);
+		printf("height: %d\n", scene->canvas.height);
+		printf("ratio: %f\n", scene->canvas.ratio);
 		printf("--------------------------------------\n");
-	}
+	//}
 }
 
 void	print_vector(t_vector *v, char *s)
@@ -33,12 +33,14 @@ void	print_vector(t_vector *v, char *s)
 		printf("null\n");
 		return ;
 	}
+	if (!s)
+		printf("[%.3f %.3f %.3f]\tmod = %.3f\n", v->xv, v->yv, v->zv, v->mod);
 	printf("%s\t[%.3f %.3f %.3f]\tmod = %.3f\n", s, v->xv, v->yv, v->zv, v->mod);
 }
 
-void	print_color(t_color *color)
+void	print_color(t_vector *color)
 {
-	printf("RGB\t[%d %d %d]\n", color->r, color->g, color->b);
+	printf("RGB\t[%.2f %.2f %.2f]\n", color->xv, color->yv, color->zv);
 }
 
 void	print_ray(t_ray *v)
@@ -48,8 +50,8 @@ void	print_ray(t_ray *v)
 		printf("null\n");
 		return ;
 	}
-	print_vector(v->orig, "orig:");
-	print_vector(v->dir, "dir:");
+	print_vector(&v->orig, "orig:");
+	print_vector(&v->dir, "dir:");
 }
 
 void	print_cameras(t_scene *scene)
@@ -64,16 +66,16 @@ void	print_cameras(t_scene *scene)
 	tmp = scene->cameras;
 	printf("Standing on cam %d\n", tmp->id);
 	printf("\n------------ CAM No %d --------------\n", tmp->id);
-	print_vector(tmp->dir, "dir:");
-	print_vector(tmp->orig, "orig:");
+	print_vector(&tmp->dir, "dir:");
+	print_vector(&tmp->orig, "orig:");
 	printf("fov:\t%.3f rad\n", tmp->fov);
 	printf("--------------------------------------\n");
 	tmp = tmp->next;
 	while (tmp != scene->cameras)
 	{
 		printf("\n------------ CAM No %d --------------\n", tmp->id);
-		print_vector(tmp->dir, "dir:");
-		print_vector(tmp->orig, "orig:");
+		print_vector(&tmp->dir, "dir:");
+		print_vector(&tmp->orig, "orig:");
 		printf("fov:\t%.3f rad\n", tmp->fov);
 		printf("--------------------------------------\n");
 		tmp = tmp->next;
@@ -83,21 +85,12 @@ void	print_cameras(t_scene *scene)
 void	print_amb_light(t_scene *scene)
 {
 	t_light *tmp;
-	tmp = scene->ambient;
-	if (!tmp)
-	{
-		write(1, "No ambient lights\n", 25);
-		return ;
-	}
-	while (tmp)
-	{
+	tmp = &scene->ambient;
 		printf("\n-------------- AMBIENT ---------------\n");
-		print_color(tmp->color);
+		print_color(&tmp->color);
 		printf("intens\t%.3f\n", tmp->intensity);
 		printf("--------------------------------------\n");
 		tmp = tmp->next;
-	}
-	
 }
 
 
@@ -114,8 +107,8 @@ void	print_lights(t_scene *scene)
 	while (tmp)
 	{
 		printf("\n-------------- LIGHT No %d ------------\n", ++i);
-		print_vector(tmp->orig, "orig:");
-		print_color(tmp->color);
+		print_vector(&tmp->orig, "orig:");
+		print_color(&tmp->color);
 		printf("intens\t%.3f\n", tmp->intensity);
 		printf("--------------------------------------\n");
 		tmp = tmp->next;
@@ -140,7 +133,7 @@ void	print_objects(t_scene *scene)
 			t_sphere *heh;
 			heh = (t_sphere *)tmp->content;
 			printf("\t   --- A SPHERE ---\n");
-			print_vector(heh->orig, "orig:");
+			print_vector(&heh->orig, "orig:");
 			printf("r = \t%.3f\n", heh->r);
 		}
 		if (tmp->type == OBJ_PLANE)
@@ -148,20 +141,19 @@ void	print_objects(t_scene *scene)
 			t_plane *heh;
 			heh = (t_plane *)tmp->content;
 			printf("\t   --- A PLANE ---\n");
-			print_vector(heh->orig, "orig:");
-			print_vector(heh->normal, "normal:");
+			print_vector(&heh->orig, "orig:");
+			print_vector(&heh->normal, "normal:");
 		}
 		if (tmp->type == OBJ_SQUARE)
 		{
 			t_square *heh;
 			heh = (t_square *)tmp->content;
 			printf("\t   --- A SQUARE ---\n");
-			print_vector(heh->orig, "orig:");
-			print_vector(heh->normal, "normal:");
+			print_vector(&heh->orig, "orig:");
+			print_vector(&heh->normal, "normal:");
 			printf("side:\t%.2f\n", heh->a);
 		}
-		
-		print_color(tmp->color);
+		print_vector(&tmp->color,"color:");
 		printf("--------------------------------------\n");
 		tmp = tmp->next;
 	}
@@ -179,8 +171,8 @@ void	print_scene(t_scene *scene)
 
 void	print_basis(t_basis *b)
 {
-	printf("%.2f\t%.2f\t%.2f\n%.2f\t%.2f\t%.2f\n%.2f\t%.2f\t%.2f\n",
-				b->i->xv, b->j->xv, b->k->xv,
-				b->i->yv, b->j->yv, b->k->yv,
-				b->i->zv, b->j->zv, b->k->zv);
+	printf("\ti\tj\tk\n");
+	printf("x\t%.2f\t%.2f\t%.2f\n", b->i.xv, b->j.xv, b->k.xv);
+	printf("y\t%.2f\t%.2f\t%.2f\n", b->i.yv, b->j.yv, b->k.yv);
+	printf("z\t%.2f\t%.2f\t%.2f\n", b->i.zv, b->j.zv, b->k.zv);
 }

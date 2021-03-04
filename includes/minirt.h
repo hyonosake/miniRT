@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/27 00:59:15 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/04 02:55:00 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define D_LIGHT 2
 # define OBJ_SPHERE 1
 # define INSIDE_OBJ -1
+# define VECTORIZE_COLOR 0.00392
 # define OBJ_PLANE 2
 # define OBJ_SQUARE 3
 # define OBJ_TRIAN 4
@@ -32,6 +33,10 @@
 # define AMBIENT 1
 # define DIRECT 2
 # define POINTING 3
+# define K_LAMB 0.3
+# define K_SPEC 0.3
+# define K_METAL 0.7
+# define SIGMA 30
 # define KEY_TAB 48
 # define KEY_ESC 53
 # include "../mlx/mlx.h"
@@ -40,10 +45,8 @@
 # include "camera.h"
 # include "ray_basis.h"
 # include "matrix.h"
-# include "color.h"
 # include "objects.h"
 # include "scene.h"
-# include "lights.h"
 # include "intersection.h"
 # include "free.h"
 # include "transform.h"

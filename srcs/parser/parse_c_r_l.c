@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/03/01 09:32:46 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/03 15:06:22 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 void			parse_resolution(char *line, t_scene *scene)
 {
-	t_canvas	*new;
-
-	if(!(new = (t_canvas *)malloc(sizeof(t_canvas))))
-		error_throw(-1);
-	new->width = atoi_modified(&line);
+	//t_canvas	new;
+	static int	i;
+	// if(!(new = (t_canvas *)malloc(sizeof(t_canvas))))
+	// 	error_throw(-1);
+	scene->canvas.width = atoi_modified(&line);
 	skip_spaces(&line);
-	new->height = atoi_modified(&line);
-	new->ratio = 1.0 * new->width / new->height;
+	scene->canvas.height = atoi_modified(&line);
+	scene->canvas.ratio = 1.0 * scene->canvas.width / scene->canvas.height;
 	skip_spaces(&line);
 	//add max-min resolution check
 	if (*line)
 		error_throw(-2);
-	add_canvas(scene, new);
+	i++;
+	// add_canvas(scene, new);
 }
-
 
 void			parse_cameras(char *line, t_scene *scene)
 {
@@ -43,49 +43,50 @@ void			parse_cameras(char *line, t_scene *scene)
 	skip_spaces(&line);
 	new->fov = atoi_modified(&line) * M_PI / 180;
 	skip_spaces(&line);
-	if (*line || new->fov > 179 || new->fov < 1 || !check_vector_input(new->dir))
+	if (*line || new->fov > 179 || new->fov < 1 || !check_vector_input(&new->dir))
 		error_throw(-2);
 	new->next = NULL;
 	new->prev = NULL;
 	new->id = i++;
-	v_normalize(new->dir);
+	v_normalize(&new->dir);
 	add_camera(scene, new);
 }
 
-t_color			*parse_color_triplet(char **line)
+t_vector	parse_color_triplet(char **line)
 {
-	int		rgb[3];
+	double		rgb[3];
 
-	rgb[0] = atoi_modified(line);
+	rgb[0] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
 	skip_spaces(line);
 	if (**line != ',')
 		error_throw(-2);
 	++(*line);
-	rgb[1] = atoi_modified(line);
+	rgb[1] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
 	skip_spaces(line);
 	if (**line != ',')
 		error_throw(-2);
 	++(*line);
 	skip_spaces(line);
-	rgb[2] = atoi_modified(line);
+	rgb[2] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
 	skip_spaces(line);
 	if (**line)
 		error_throw(-2);
-	return (color_create(rgb[0], rgb[1], rgb[2]));
+	return (v_from_values(rgb[0], rgb[1], rgb[2]));
 }
 
 void			parse_amb_light(char *line, t_scene *scene)
 {
-	t_light		*new;
-	
-	if(!(new = (t_light *)malloc(sizeof(t_light))))
-		error_throw(-1);
+	static int	i;
+
+	if (i != 0)
+		error_throw(-2);
+	// if(!(new = (t_light *)malloc(sizeof(t_light))))
+	// 	error_throw(-1);
 	skip_spaces(&line);
-	new->intensity = atof_modified(&line);
+	scene->ambient.intensity = atof_modified(&line);
 	skip_spaces(&line);
-	new->color = parse_color_triplet(&line);
-	new->next = NULL;
-	add_amb_light(scene, new);
+	scene->ambient.color = parse_color_triplet(&line);
+	i++;
 }
 
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/02/26 22:54:02 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/03 14:30:44 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
-t_object		*create_object(void *content, t_color *color, int type)
+t_object		*create_object(void *content, t_vector color, int type)
 {
 	t_object	*new;
 	if (!(new = (t_object *)malloc(sizeof(t_object))))
@@ -54,7 +54,7 @@ void	parse_input(t_scene *scene, int ac, char **av)
 void			parse_square(char *line, t_scene *scene)
 {
 	t_square	*new;
-	t_color		*col;
+	t_vector	col;
 
 	if(!(new = (t_square *)malloc(sizeof(t_square))))
 		error_throw(-1);
@@ -62,14 +62,14 @@ void			parse_square(char *line, t_scene *scene)
 	new->orig = parse_point(&line);
 	skip_spaces(&line);
 	new->normal = parse_vector(&line);
-	v_normalize(new->normal);
+	v_normalize(&new->normal);
 	skip_spaces(&line);
 	new->a = atof_modified(&line);
 	new->asq = new->a * new->a;
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);
-	if (*line != '\0' || !check_vector_input(new->normal))
+	if (*line != '\0' || !check_vector_input(&new->normal))
 		error_throw(-2);
 	add_object(scene, create_object((void *)new, col, OBJ_SQUARE));
 }
@@ -105,7 +105,7 @@ void			parse_line(char *line, t_scene *scene)
 void			parse_sphere(char *line, t_scene *scene)
 {
 	t_sphere	*new;
-	t_color		*col;
+	t_vector	col;
 	if(!(new = (t_sphere *)malloc(sizeof(t_sphere))))
 		error_throw(-1);
 	skip_spaces(&line);
@@ -124,7 +124,7 @@ void			parse_sphere(char *line, t_scene *scene)
 void			parse_plane(char *line, t_scene *scene)
 {
 	t_plane		*new;
-	t_color		*col;
+	t_vector	col;
 
 	if(!(new = (t_plane *)malloc(sizeof(t_plane))))
 		error_throw(-1);
@@ -132,11 +132,11 @@ void			parse_plane(char *line, t_scene *scene)
 	new->orig = parse_point(&line);
 	skip_spaces(&line);
 	new->normal = parse_vector(&line);
-	v_normalize(new->normal);
+	v_normalize(&new->normal);
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);
-	if (*line != '\0' || !check_vector_input(new->normal))
+	if (*line != '\0' || !check_vector_input(&new->normal))
 		error_throw(-2);
 	add_object(scene, create_object((void *)new, col, OBJ_PLANE));	
 }

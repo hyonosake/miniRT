@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:29:54 by alex              #+#    #+#             */
-/*   Updated: 2021/03/01 00:23:19 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/04 02:52:29 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SCENE_H
 
 # include "minirt.h"
+
 typedef struct		s_canvas
 {
 	int 			width;
@@ -23,17 +24,28 @@ typedef struct		s_canvas
 	double			ratio;
 }					t_canvas;
 
+typedef struct		s_light
+{
+	t_vector		orig;
+	t_vector		color;
+	struct s_light	*next;
+	double			intensity;
+	char			type;
+}					t_light;
+
 typedef struct		s_scene
 {
 	t_object		*objects;
 	t_light			*lights;
-	t_light			*ambient;
+	t_light			ambient;
 	t_camera		*cameras;
-	t_canvas		*canvas;
+	t_canvas		canvas;
 	void			*mlx_init;
 	void			*mlx_image;
 	void			*mlx_window;
 }					t_scene;
 
 t_scene		*define_scene(void);
+int					blinn_phong(t_intersect *ans, t_scene *scene);
+int 				col_to_int(t_vector *color, t_vector *intens);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:10:18 by alex              #+#    #+#             */
-/*   Updated: 2021/03/01 21:10:16 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/04 00:44:04 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ double			sphere_intersection(t_ray *ray, t_object *sp, double min_t)
 	double		det;
 	t_vector	centers;
 
-	centers = *v_sub(((t_sphere*)sp->content)->orig, ray->orig);
-	coeffs[1] = 2 * v_dot_product(&centers, ray->dir);
+	centers = v_sub(&((t_sphere*)sp->content)->orig, &ray->orig);
+	coeffs[1] = 2 * v_dot_product(&centers, &ray->dir);
 	coeffs[2] = v_dot_product(&centers, &centers) - ((t_sphere*)sp->content)->rsq;
 	det = coeffs[1] * coeffs[1] - 4 * coeffs[2];
 	if (det < 0)
@@ -53,13 +53,16 @@ t_intersect		*init_sphere(t_object *sphere, double res, t_ray *ray)
 		error_throw(-1);
 	ans->color = sphere->color;
 	ans->res = res;
-	ans->p_inter = point_from_vector(ray->dir, res);
-	ans->to_cam = point_from_vector(ray->dir, -1);
-	ans->normal = v_sub(((t_sphere *)sphere->content)->orig, ans->p_inter);
-	v_normalize(ans->normal);
+	//printf("res = %.2f\n", ans->res);
+	ans->p_inter = point_from_vector(&ray->dir, res);
+	//print_vector(&ray->orig, "ray orig:");
+	ans->p_inter = v_add(&ans->p_inter, &ray->orig);
+	ans->normal = v_sub(&((t_sphere *)sphere->content)->orig, &ans->p_inter);
+	ans->to_cam = point_from_vector(&ray->dir, -1);
+	//print_vector(&ans->p_inter,"p_inter:");
 	ans->type = sphere->type;
 	if (ans->type == INSIDE_OBJ)
-		v_by_scalar(ans->normal, -1);
-	v_normalize(ans->normal);
+		v_by_scalar(&ans->normal, -1);
+	v_normalize(&ans->normal);
 	return (ans);
 }

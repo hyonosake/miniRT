@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/01 14:21:38 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/03 20:21:51 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_intersect		*init_objects(t_object *object, double res, t_ray *ray)
 	if (object->type == OBJ_SPHERE)
 		ans = init_sphere(object, res, ray);
 	else if (object->type == OBJ_PLANE)
-		ans = init_plane((t_plane *)object->content, res, ray, object->color);
+		ans = init_plane((t_plane *)object->content, res, ray, &object->color);
 	else if (object->type == OBJ_SQUARE)
-		ans = init_plane((t_plane *)object->content, res, ray, object->color);
+		ans = init_plane((t_plane *)object->content, res, ray, &object->color);
 	else
 		ans = NULL;
 	//if (ans)
@@ -38,9 +38,9 @@ t_intersect		*init_objects(t_object *object, double res, t_ray *ray)
 t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 {
 	t_object	*tmp;
+	t_object	*ans;
 	double		res;
 	double		min_t;
-	t_object	*ans;
 
 	min_t = MAX;
 	tmp = objs;

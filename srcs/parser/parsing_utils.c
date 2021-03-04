@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:51:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/02/27 01:21:54 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/03 13:21:39 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int				atoi_modified(char **line)
 	return(result);
 }
 
-t_vector			*parse_point(char **line)
+t_vector			parse_point(char **line)
 {
 	double	index[3];
 
@@ -71,7 +71,7 @@ t_vector			*parse_point(char **line)
 	return (v_from_values(index[0], index[1], index[2]));
 }
 
-t_vector	*parse_vector(char **line)
+t_vector	parse_vector(char **line)
 {
 	double	index[3];
 

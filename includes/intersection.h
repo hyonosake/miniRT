@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 19:23:50 by alex              #+#    #+#             */
-/*   Updated: 2021/02/27 01:19:20 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/03 15:11:52 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ double			return_min_positive(double r1, double r2, t_object *sp, double min_t);
 double			sphere_intersection(t_ray *ray, t_object *sp, double min_t);
 t_intersect		*init_objects(t_object *object, double res, t_ray *ray);
 t_intersect		*init_sphere(t_object *sphere, double res, t_ray *ray);
-t_intersect		*init_plane(t_plane *pl, double res, t_ray *ray, t_color *col);
+t_intersect		*init_plane(t_plane *pl, double res, t_ray *ray, t_vector *col);
 //t_intersect		*init_square(t_square *sq, double res, t_ray *ray, t_color *col);
 t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray);
 double			plane_intersection(t_plane *plane, double min_t, t_ray *ray);
