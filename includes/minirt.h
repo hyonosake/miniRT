@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/04 02:55:00 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/04 11:16:36 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@
 # define AMBIENT 1
 # define DIRECT 2
 # define POINTING 3
-# define K_LAMB 0.3
-# define K_SPEC 0.3
-# define K_METAL 0.7
+# define K_LAMB 1
+# define K_SPEC 0.5
+# define K_METAL 0.2
 # define SIGMA 30
 # define KEY_TAB 48
 # define KEY_ESC 53

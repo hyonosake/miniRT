@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/03 14:43:51 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/04 11:41:34 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ t_intersect		*init_plane(t_plane *pl, double res, t_ray *ray, t_vector *col)
 	ans->res = res;
 	ans->color = *col;
 	ans->p_inter = point_from_vector(&ray->dir, res);
-	ans->to_cam = ray->dir;
-	v_by_scalar(&ans->to_cam, -1);
+	ans->p_inter = v_add(&ans->p_inter, &ray->orig);
+	ans->to_cam = point_from_vector(&ray->dir, -1);
 	ans->normal = pl->normal;
+	if (v_dot_product(&ans->normal, &ans->to_cam) < 0)
+		v_by_scalar(&ans->normal, -1);
 	v_normalize(&ans->normal);
-	// v_normalize(&ans.to_cam);
+
 	return (ans);	
 }

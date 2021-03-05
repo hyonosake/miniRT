@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:29:54 by alex              #+#    #+#             */
-/*   Updated: 2021/03/04 02:52:29 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/04 11:19:42 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ typedef struct		s_scene
 
 t_scene		*define_scene(void);
 int					blinn_phong(t_intersect *ans, t_scene *scene);
-int 				col_to_int(t_vector *color, t_vector *intens);
+int 				col_to_int(t_vector *color, t_vector *intens, double coeff);
 #endif

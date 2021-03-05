@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:10:18 by alex              #+#    #+#             */
-/*   Updated: 2021/03/04 00:44:04 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/04 11:32:32 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,18 @@ t_intersect		*init_sphere(t_object *sphere, double res, t_ray *ray)
 		error_throw(-1);
 	ans->color = sphere->color;
 	ans->res = res;
+	//printf("HELLOOOOOO\n");
 	//printf("res = %.2f\n", ans->res);
 	ans->p_inter = point_from_vector(&ray->dir, res);
 	//print_vector(&ray->orig, "ray orig:");
 	ans->p_inter = v_add(&ans->p_inter, &ray->orig);
 	ans->normal = v_sub(&((t_sphere *)sphere->content)->orig, &ans->p_inter);
+	v_normalize(&ans->normal);
+	//print_vector(&ans->normal, "norm in ans:");
 	ans->to_cam = point_from_vector(&ray->dir, -1);
 	//print_vector(&ans->p_inter,"p_inter:");
 	ans->type = sphere->type;
 	if (ans->type == INSIDE_OBJ)
 		v_by_scalar(&ans->normal, -1);
-	v_normalize(&ans->normal);
 	return (ans);
 }

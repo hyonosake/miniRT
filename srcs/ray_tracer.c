@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:33:58 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/04 00:35:43 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/04 08:39:43 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ void			loop_through_pixels(t_scene *scene)
 			scene->canvas.y_pixel++;
 		}
 		scene->canvas.x_pixel++;
+		free(ans);
 	}
 }
