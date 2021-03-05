@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/03/05 08:29:01 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/05 23:01:55 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ int	press_key(int key, t_scene *scene)
 		scene->cameras = scene->cameras->next;
 	}
 	else if (key == KEY_ESC)
-  			exit(0);
+	{
+		free_scene(scene);
+  		exit(0);
+	}
 	else if (key == 13)
 		++scene->cameras->orig.zv;
 	else if (key == 0)

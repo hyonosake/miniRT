@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hit_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:10:18 by alex              #+#    #+#             */
-/*   Updated: 2021/03/05 12:11:14 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 01:12:34 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-double			return_min_positive(double r1, double r2, t_object *sp, double min_t)
+float			return_min_positive(float r1, float r2, t_object *sp, float min_t)
 {
 	sp->type = OBJ_SPHERE;
 	if (r1 < 0 && r2 < 0)
@@ -24,10 +24,10 @@ double			return_min_positive(double r1, double r2, t_object *sp, double min_t)
 	return (min_t);
 }
 
-double			sphere_intersection(t_ray *ray, t_object *sp, double min_t)
+float			sphere_intersection(t_ray *ray, t_object *sp, float min_t)
 {
-	double		coeffs[3];
-	double		det;
+	float		coeffs[3];
+	float		det;
 	t_vector	centers;
 
 	centers = v_sub(&((t_sphere*)sp->content)->orig, &ray->orig);
@@ -42,7 +42,7 @@ double			sphere_intersection(t_ray *ray, t_object *sp, double min_t)
 		sp, min_t));
 }
 
-t_intersect		*init_sphere(t_object *sphere, double res, t_ray *ray)
+t_intersect		*init_sphere(t_object *sphere, float res, t_ray *ray)
 {
 	t_intersect	*ans;
 

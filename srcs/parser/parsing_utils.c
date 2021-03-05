@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:51:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/03 13:21:39 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 01:26:56 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int				atoi_modified(char **line)
 
 t_vector			parse_point(char **line)
 {
-	double	index[3];
+	float	index[3];
 
 	skip_spaces(line);
 	index[0] = atof_modified(line);
@@ -73,7 +73,7 @@ t_vector			parse_point(char **line)
 
 t_vector	parse_vector(char **line)
 {
-	double	index[3];
+	float	index[3];
 
 	skip_spaces(line);
 	index[0] = atof_modified(line);
@@ -94,16 +94,19 @@ t_vector	parse_vector(char **line)
 	return (v_from_values(index[0], index[1], index[2]));
 }
 
-double			ft_fabs(double value)
+float			ft_fabs(float value)
 {
 	if (value < 0)
 		value *= -1;
 	return (value);
 }
 
-double			check_vector_input(t_vector *v)
+float			check_vector_input(t_vector *v)
 {
+	//printf("heehe\n");
 	if (ft_fabs(v->xv) > 1 || ft_fabs(v->yv) > 1  || ft_fabs(v->zv) > 1)
+		return (0);
+	if (ft_fabs(v->xv) < -1 || ft_fabs(v->yv) < -1  || ft_fabs(v->zv) < -1)
 		return (0);
 	return (1);
 }

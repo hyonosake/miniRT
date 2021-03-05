@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 17:59:34 by alex              #+#    #+#             */
-/*   Updated: 2021/03/03 14:24:47 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 01:12:37 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-// double			find_det_three(t_basis *b)
+// float			find_det_three(t_basis *b)
 // {
-// 	double		res;
+// 	float		res;
 
 // 	res = b->i->xv * b->j->yv * b->k->zv +
 // 			b->k->xv * b->j->zv * b->i->yv +
@@ -45,9 +45,9 @@
 // 	free(b);
 // }
 
-// double			find_det_two(double m1, double m2, double m3, double m4)
+// float			find_det_two(float m1, float m2, float m3, float m4)
 // {
-// 	double		res;
+// 	float		res;
 // 	res = m1 * m2 - m3 * m4;
 // 	return (res);
 // }
@@ -79,7 +79,7 @@
 // {
 // 	t_basis		*minor;
 // 	t_basis		*b;
-// 	double		det;
+// 	float		det;
 // 	t_basis		*inverse;
 	
 // 	b = basis_init(dir);

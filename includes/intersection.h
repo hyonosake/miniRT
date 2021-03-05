@@ -6,23 +6,21 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 19:23:50 by alex              #+#    #+#             */
-/*   Updated: 2021/03/05 09:00:52 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/06 01:12:20 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INTERSECTION_H
 # define INTERSECTION_H
 # include "minirt.h"
-double			return_min_positive(double r1, double r2, t_object *sp, double min_t);
-double			sphere_intersection(t_ray *ray, t_object *sp, double min_t);
-t_intersect		*init_objects(t_object *object, double res, t_ray *ray);
-t_intersect		*init_sphere(t_object *sphere, double res, t_ray *ray);
-t_intersect		*init_plane(t_plane *pl, double res, t_ray *ray, t_vector *col);
-//t_intersect		*init_square(t_square *sq, double res, t_ray *ray, t_color *col);
+float			return_min_positive(float r1, float r2, t_object *sp, float min_t);
+float			sphere_intersection(t_ray *ray, t_object *sp, float min_t);
+t_intersect		*init_objects(t_object *object, float res, t_ray *ray);
+t_intersect		*init_sphere(t_object *sphere, float res, t_ray *ray);
+t_intersect		*init_plane(t_plane *pl, float res, t_ray *ray, t_vector *col);
+t_intersect		*init_trian(t_trian *tr, float res, t_ray *ray, t_vector *col);
 t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray);
-double			plane_intersection(t_plane *plane, double min_t, t_ray *ray);
-double			square_intersection(t_square *sq, t_ray *ray, double min_t);
-t_vector			*square_coord_init(int type, double a, t_basis *for_square);
-double			check_point_in_square(t_vector *intersec, t_square *sq, double min_t, double res);
-double			dots_in_square(t_square *square, int type, t_vector *q);
+float			plane_intersection(t_plane *plane, float min_t, t_ray *ray);
+float			square_intersection(t_square *sq, t_ray *ray, float min_t);
+float			triangle_inter(t_trian *tr, t_ray *ray, float min_t);
 #endif

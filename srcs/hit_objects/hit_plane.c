@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/05 13:28:40 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 01:12:33 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-double			plane_intersection(t_plane *plane, double min_t, t_ray *ray)
+float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 {
 	t_vector	tmp;
-	double		coeffs[2];
-	double		res;
+	float		coeffs[2];
+	float		res;
 
 	tmp = v_sub(&plane->orig, &ray->orig);
 	coeffs[0] = v_dot_product(&tmp, &plane->normal);
@@ -38,7 +38,7 @@ double			plane_intersection(t_plane *plane, double min_t, t_ray *ray)
 	return (min_t);
 }
 
-t_intersect		*init_plane(t_plane *pl, double res, t_ray *ray, t_vector *col)
+t_intersect		*init_plane(t_plane *pl, float res, t_ray *ray, t_vector *col)
 {
 	t_intersect	*ans;
 

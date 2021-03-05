@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/05 13:53:39 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 01:12:33 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 
 
-int					shadows(t_object *objs, t_ray *ray, double min_t)
+int					shadows(t_object *objs, t_ray *ray, float min_t)
 {
 	t_object		*tmp;
 	static t_object	*prev;
-	double		res;
+	float		res;
 
 	v_normalize(&ray->dir);
 	tmp = objs;
@@ -32,8 +32,10 @@ int					shadows(t_object *objs, t_ray *ray, double min_t)
 			res = plane_intersection((t_plane *)tmp->content, min_t, ray);
 		else if (tmp->type == OBJ_SQUARE)
 			res = square_intersection((t_square *)tmp->content, ray, min_t);
+		else if (tmp->type == OBJ_TRIAN)
+			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
 		else
-			printf("noooo way ;(\n");	
+			printf("parser shadows failed\ttype = %d\n", tmp->type);	
 		if (res < min_t && res > MIN)
 		{
 			prev = tmp;
@@ -58,7 +60,7 @@ t_vector			color_multiply(t_vector *v1, t_vector *v2)
 	return (new);
 }
 
-double				return_max_positive(double c)
+float				return_max_positive(float c)
 {
 	if (c < 0)
 		return (0);
@@ -78,8 +80,8 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	t_ray			shadow_ray;
 	t_vector		result;
 	t_vector		ci;
-	double			diffuse;
-	double			specular;
+	float			diffuse;
+	float			specular;
 
 	//printf("[%.2f %.2f]\n", scene->canvas.x_pixel / scene->canvas.width,
 	//					scene->canvas.y_pixel /  scene->canvas.height);
@@ -89,15 +91,8 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		diffuse = v_dot_product(&ans->normal, &ans->to_cam);
 	if (diffuse < 0)
 		diffuse *= -1;
-	if (MAGICK && ans->type == OBJ_SPHERE)
+	if (MAGIC && ans->type == OBJ_TRIAN)
 	{
-		//printf("hee\n");
-		// ans->color.xv = 2.0 * scene->canvas.x_pixel / scene->canvas.width;
-		// ans->color.yv = 2.0 * scene->canvas.y_pixel / scene->canvas.height;
-		// ans->color.zv = 0.2;
-		ans->color.xv = 2.3 * diffuse * scene->canvas.x_pixel / scene->canvas.width;
-		ans->color.yv = 2.3 * diffuse * scene->canvas.y_pixel / scene->canvas.height;
-		ans->color.zv = 0.2;
 	}
 	result = color_multiply(&ans->color, &scene->ambient.color);
 	v_by_scalar(&result, scene->ambient.intensity);
@@ -143,7 +138,9 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		//s2 = v_from_values((1-K_METAL),(1-K_METAL),(1-K_METAL));
 		//v_by_scalar(&s2, K_SPEC);
 		//s1 = v_add(&s1, &s2);
+		////print_vector(&s1, "spscscs");
 		//si = color_multiply(&s1, &tmp->color);
+		////print_vector(&si, "si senior");
 		//v_by_scalar(&si, tmp->intensity *
 		//			pow(return_max_positive(specular), SIGMA));
 		//result = v_add(&result, &si);
@@ -153,11 +150,11 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	return (col_to_int(&ans->color, &result, ans->res));
 }
 
-int 				col_to_int(t_vector *color, t_vector *intens, double coeff)
+int 				col_to_int(t_vector *color, t_vector *intens, float coeff)
 {
 	int				r[3];
 	int				i;
-	double			cam_dist;
+	float			cam_dist;
 	i = 0;
 
 	// cam_dist = 50 / coeff;

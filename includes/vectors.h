@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/05 09:06:18 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/06 01:12:23 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 typedef struct	s_vector
 {
-	double		xv;
-	double		yv;
-	double		zv;
-	double		mod;
+	float		xv;
+	float		yv;
+	float		zv;
+	float		mod;
 }				t_vector;
 
 typedef struct	s_ray
@@ -42,9 +42,9 @@ int 			v_isnull(t_vector *v1);
 void			v_normalize(t_vector *v);
 t_vector		v_add(t_vector *v1, t_vector *v2);
 t_vector		v_sub(t_vector *v1, t_vector *v2);
-t_vector		v_from_values(double x, double y, double z);
-double			v_dot_product(t_vector *v1, t_vector *v2);
+t_vector		v_from_values(float x, float y, float z);
+float			v_dot_product(t_vector *v1, t_vector *v2);
 t_vector 		v_cross_product(t_vector *v1, t_vector *v2);
-t_vector		point_from_vector(t_vector *v1, double d);
-void			v_by_scalar(t_vector *v, double d);
+t_vector		point_from_vector(t_vector *v1, float d);
+void			v_by_scalar(t_vector *v, float d);
 #endif

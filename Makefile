@@ -2,8 +2,10 @@ NAME =		miniRT
 SRCS =		srcs/gnl/get_next_line_utils.c \
 			srcs/gnl/get_next_line.c \
 			srcs/hit_objects/hit_plane.c \
+			srcs/hit_objects/hit_triangle.c \
 			srcs/hit_objects/hit_sphere.c \
 			srcs/hit_objects/hit_square.c \
+			srcs/hit_objects/intersection.c \
 			srcs/math/matrix.c \
 			srcs/math/ray_basis.c \
 			srcs/math/tranform_1.c \
@@ -20,14 +22,13 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 			srcs/add_scene.c \
 			srcs/camera.c \
 			srcs/color.c \
-			srcs/intersection.c \
 			srcs/lights.c \
 			srcs/ray_tracer.c \
 			srcs/scene.c \
 			main.c
 
 OBJS =		${SRCS:.c=.o}
-MLX_FLAGS =	-Lminilibx -framework OpenGL -framework AppKit -lminilibx
+MLX_FLAGS =	-Lminilibx -framework OpenGL -framework AppKit -lminilibx 
 FLAGS =		-g -Wall -Wextra -Werror
 RM =		rm -rf
 CC =		gcc
@@ -35,10 +36,10 @@ CC =		gcc
 all:		$(NAME)
 
 %.o: %.c
-			$(CC) $(FLAGS) -I ./includes/ -I ./mlx/ -c $< -o $@
+			$(CC) $(FLAGS) -O3 -msse3 -I ./includes/ -I ./mlx/ -c $< -o $@
 
 $(NAME):	${OBJS}
-			$(CC) -g $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+			$(CC) -g $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -O3 -msse3 -o $(NAME)
 
 clean:		
 			$(RM) $(OBJS)

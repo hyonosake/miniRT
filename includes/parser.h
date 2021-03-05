@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:32:45 by alex              #+#    #+#             */
-/*   Updated: 2021/03/03 14:32:48 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 01:12:22 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void			skip_spaces(char **line);
 int				ft_isdigit(char ch);
 int				ft_isspace(char ch);
 int				atoi_modified(char **line);
-double			atof_modified(char **line);
+float			atof_modified(char **line);
 
 void			parse_input(t_scene *scene, int ac, char **av);
 void			parse_line(char *line, t_scene *scene);
@@ -32,6 +32,6 @@ void			parse_lights(char *line, t_scene *scene, int type);
 t_object		*create_object(void *content, t_vector color, int type);
 void			parse_sphere(char *line, t_scene *scene);
 void			parse_plane(char *line, t_scene *scene);
-double			ft_fabs(double value);
-double			check_vector_input(t_vector *v);
+float			ft_fabs(float value);
+float			check_vector_input(t_vector *v);
 #endif

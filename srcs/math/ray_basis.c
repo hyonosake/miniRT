@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_basis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:09:11 by alex              #+#    #+#             */
-/*   Updated: 2021/03/05 13:58:38 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/05 23:55:46 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ t_basis			basis_init(t_vector *forward)
 	}
 	b.j = v_cross_product(forward, &b.i);
 	basis_normalize(&b);
-	// b.i.mod = sqrt(v_dot_product(&b.i, &b.i));
-	// b.j.mod = sqrt(v_dot_product(&b.j, &b.j));
-	// b.k.mod = sqrt(v_dot_product(&b.k, &b.k));
 	return (b);
 }
 

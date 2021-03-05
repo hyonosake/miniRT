@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_c_r_l.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/03/03 15:06:22 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 01:55:56 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ void			parse_cameras(char *line, t_scene *scene)
 	skip_spaces(&line);
 	new->dir = parse_vector(&line);
 	skip_spaces(&line);
-	new->fov = atoi_modified(&line) * M_PI / 180;
+	new->fov = atoi_modified(&line);
 	skip_spaces(&line);
 	if (*line || new->fov > 179 || new->fov < 1 || !check_vector_input(&new->dir))
 		error_throw(-2);
+	new->fov *= M_PI / 180;
 	new->next = NULL;
 	new->prev = NULL;
 	new->id = i++;
@@ -54,7 +55,7 @@ void			parse_cameras(char *line, t_scene *scene)
 
 t_vector	parse_color_triplet(char **line)
 {
-	double		rgb[3];
+	float		rgb[3];
 
 	rgb[0] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
 	skip_spaces(line);

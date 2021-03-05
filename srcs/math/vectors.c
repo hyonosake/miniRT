@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   vectors.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:18:11 by alex              #+#    #+#             */
-/*   Updated: 2021/03/03 13:13:53 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 01:12:37 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
-t_vector		v_from_values(double x, double y, double z)
+t_vector		v_from_values(float x, float y, float z)
 {
 	t_vector	new;
 	
@@ -25,9 +25,9 @@ t_vector		v_from_values(double x, double y, double z)
 	return (new);
 }
 
-double			v_dot_product(t_vector *v1, t_vector *v2)
+float			v_dot_product(t_vector *v1, t_vector *v2)
 {
-	double result;
+	float result;
 	result = v1->xv * v2->xv + v1->yv * v2->yv + v1->zv * v2->zv;
 	return (result);
 }
@@ -42,7 +42,7 @@ t_vector 		v_cross_product(t_vector *v1, t_vector *v2)
 	return (new);
 }
 
-t_vector		point_from_vector(t_vector *v1, double d)
+t_vector		point_from_vector(t_vector *v1, float d)
 {
 	t_vector	new;
 	new = v_from_values(v1->xv * d,
@@ -51,7 +51,7 @@ t_vector		point_from_vector(t_vector *v1, double d)
 	return (new);
 }
 
-void			v_by_scalar(t_vector *v, double d)
+void			v_by_scalar(t_vector *v, float d)
 {
 	v->xv = v->xv * d;
 	v->yv = v->yv * d;

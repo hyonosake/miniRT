@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/03 14:21:55 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 01:51:59 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ typedef struct			s_object
 typedef struct			s_sphere
 {
 	t_vector			orig;
-	double				r;
-	double				rsq;
+	float				r;
+	float				rsq;
 }						t_sphere;
 
 typedef struct			s_plane
@@ -38,10 +38,16 @@ typedef struct			s_square
 {
 	t_vector			orig;
 	t_vector			normal;
-	double				a;
-	double				asq;
+	float				a;
+	float				asq;
 }						t_square;
 
+typedef struct			s_trian
+{
+	t_vector			p[3];
+	t_vector			normal;
+	t_vector			magic_nums;
+}						t_trian;
 
 typedef struct			s_intersect
 {
@@ -49,8 +55,18 @@ typedef struct			s_intersect
 	t_vector			p_inter;
 	t_vector			to_cam;
 	t_vector			color;
-	double				res;
+	float				res;
 	char				type;
 }						t_intersect;
+
+typedef struct			s_cylinder
+{
+	t_vector			dir;
+	t_vector			orig;
+	float				r;
+	float				rsq;
+	float				len;
+}						t_cylinder;
+
 
 #endif

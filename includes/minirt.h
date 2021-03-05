@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/05 13:54:03 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/05 22:44:39 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define D_LIGHT 2
 # define OBJ_SPHERE 1
 # define INSIDE_OBJ -1
-# define MAGICK 0
+# define MAGIC 1
 # define VECTORIZE_COLOR 0.00392
 # define OBJ_PLANE 2
 # define OBJ_SQUARE 3
@@ -35,8 +35,8 @@
 # define DIRECT 2
 # define POINTING 3
 # define K_LAMB 0.93
-# define K_SPEC 0.5
-# define K_METAL 0.8
+# define K_SPEC 0.9
+# define K_METAL 0.2
 # define SIGMA 30
 # define KEY_TAB 48
 # define KEY_ESC 53
