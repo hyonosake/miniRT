@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:10:18 by alex              #+#    #+#             */
-/*   Updated: 2021/03/05 08:35:05 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/05 12:11:14 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 double			return_min_positive(double r1, double r2, t_object *sp, double min_t)
 {
 	sp->type = OBJ_SPHERE;
-	 if ((r1 > 0 && r2 < 0) || (r1 < 0 && r2 > 0))
-	 {
-		//printf("butwhy..?\n");
-	 	//sp->type = INSIDE_OBJ;
-		printf("[%.22f %.22f]\n", r1, r2);
-	 }
 	if (r1 < 0 && r2 < 0)
 		return (min_t);
 	if (r1 > 0 && r1 <= r2 && r1 < min_t)
@@ -67,10 +61,6 @@ t_intersect		*init_sphere(t_object *sphere, double res, t_ray *ray)
 	ans->to_cam = point_from_vector(&ray->dir, -1);
 	//print_vector(&ans->p_inter,"p_inter:");
 	ans->type = sphere->type;
-	if (ans->type == INSIDE_OBJ)
-	{
-		v_by_scalar(&ans->normal, -1);
-		ans->type = OBJ_SPHERE;
-	}
+	//check = v_sub();
 	return (ans);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/05 09:03:13 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/05 13:53:39 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,24 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	double			diffuse;
 	double			specular;
 
+	//printf("[%.2f %.2f]\n", scene->canvas.x_pixel / scene->canvas.width,
+	//					scene->canvas.y_pixel /  scene->canvas.height);
 	if (ans == NULL)
 		return (BACKGROUND_COLOR);
 	tmp = scene->lights;
+		diffuse = v_dot_product(&ans->normal, &ans->to_cam);
+	if (diffuse < 0)
+		diffuse *= -1;
+	if (MAGICK && ans->type == OBJ_SPHERE)
+	{
+		//printf("hee\n");
+		// ans->color.xv = 2.0 * scene->canvas.x_pixel / scene->canvas.width;
+		// ans->color.yv = 2.0 * scene->canvas.y_pixel / scene->canvas.height;
+		// ans->color.zv = 0.2;
+		ans->color.xv = 2.3 * diffuse * scene->canvas.x_pixel / scene->canvas.width;
+		ans->color.yv = 2.3 * diffuse * scene->canvas.y_pixel / scene->canvas.height;
+		ans->color.zv = 0.2;
+	}
 	result = color_multiply(&ans->color, &scene->ambient.color);
 	v_by_scalar(&result, scene->ambient.intensity);
 	//print_vector(&result, "amb:");
@@ -142,7 +157,7 @@ int 				col_to_int(t_vector *color, t_vector *intens, double coeff)
 {
 	int				r[3];
 	int				i;
-	int				cam_dist;
+	double			cam_dist;
 	i = 0;
 
 	// cam_dist = 50 / coeff;
@@ -150,7 +165,7 @@ int 				col_to_int(t_vector *color, t_vector *intens, double coeff)
 		cam_dist = 50 / coeff;
 		//printf("coeff = %.2f\n", coeff);
 
-	cam_dist = 1;
+	cam_dist = 	1;
 	r[0] = color->xv * intens->xv * 255 * cam_dist;
 	r[1] = color->yv * intens->yv * 255 * cam_dist;
 	r[2] = color->zv * intens->zv * 255 * cam_dist;

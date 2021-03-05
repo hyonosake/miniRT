@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/05 08:26:24 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/05 13:54:03 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define D_LIGHT 2
 # define OBJ_SPHERE 1
 # define INSIDE_OBJ -1
+# define MAGICK 0
 # define VECTORIZE_COLOR 0.00392
 # define OBJ_PLANE 2
 # define OBJ_SQUARE 3

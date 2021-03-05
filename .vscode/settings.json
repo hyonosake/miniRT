@@ -11,6 +11,7 @@
 		"locale": "c",
 		"type_traits": "c",
 		"vector_utils.h": "c",
-		"intersection.h": "c"
+		"intersection.h": "c",
+		"ios": "c"
 	}
 }

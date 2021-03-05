@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:33:58 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/05 09:06:13 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/05 13:59:11 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void			ray_transform(t_ray *ray, t_scene *scene, t_basis *b)
 	c.zv = scene->canvas.width / (2 * tan(scene->cameras->fov / 2));
 	ray->dir = v_from_basis(b, &c);
 	//ray->dir.mod = sqrt(v_dot_product(&ray->dir, &ray->dir));
-	//v_normalize(ray->dir);
+	v_normalize(&ray->dir);
 }		
 
 
@@ -42,10 +42,13 @@ void			loop_through_pixels(t_scene *scene)
 		{
 			ray_transform(&ray, scene, &b);
 			ans = ray_objects_intersection(scene->objects, &ray);
-			// if (ans)
-			// 	col = 0x00ff00;
-			// else
-			// 	col = 0;
+			// float r = (float)(scene->canvas.x_pixel) / (float)(scene->canvas.width);
+			// float g = (float)(scene->canvas.y_pixel) / (float)(scene->canvas.height);
+			// float b = 0.2;
+			// int ir = (int)(255.99 * r);
+			// int ig = (int)(255.99 * g);
+			// int ib = (int)(255.99 * b);
+			// col = ir << 16 | ig << 8 | ib;
 			col = blinn_phong(ans, scene);
 			mlx_pixel_put(scene->mlx_init, scene->mlx_window, scene->canvas.x_pixel,
 						  scene->canvas.y_pixel,col);

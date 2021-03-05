@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/04 11:41:34 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/05 13:28:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_intersect		*init_plane(t_plane *pl, double res, t_ray *ray, t_vector *col)
 	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
 		error_throw(-1);
 	ans->res = res;
+	ans->type = OBJ_PLANE;
 	ans->color = *col;
 	ans->p_inter = point_from_vector(&ray->dir, res);
 	ans->p_inter = v_add(&ans->p_inter, &ray->orig);
