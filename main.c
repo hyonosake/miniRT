@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/03/04 00:48:06 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/05 08:29:01 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ int	press_key(int key, t_scene *scene)
 	}
 	else if (key == KEY_ESC)
   			exit(0);
+	else if (key == 13)
+		++scene->cameras->orig.zv;
+	else if (key == 0)
+		--scene->cameras->orig.xv;
+	else if (key == 1)
+		--scene->cameras->orig.zv;
+	else if (key == 2)
+		++scene->cameras->orig.xv;
 	//print_scene(scene);
 	loop_through_pixels(scene);
 	return (0);

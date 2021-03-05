@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/03 20:21:51 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/05 09:02:54 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 		else if (tmp->type == OBJ_PLANE)
 			res = plane_intersection((t_plane *)tmp->content, min_t, ray);
 		else if (tmp->type == OBJ_SQUARE)
-			res = square_intersection((t_square *)tmp->content, min_t, ray);
+			res = square_intersection((t_square *)tmp->content, ray, min_t);
 		else
 			printf("noooo way ;(\n type = %d\n", tmp->type);
 		if (res < min_t && res > MIN)

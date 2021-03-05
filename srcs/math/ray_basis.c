@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_basis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:09:11 by alex              #+#    #+#             */
-/*   Updated: 2021/03/04 00:52:15 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/05 09:05:48 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@ t_basis			basis_init(t_vector *forward)
 }
 
 
-void			v_from_basis(t_basis *basis, t_vector *v, t_vector *c)
+t_vector		v_from_basis(t_basis *basis, t_vector *c)
 {
+	t_vector	v;
 	//basis_normalize(basis);
-	v->xv = basis->i.xv * c->xv +  basis->j.xv * c->yv +  basis->k.xv * c->zv;
-	v->yv = basis->i.yv * c->xv +  basis->j.yv * c->yv +  basis->k.yv * c->zv;
-	v->zv = basis->i.zv * c->xv +  basis->j.zv * c->yv +  basis->k.zv * c->zv;
-	v->mod = sqrt(v_dot_product(v, v));
-	v_normalize(v);
+	v.xv = basis->i.xv * c->xv +  basis->j.xv * c->yv +  basis->k.xv * c->zv;
+	v.yv = basis->i.yv * c->xv +  basis->j.yv * c->yv +  basis->k.yv * c->zv;
+	v.zv = basis->i.zv * c->xv +  basis->j.zv * c->yv +  basis->k.zv * c->zv;
+	v.mod = sqrt(v_dot_product(&v, &v));
+	v_normalize(&v);
+	return (v);
 }
 
 t_ray		new_ray(t_vector *v, t_vector *p)
