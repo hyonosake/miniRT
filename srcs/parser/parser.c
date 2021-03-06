@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 02:02:58 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/06 21:40:28 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void			parse_square(char *line, t_scene *scene)
 	if(!(new = (t_square *)malloc(sizeof(t_square))))
 		error_throw(-1);
 	skip_spaces(&line);
-	new->orig = parse_point(&line);
+	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->normal = parse_vector(&line);
 	v_normalize(&new->normal);
@@ -83,18 +83,18 @@ void			parse_triangle(char *line, t_scene *scene)
 	if(!(new = (t_trian *)malloc(sizeof(t_trian))))
 		error_throw(-1);
 	skip_spaces(&line);
-	new->p[0] = parse_point(&line);
+	new->saved_p[0] = parse_point(&line);
 	skip_spaces(&line);
-	new->p[1] = parse_point(&line);
+	new->saved_p[1] = parse_point(&line);
 	skip_spaces(&line);
-	new->p[2] = parse_point(&line);
+	new->saved_p[2] = parse_point(&line);
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);
 	if (*line != '\0')
 		error_throw(-2);
-	tmp[0] = v_sub(&new->p[0], &new->p[1]);
-	tmp[1] = v_sub(&new->p[0], &new->p[2]);
+	tmp[0] = v_sub(&new->saved_p[0], &new->saved_p[1]);
+	tmp[1] = v_sub(&new->saved_p[0], &new->saved_p[2]);
 	new->normal = v_cross_product(&tmp[0], &tmp[1]);
 	//v_normalize(&new->normal);
 	add_object(scene, create_object((void *)new, col, OBJ_TRIAN));
@@ -109,7 +109,7 @@ void			parse_cylinder(char *line, t_scene *scene)
 	if(!(new = (t_cylinder *)malloc(sizeof(t_cylinder))))
 		error_throw(-1);
 	skip_spaces(&line);
-	new->orig = parse_point(&line);
+	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->dir = parse_point(&line);
 	skip_spaces(&line);
@@ -140,7 +140,7 @@ void			parse_line(char *line, t_scene *scene)
 	else if (s[0] == 'A' && (s++))
 		parse_amb_light(s, scene);
 	else if (s[0] == 'l' && (s++))
-		parse_lights(s, scene, 1);
+		parse_lights(s, scene, POINTING);
 	else if (s[0] == 's' && s[1] == 'p' && (s += 2))
 		parse_sphere(s, scene);
 	else if (s[0] == 'p' && s[1] == 'l' && (s += 2))
@@ -169,7 +169,7 @@ void			parse_sphere(char *line, t_scene *scene)
 	if(!(new = (t_sphere *)malloc(sizeof(t_sphere))))
 		error_throw(-1);
 	skip_spaces(&line);
-	new->orig = parse_point(&line);
+	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->r = atof_modified(&line) / 2;
 	new->rsq = pow(new->r, 2);
@@ -189,7 +189,7 @@ void			parse_plane(char *line, t_scene *scene)
 	if(!(new = (t_plane *)malloc(sizeof(t_plane))))
 		error_throw(-1);
 	skip_spaces(&line);
-	new->orig = parse_point(&line);
+	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->normal = parse_vector(&line);
 	v_normalize(&new->normal);

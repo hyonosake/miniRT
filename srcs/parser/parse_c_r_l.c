@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 01:55:56 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/06 21:46:09 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void			parse_cameras(char *line, t_scene *scene)
 	
 	if(!(new = (t_camera *)malloc(sizeof(t_camera))))
 		error_throw(-1);
-	new->orig = parse_point(&line);
+	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->dir = parse_vector(&line);
 	skip_spaces(&line);
@@ -98,7 +98,7 @@ void			parse_lights(char *line, t_scene *scene, int type)
 	if(!(new = (t_light *)malloc(sizeof(t_light))))
 		error_throw(-1);
 	new->type = type;
-	new->orig = parse_point(&line);
+	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->intensity = atof_modified(&line);
 	skip_spaces(&line);

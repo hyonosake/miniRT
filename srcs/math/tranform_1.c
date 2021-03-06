@@ -88,3 +88,74 @@
 // 	}
 // }
 
+
+void			transform_lights(t_scene *scene)
+{
+	t_light		*tmp;
+
+	tmp = scene->lights;
+	while(tmp)
+	{
+		if (tmp->type == POINTING)
+			tmp->orig = v_sub(&scene->cameras->saved_orig, &tmp->saved_orig);
+		tmp = tmp->next;
+	}
+}
+
+void			transform_objects(t_vector *orig, t_object *objs)
+{
+	t_object	*tmp;
+	void		*c;
+
+	tmp = objs;
+	if (!tmp)
+		error_throw(-3);
+	while(tmp)
+	{
+		c = tmp->content;
+		if (tmp->type == OBJ_SPHERE)
+		{
+			print_vector(orig, "cam orig:");
+			print_vector(&((t_sphere *)c)->saved_orig, "sphere init:");
+			((t_sphere *)c)->orig = v_sub(orig, &((t_sphere *)c)->saved_orig);
+			print_vector(&((t_sphere *)c)->orig, "sphere to cam:");
+		}
+		else if  (tmp->type == OBJ_PLANE)
+			((t_plane *)c)->orig = v_sub(orig, &((t_plane *)c)->saved_orig);
+		else if  (tmp->type == OBJ_SQUARE)
+			((t_square *)c)->orig = v_sub(orig, &((t_square *)c)->saved_orig);
+		else if  (tmp->type == OBJ_TRIAN)
+		{
+			((t_trian *)c)->p[0] = v_sub(orig, &((t_trian *)c)->saved_p[0]);
+			((t_trian *)c)->p[1] = v_sub(orig, &((t_trian *)c)->saved_p[1]);
+			((t_trian *)c)->p[2] = v_sub(orig, &((t_trian *)c)->saved_p[2]);
+		}
+		else if  (tmp->type == OBJ_CYL)
+			((t_cylinder *)tmp->content)->orig =
+				v_sub(orig, &((t_cylinder *)tmp->content)->saved_orig);	
+		tmp = tmp->next;			
+	}
+}
+
+void	transform_cameras(t_camera *cams)
+{
+	t_camera	*tmp;
+
+	tmp = cams;
+	tmp->orig = tmp->saved_orig;
+	tmp = tmp->next;
+	while (tmp != cams)
+	{
+		tmp->orig = v_sub(&cams->saved_orig, &tmp->saved_orig);
+		tmp = tmp->next;
+	}
+}
+
+
+void			transform_scene(t_scene *scene)
+{
+	transform_lights(scene);
+	transform_objects(&scene->cameras->saved_orig, scene->objects);
+	transform_cameras(scene->cameras);
+}
+

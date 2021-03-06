@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:33:58 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/05 13:59:11 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 23:20:06 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void			loop_through_pixels(t_scene *scene)
 	t_basis		b;
 
 	b = basis_init(&scene->cameras->dir);
-	ray = new_ray(&scene->cameras->dir, &scene->cameras->orig);
+	ray = new_ray(&scene->cameras->dir, &scene->cameras->saved_orig);
 	scene->canvas.x_pixel = 0;
 	while(scene->canvas.x_pixel < scene->canvas.width)
 	{

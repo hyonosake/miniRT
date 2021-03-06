@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/03/05 23:01:55 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/06 22:45:33 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ int				main(int ac, char **av)
 	scene = define_scene();
 	parse_input(scene, ac, av);
 	link_cameras(scene->cameras);
-	//print_scene(scene);
-	//printf("\n============= INIT =============\n");
+	print_cameras(scene);
+	print_objects(scene);
+	printf("\n============= INIT =============\n");
+	transform_scene(scene);
+	//print_cameras(scene);
+	print_objects(scene);
 	scene->mlx_init = mlx_init();
 	scene->mlx_window = mlx_new_window(scene->mlx_init, scene->canvas.width, scene->canvas.height, "tracer");
 	scene->mlx_image = mlx_new_image(scene->mlx_init, scene->canvas.width, scene->canvas.height);
@@ -67,7 +71,10 @@ int	press_key(int key, t_scene *scene)
 		--scene->cameras->orig.zv;
 	else if (key == 2)
 		++scene->cameras->orig.xv;
-	//print_scene(scene);
+	transform_scene(scene);
+	//print_cameras(scene);
+	print_objects(scene);
+	print_scene(scene);
 	loop_through_pixels(scene);
 	return (0);
 }

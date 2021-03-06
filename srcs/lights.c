@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/06 01:12:33 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/06 23:33:44 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 int					shadows(t_object *objs, t_ray *ray, float min_t)
 {
 	t_object		*tmp;
-	static t_object	*prev;
+	//static t_object	*prev;
 	float		res;
 
 	v_normalize(&ray->dir);
 	tmp = objs;
-	if (!prev)
-		prev = tmp;
+	//if (!prev)
+	//	prev = tmp;
 	while (tmp)
 	{
 		if (tmp->type == OBJ_SPHERE)
@@ -38,7 +38,7 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 			printf("parser shadows failed\ttype = %d\n", tmp->type);	
 		if (res < min_t && res > MIN)
 		{
-			prev = tmp;
+			//prev = tmp;
 			//printf("saved prev! - %d!\n", prev->type);
 			//print_vector(&prev->color, "color:");
 			return (1);
@@ -72,42 +72,25 @@ float				return_max_positive(float c)
 
 int					blinn_phong(t_intersect *ans, t_scene *scene)
 {
-	t_vector		bisect;
+	
 	int				shadow;
-	//t_intersect		*shadow;
 	t_light			*tmp;
 	t_vector		to_light;
 	t_ray			shadow_ray;
 	t_vector		result;
 	t_vector		ci;
 	float			diffuse;
-	float			specular;
 
-	//printf("[%.2f %.2f]\n", scene->canvas.x_pixel / scene->canvas.width,
-	//					scene->canvas.y_pixel /  scene->canvas.height);
+
 	if (ans == NULL)
 		return (BACKGROUND_COLOR);
 	tmp = scene->lights;
-		diffuse = v_dot_product(&ans->normal, &ans->to_cam);
-	if (diffuse < 0)
-		diffuse *= -1;
-	if (MAGIC && ans->type == OBJ_TRIAN)
-	{
-	}
 	result = color_multiply(&ans->color, &scene->ambient.color);
 	v_by_scalar(&result, scene->ambient.intensity);
-	//print_vector(&result, "amb:");
-	bisect = v_add(&ans->to_cam, &ans->normal);
-	v_normalize(&bisect);
-	if (ans->type == OBJ_SPHERE)
-	{
-	// print_vector(&ans->to_cam, "to_c:\t");
-	// print_vector(&ans->normal, "norm:\t");
-	// print_vector(&bisect, "bisect:\t");
-	//print_vector(&bisect, "n_bisect:");
-	}
 	while (tmp)
 	{
+		//t_vector		bisect;
+		//print_vector(&tmp->orig, "l orig:");
 		if (tmp->type == DIRECT)
 			to_light = point_from_vector(&tmp->orig, -1);
 		else
@@ -115,9 +98,14 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		shadow_ray = new_ray(&to_light, &ans->p_inter);
 		shadow = shadows(scene->objects, &shadow_ray, shadow_ray.dir.mod);
 		// shadow = ray_objects_intersection(scene->objects, &shadow_ray);
+		//print_vector(&ans->p_inter, "p_inter:");
+		//print_vector(&ans->normal, "normal:\t");
+		v_normalize(&ans->normal);
+		//print_vector(&ans->to_cam, "to_cam:\t");
+		//print_vector(&to_light, "to_l:\t");
 		if (shadow)
 		{
-			//printf("SHADOW!\n");
+			printf("SHADOW!\n");
 			tmp = tmp->next;
 			continue ;
 		}
@@ -125,10 +113,12 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 			diffuse = v_dot_product(&to_light, &ans->normal);
 		else
 			diffuse = v_dot_product(&ans->normal, &shadow_ray.dir);
+		if (diffuse < 0)
+			diffuse = 0;
 		ci = color_multiply(&ans->color,&tmp->color);
 		v_by_scalar(&ci, tmp->intensity * return_max_positive(diffuse) * K_LAMB);
 		result = v_add(&result, &ci);
-		specular = v_dot_product(&ans->normal, &bisect);
+		//specular = v_dot_product(&ans->normal, &bisect);
 		//printf("spec:%.2f\n", specular);
 		//t_vector		si;
 		//t_vector		s1;
@@ -146,7 +136,6 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		//result = v_add(&result, &si);
 		tmp = tmp->next;
 	}
-	// free_ray(shadow_ray);
 	return (col_to_int(&ans->color, &result, ans->res));
 }
 

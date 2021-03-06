@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/03 15:04:40 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/06 22:17:53 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,18 @@ void	print_cameras(t_scene *scene)
 	tmp = scene->cameras;
 	printf("Standing on cam %d\n", tmp->id);
 	printf("\n------------ CAM No %d --------------\n", tmp->id);
-	print_vector(&tmp->dir, "dir:");
-	print_vector(&tmp->orig, "orig:");
+	print_vector(&tmp->dir, "dir:\t");
+	print_vector(&tmp->orig, "orig:\t");
+	print_vector(&tmp->saved_orig, "init orig:");
 	printf("fov:\t%.3f rad\n", tmp->fov);
 	printf("--------------------------------------\n");
 	tmp = tmp->next;
 	while (tmp != scene->cameras)
 	{
 		printf("\n------------ CAM No %d --------------\n", tmp->id);
-		print_vector(&tmp->dir, "dir:");
-		print_vector(&tmp->orig, "orig:");
+		print_vector(&tmp->dir, "dir:\t");
+		print_vector(&tmp->orig, "orig:\t");
+		print_vector(&tmp->saved_orig, "init orig:");
 		printf("fov:\t%.3f rad\n", tmp->fov);
 		printf("--------------------------------------\n");
 		tmp = tmp->next;
@@ -107,7 +109,8 @@ void	print_lights(t_scene *scene)
 	while (tmp)
 	{
 		printf("\n-------------- LIGHT No %d ------------\n", ++i);
-		print_vector(&tmp->orig, "orig:");
+		print_vector(&tmp->orig, "orig:\t");
+		print_vector(&tmp->saved_orig, "init orig:");
 		print_color(&tmp->color);
 		printf("intens\t%.3f\n", tmp->intensity);
 		printf("--------------------------------------\n");
@@ -133,7 +136,8 @@ void	print_objects(t_scene *scene)
 			t_sphere *heh;
 			heh = (t_sphere *)tmp->content;
 			printf("\t   --- A SPHERE ---\n");
-			print_vector(&heh->orig, "orig:");
+			print_vector(&heh->orig, "orig:\t");
+			print_vector(&heh->saved_orig, "init orig:");
 			printf("r = \t%.3f\n", heh->r);
 		}
 		if (tmp->type == OBJ_PLANE)
@@ -141,7 +145,8 @@ void	print_objects(t_scene *scene)
 			t_plane *heh;
 			heh = (t_plane *)tmp->content;
 			printf("\t   --- A PLANE ---\n");
-			print_vector(&heh->orig, "orig:");
+			print_vector(&heh->orig, "orig:\t");
+			print_vector(&heh->saved_orig, "init orig:");
 			print_vector(&heh->normal, "normal:");
 		}
 		if (tmp->type == OBJ_SQUARE)
