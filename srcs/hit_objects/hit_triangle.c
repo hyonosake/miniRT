@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 20:22:23 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/06 01:12:35 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/09 17:53:02 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ float			triangle_inter(t_trian *tr, t_ray *ray, float min_t)
 	e1 = v_sub(&tr->p[0], &tr->p[1]);
 	e2 = v_sub(&tr->p[0], &tr->p[2]);
 	pvec = v_cross_product(&ray->dir, &e2);
-	if ((det = v_dot_product(&e1, &pvec)) < MIN)
+	det = v_dot_product(&e1, &pvec);
+	if (det < MIN && det > -MIN)
 	{
 		//printf("if I\n");
 		return (min_t);	
@@ -46,6 +47,8 @@ float			triangle_inter(t_trian *tr, t_ray *ray, float min_t)
 	}
 	qvec = v_cross_product(&tvec, &e1);
 	v = v_dot_product(&ray->dir, &qvec) * inv_det;
+	//if (v < 0)
+	//	v *= -1;
 	if (v < 0.0 || u + v > 1.0)
 	{
 		//printf("if III\n");
@@ -60,8 +63,9 @@ float			triangle_inter(t_trian *tr, t_ray *ray, float min_t)
 		tr->magic_nums.zv = v;
 		tr->magic_nums.mod = v_dot_product(&tr->magic_nums, &tr->magic_nums);
 		//v_normalize(&tr->magic_nums);
-		print_vector(&tr->magic_nums, "magick:");
+		//print_vector(&tr->magic_nums, "magick:");
 	}
+	//printf("t = %.2f\n", t);
 	if (t < min_t && t > MIN)
 		return (t);
 	return (min_t);
