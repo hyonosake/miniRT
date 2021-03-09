@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:07:12 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 22:45:33 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/09 09:57:52 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ int				main(int ac, char **av)
 	scene = define_scene();
 	parse_input(scene, ac, av);
 	link_cameras(scene->cameras);
-	print_cameras(scene);
-	print_objects(scene);
+	//print_cameras(scene);
+	//print_scene(scene);
 	printf("\n============= INIT =============\n");
 	transform_scene(scene);
 	//print_cameras(scene);
-	print_objects(scene);
+	//print_scene(scene);
 	scene->mlx_init = mlx_init();
 	scene->mlx_window = mlx_new_window(scene->mlx_init, scene->canvas.width, scene->canvas.height, "tracer");
 	scene->mlx_image = mlx_new_image(scene->mlx_init, scene->canvas.width, scene->canvas.height);
@@ -51,7 +51,20 @@ int				main(int ac, char **av)
 	return (0);
 }
 
-int	press_key(int key, t_scene *scene)
+
+void	transform_wasd(int key, t_camera *cam, t_basis *b)
+{
+	if (key == 13)
+		cam->saved_orig = v_add(&cam->saved_orig, &b->k);
+	else if (key == 0)
+		cam->saved_orig = v_sub(&b->i, &cam->saved_orig);
+	else if (key == 1)
+		cam->saved_orig = v_sub(&b->k, &cam->saved_orig);
+	else if (key == 2)
+		cam->saved_orig = v_add(&cam->saved_orig, &b->i);
+}
+
+int		press_key(int key, t_scene *scene)
 {
 	if (key == KEY_TAB) //tab
 	{
@@ -63,17 +76,18 @@ int	press_key(int key, t_scene *scene)
 		free_scene(scene);
   		exit(0);
 	}
-	else if (key == 13)
-		++scene->cameras->orig.zv;
-	else if (key == 0)
-		--scene->cameras->orig.xv;
-	else if (key == 1)
-		--scene->cameras->orig.zv;
-	else if (key == 2)
-		++scene->cameras->orig.xv;
+	else if (key == 13 || key == 0 || key == 1 || key == 2)
+		transform_wasd(key, scene->cameras, &scene->r_basis);
+	//else if (key == 13)
+	//	++scene->cameras->saved_orig.zv;
+	//else if (key == 0)
+	//	--scene->cameras->saved_orig.xv;
+	//else if (key == 1)
+	//	--scene->cameras->saved_orig.zv;
+	//else if (key == 2)
+	//	++scene->cameras->saved_orig.xv;
 	transform_scene(scene);
 	//print_cameras(scene);
-	print_objects(scene);
 	print_scene(scene);
 	loop_through_pixels(scene);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:09:11 by alex              #+#    #+#             */
-/*   Updated: 2021/03/05 23:55:46 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/09 11:46:06 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,7 @@ t_vector		v_from_basis(t_basis *basis, t_vector *c)
 t_ray		new_ray(t_vector *v, t_vector *p)
 {
 	t_ray	new;
-	// if (!(new = (t_ray *)malloc(sizeof(t_ray))))
-	// 	error_throw(-1);
 	new.orig = *p;
 	new.dir = *v;
 	return (new);
 }
-
-// t_ray		ray_from_basis(t_vector *cam_orig, t_basis *b)
-// {
-// 	t_ray	new;
-// 	// if (!(new = (t_ray *)malloc(sizeof(t_ray))))
-// 	// 	error_throw(-1);
-// 	// new.orig = ;
-// 	// new.dir = v;
-// 	return (new);
-// }

@@ -12,6 +12,7 @@
 		"type_traits": "c",
 		"vector_utils.h": "c",
 		"intersection.h": "c",
-		"ios": "c"
+		"ios": "c",
+		"objects.h": "c"
 	}
 }

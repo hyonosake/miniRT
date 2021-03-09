@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 01:12:36 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/09 09:36:10 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_intersect		*init_objects(t_object *object, float res, t_ray *ray)
 	//t_vector		tmp;
 	if (!object || res == MAX)
 		return NULL;
-	if (object->type == OBJ_SPHERE)
+	if (object->type == OBJ_SPHERE || object->type == INSIDE_OBJ)
 		ans = init_sphere(object, res, ray);
 	else if (object->type == OBJ_PLANE)
 		ans = init_plane((t_plane *)object->content, res, ray, &object->color);

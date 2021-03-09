@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:18:11 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 01:12:37 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/09 11:46:54 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 t_vector		v_from_values(float x, float y, float z)
 {
 	t_vector	new;
-	
-	// if (!(new = (t_vector *)malloc(sizeof(t_vector))))
-	// 	error_throw(-1);
+
 	new.xv = x;
 	new.yv = y;
 	new.zv = z;
@@ -45,6 +43,7 @@ t_vector 		v_cross_product(t_vector *v1, t_vector *v2)
 t_vector		point_from_vector(t_vector *v1, float d)
 {
 	t_vector	new;
+
 	new = v_from_values(v1->xv * d,
 						v1->yv * d,
 						v1->zv * d);

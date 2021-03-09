@@ -6,25 +6,22 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 			srcs/hit_objects/hit_sphere.c \
 			srcs/hit_objects/hit_square.c \
 			srcs/hit_objects/intersection.c \
+			srcs/hit_objects/hit_disk.c \
 			srcs/math/matrix.c \
 			srcs/math/ray_basis.c \
 			srcs/math/tranform_1.c \
-			srcs/math/tranform_2.c \
 			srcs/math/vector_utils.c \
 			srcs/math/vectors.c \
 			srcs/parser/atoi_atof.c \
 			srcs/parser/parse_c_r_l.c \
 			srcs/parser/parser.c \
 			srcs/parser/parsing_utils.c \
+			srcs/utils/add_scene.c \
 			srcs/utils/error.c \
 			srcs/utils/free.c \
 			srcs/utils/prints.c \
-			srcs/add_scene.c \
-			srcs/camera.c \
-			srcs/color.c \
 			srcs/lights.c \
 			srcs/ray_tracer.c \
-			srcs/scene.c \
 			main.c
 
 OBJS =		${SRCS:.c=.o}

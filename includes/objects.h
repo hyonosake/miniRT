@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/06 20:39:04 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/09 09:02:21 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,18 @@ typedef struct			s_cylinder
 	float				rsq;
 	float				len;
 }						t_cylinder;
+
+typedef struct			s_camera
+{
+	struct s_camera		*next;
+	struct s_camera		*prev;
+	t_vector			dir;
+	t_vector			orig;
+	t_vector			saved_orig;
+	float				fov;
+	int					id;
+}						t_camera;
+
 
 
 #endif

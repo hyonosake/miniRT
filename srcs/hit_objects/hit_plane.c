@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/08 21:48:05 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/09 12:53:10 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,35 @@
 
 float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 {
-	float		coeffs[2];
-	float		res;
 	t_vector	tmp;
 
 
-	
-	//tmp = v_add(&plane->orig, &ray->orig);
-	tmp = v_sub(&ray->orig, &plane->orig);
-	coeffs[0] = v_dot_product(&tmp, &plane->normal);
-	//printf("c[0] = %.2f\n", coeffs[0]);
-	// if (coeffs[0] > 0)
-	// 	return (min_t);
-	// else
-	tmp = plane->normal;
-	coeffs[1] = v_dot_product(&ray->dir, &plane->normal);
-	if (coeffs[1] > 0)
+	float denom = v_dot_product(&plane->normal, &ray->dir);
+	//if (ft_fabs(denom) > MIN)
+	//{
+		tmp = v_sub(&ray->orig, &plane->orig);
+		float t = v_dot_product(&tmp, &plane->normal) / denom;
+		if (t > 0 && t < min_t)
+			return t;
 		return (min_t);
-	if (coeffs[1] == 0)
-		coeffs[1] = MIN;
-	res = coeffs[0] / coeffs[1];
-	printf("res = %.2f\n", res);
-	if (res < min_t && res > MIN) 
-		return (res);
+		
+	//}
 	return (min_t);
+	//float		coeffs[2];
+	//float		res;
+	//tmp = v_sub(&ray->orig, &plane->orig);
+	//coeffs[0] = v_dot_product(&tmp, &plane->normal);
+	//tmp = plane->normal;
+	//coeffs[1] = v_dot_product(&ray->dir, &plane->normal);
+	//if (coeffs[1] > 0)
+	//	return (min_t);
+	//if (coeffs[1] == 0)
+	//	coeffs[1] = MIN;
+	//res = coeffs[0] / coeffs[1];
+	////printf("res = %.2f\n", res);
+	//if (res < min_t && res > MIN) 
+	//	return (res);
+	//return (min_t);
 }
 
 t_intersect		*init_plane(t_plane *pl, float res, t_ray *ray, t_vector *col)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:14:19 by alex              #+#    #+#             */
-/*   Updated: 2021/03/04 11:18:43 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/09 11:47:11 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void			v_normalize(t_vector *v)
 
 t_vector		v_add(t_vector *v1, t_vector *v2)
 {
-return (v_from_values(v2->xv + v1->xv,
-					  v2->yv + v1->yv,
-					  v2->zv + v1->zv));
+	return (v_from_values(v2->xv + v1->xv,
+					 	  v2->yv + v1->yv,
+					 	  v2->zv + v1->zv));
 }
 
 t_vector		v_sub(t_vector *v1, t_vector *v2)

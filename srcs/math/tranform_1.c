@@ -97,7 +97,12 @@ void			transform_lights(t_scene *scene)
 	while(tmp)
 	{
 		if (tmp->type == POINTING)
+		{
+			print_vector(&scene->cameras->saved_orig ,"cam pos");
+			print_vector(&tmp->saved_orig ,"l pos\t");
 			tmp->orig = v_sub(&scene->cameras->saved_orig, &tmp->saved_orig);
+			print_vector(&tmp->orig ,"l orig\t");
+		}
 		tmp = tmp->next;
 	}
 }
@@ -114,12 +119,7 @@ void			transform_objects(t_vector *orig, t_object *objs, t_vector *dir)
 	{
 		c = tmp->content;
 		if (tmp->type == OBJ_SPHERE)
-		{
-			print_vector(orig, "cam orig:");
-			print_vector(&((t_sphere *)c)->saved_orig, "sphere init:");
 			((t_sphere *)c)->orig = v_sub(orig, &((t_sphere *)c)->saved_orig);
-			print_vector(&((t_sphere *)c)->orig, "sphere to cam:");
-		}
 		else if  (tmp->type == OBJ_PLANE)
 		{
 			((t_plane *)c)->orig = v_sub(orig, &((t_plane *)c)->saved_orig);
@@ -146,7 +146,7 @@ void	transform_cameras(t_camera *cams)
 	t_camera	*tmp;
 
 	tmp = cams;
-	tmp->orig = tmp->saved_orig;
+	tmp->orig = v_from_values(0,0,0);
 	tmp = tmp->next;
 	while (tmp != cams)
 	{
@@ -158,6 +158,7 @@ void	transform_cameras(t_camera *cams)
 
 void			transform_scene(t_scene *scene)
 {
+	scene->r_basis = basis_init(&scene->cameras->dir);
 	transform_lights(scene);
 	transform_objects(&scene->cameras->saved_orig, scene->objects,
 						&scene->cameras->dir);

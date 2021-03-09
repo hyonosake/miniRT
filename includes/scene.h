@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:29:54 by alex              #+#    #+#             */
-/*   Updated: 2021/03/07 00:23:54 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/09 11:01:39 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct		s_light
 typedef struct		s_scene
 {
 	t_object		*objects;
+	t_basis			r_basis;
 	t_light			*lights;
 	t_light			ambient;
 	t_camera		*cameras;
@@ -50,6 +51,9 @@ t_scene				*define_scene(void);
 void				transform_objects(t_vector *orig, t_object *objs, t_vector *dir);
 void				transform_scene(t_scene *scene);
 void				transform_lights(t_scene *scene);
-int					blinn_phong(t_intersect *ans, t_scene *scene);
-int 				col_to_int(t_vector *color, t_vector *intens, float coeff);
+void				add_canvas(t_scene *scene, t_canvas *new);
+void				add_camera(t_scene *scene, t_camera *cam);
+void				add_amb_light(t_scene *scene, t_light *amb);
+void				add_light(t_scene *scene, t_light *l);
+void				add_object(t_scene *scene, t_object *obj);
 #endif
