@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 23:31:38 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/08 21:48:05 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,23 @@ float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 	float		res;
 	t_vector	tmp;
 
-	coeffs[0] = v_dot_product(&plane->orig, &plane->normal);
-	//print_vector(&plane->orig, "pl orig:");
-	if (coeffs[0] > 0)
-	{
-		coeffs[0] *= -1;
-		tmp = point_from_vector(&plane->normal, -1);
-	}
-	else
-		tmp = plane->normal;
+
+	
+	//tmp = v_add(&plane->orig, &ray->orig);
+	tmp = v_sub(&ray->orig, &plane->orig);
+	coeffs[0] = v_dot_product(&tmp, &plane->normal);
+	//printf("c[0] = %.2f\n", coeffs[0]);
+	// if (coeffs[0] > 0)
+	// 	return (min_t);
+	// else
+	tmp = plane->normal;
 	coeffs[1] = v_dot_product(&ray->dir, &plane->normal);
-	if (ft_fabs(coeffs[1]) < MIN)
+	if (coeffs[1] > 0)
+		return (min_t);
+	if (coeffs[1] == 0)
 		coeffs[1] = MIN;
 	res = coeffs[0] / coeffs[1];
+	printf("res = %.2f\n", res);
 	if (res < min_t && res > MIN) 
 		return (res);
 	return (min_t);

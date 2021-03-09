@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/06 23:33:44 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/08 21:49:31 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 
-int					shadows(t_object *objs, t_ray *ray, float min_t)
+int					shadows(t_object *objs, t_ray *ray, t_vector *to_cam, float min_t)
 {
 	t_object		*tmp;
 	//static t_object	*prev;
@@ -29,7 +29,13 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 		if (tmp->type == OBJ_SPHERE)
 			res = sphere_intersection(ray, tmp, min_t);
 		else if (tmp->type == OBJ_PLANE)
+		{
+			printf("shadow ");
+			if (v_dot_product(&ray->dir, to_cam) > 0)
+				res = res;
+			// 	return (1);
 			res = plane_intersection((t_plane *)tmp->content, min_t, ray);
+		}
 		else if (tmp->type == OBJ_SQUARE)
 			res = square_intersection((t_square *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_TRIAN)
@@ -38,6 +44,7 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 			printf("parser shadows failed\ttype = %d\n", tmp->type);	
 		if (res < min_t && res > MIN)
 		{
+			//printf("res = %.2f\n", res);
 			//prev = tmp;
 			//printf("saved prev! - %d!\n", prev->type);
 			//print_vector(&prev->color, "color:");
@@ -95,8 +102,12 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 			to_light = point_from_vector(&tmp->orig, -1);
 		else
 			to_light = v_sub(&ans->p_inter, &tmp->orig);
+		// print_vector(&ans->p_inter,"inter");
+		// print_vector(&to_light,"to_l");
+		// print_vector(&ans->normal,"norm");
+		// print_vector(&ans->to_cam,"2cam");
 		shadow_ray = new_ray(&to_light, &ans->p_inter);
-		shadow = shadows(scene->objects, &shadow_ray, shadow_ray.dir.mod);
+		shadow = shadows(scene->objects, &shadow_ray, &ans->to_cam, shadow_ray.dir.mod);
 		// shadow = ray_objects_intersection(scene->objects, &shadow_ray);
 		//print_vector(&ans->p_inter, "p_inter:");
 		//print_vector(&ans->normal, "normal:\t");
@@ -105,7 +116,7 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		//print_vector(&to_light, "to_l:\t");
 		if (shadow)
 		{
-			printf("SHADOW!\n");
+			//printf("SHADOW!\n");
 			tmp = tmp->next;
 			continue ;
 		}

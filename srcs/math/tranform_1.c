@@ -102,7 +102,7 @@ void			transform_lights(t_scene *scene)
 	}
 }
 
-void			transform_objects(t_vector *orig, t_object *objs)
+void			transform_objects(t_vector *orig, t_object *objs, t_vector *dir)
 {
 	t_object	*tmp;
 	void		*c;
@@ -121,7 +121,11 @@ void			transform_objects(t_vector *orig, t_object *objs)
 			print_vector(&((t_sphere *)c)->orig, "sphere to cam:");
 		}
 		else if  (tmp->type == OBJ_PLANE)
+		{
 			((t_plane *)c)->orig = v_sub(orig, &((t_plane *)c)->saved_orig);
+			if (v_dot_product((&((t_plane *)c)->normal), dir) > 0)
+				v_by_scalar((&((t_plane *)c)->normal), -1);
+		}
 		else if  (tmp->type == OBJ_SQUARE)
 			((t_square *)c)->orig = v_sub(orig, &((t_square *)c)->saved_orig);
 		else if  (tmp->type == OBJ_TRIAN)
@@ -155,7 +159,8 @@ void	transform_cameras(t_camera *cams)
 void			transform_scene(t_scene *scene)
 {
 	transform_lights(scene);
-	transform_objects(&scene->cameras->saved_orig, scene->objects);
+	transform_objects(&scene->cameras->saved_orig, scene->objects,
+						&scene->cameras->dir);
 	transform_cameras(scene->cameras);
 }
 
