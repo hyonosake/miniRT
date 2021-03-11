@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 21:46:09 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/11 21:20:18 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 void			parse_resolution(char *line, t_scene *scene)
 {
-	//t_canvas	new;
 	static int	i;
-	// if(!(new = (t_canvas *)malloc(sizeof(t_canvas))))
-	// 	error_throw(-1);
+	if (i)
+		error_throw(-2);
 	scene->canvas.width = atoi_modified(&line);
 	skip_spaces(&line);
 	scene->canvas.height = atoi_modified(&line);
@@ -81,8 +80,6 @@ void			parse_amb_light(char *line, t_scene *scene)
 
 	if (i != 0)
 		error_throw(-2);
-	// if(!(new = (t_light *)malloc(sizeof(t_light))))
-	// 	error_throw(-1);
 	skip_spaces(&line);
 	scene->ambient.intensity = atof_modified(&line);
 	skip_spaces(&line);
@@ -98,11 +95,15 @@ void			parse_lights(char *line, t_scene *scene, int type)
 	if(!(new = (t_light *)malloc(sizeof(t_light))))
 		error_throw(-1);
 	new->type = type;
+	printf("%c\n", *line);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->intensity = atof_modified(&line);
 	skip_spaces(&line);
 	new->color = parse_color_triplet(&line);
+	skip_spaces(&line);
 	new->next = NULL;
+	if (*line || (!check_vector_input(&new->orig) && new->type == DIRECT))
+		error_throw(-2);
 	add_light(scene, new);
 }

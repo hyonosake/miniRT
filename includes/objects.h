@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/09 09:02:21 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/11 22:59:38 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct			s_cylinder
 {
 	t_vector			orig;
 	t_vector			saved_orig;
-	t_vector			dir;
+	t_vector			axis;
 	float				r;
 	float				rsq;
 	float				len;

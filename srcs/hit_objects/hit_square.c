@@ -6,12 +6,11 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:14:03 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 01:12:35 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/11 22:51:09 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
-
 
 float			square_intersection(t_square *sq, t_ray *ray, float min_t)
 {
@@ -25,6 +24,7 @@ float			square_intersection(t_square *sq, t_ray *ray, float min_t)
 	if ((res = plane_intersection((t_plane *)sq, min_t, ray)) < min_t)
 	{
 		b = basis_init(&sq->normal);
+		//basis_normalize(&b);
 		p_inter = point_from_vector(&ray->dir, res);
 		a_new = v_sub(&ray->orig, &sq->orig);
 		a_new = v_from_basis(&b, &a_new);

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:51:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/06 01:26:56 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/11 23:18:53 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_vector			parse_point(char **line)
 
 	skip_spaces(line);
 	index[0] = atof_modified(line);
+	//printf("???\n");
 	skip_spaces(line);
 	if (**line != ',')
 		error_throw(-2);

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/09 09:36:10 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/11 23:15:05 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_intersect		*init_objects(t_object *object, float res, t_ray *ray)
 		ans = init_plane((t_plane *)object->content, res, ray, &object->color);
 	else if (object->type == OBJ_TRIAN)
 		ans = init_trian((t_trian *)object->content, res, ray, &object->color);
+	else if (object->type == OBJ_CYL)
+		ans = init_cylinder(object, res, ray);
 	else
 		ans = NULL;
 	//if (ans)
@@ -59,6 +61,8 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 			res = square_intersection((t_square *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_TRIAN)
 			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
+		else if (tmp->type == OBJ_CYL)
+			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);	
 		else
 			printf("parser ray_obj failed\ttype = %d\n", tmp->type);
 		if (res < min_t && res > MIN)

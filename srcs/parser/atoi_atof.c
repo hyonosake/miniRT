@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:02:49 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 01:12:38 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/11 23:19:42 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ float	atof_modified(char **line)
 	if (**line == ',' || !**line || ft_isspace(**line))
 		return ((float)parts[0] * min);
 	else if (**line != '.')
+	{
+		//printf("here %c\n", **line);
 		error_throw(-2);
+	}
 	*line += 1;
 	flag = 1;
 	parts[1] = 0;

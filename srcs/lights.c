@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/09 13:16:13 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/09 17:53:14 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 		else if (tmp->type == OBJ_SQUARE)
 			res = square_intersection((t_square *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_TRIAN)
+		{
+			//printf("shadow\t");
 			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
+		}
 		else
 			printf("parser shadows failed\ttype = %d\n", tmp->type);	
 		if (res < min_t && res > MIN)
@@ -121,7 +124,7 @@ void				specular_highlight(t_light_complex *b_phong, t_intersect *ans)
 	bisect = v_add(&ans->to_cam, &b_phong->to_light);
 	v_normalize(&bisect);
 	b_phong->k_spec = return_max_positive(v_dot_product(&bisect, &ans->normal));
-	if (b_phong->k_spec < 0.8)
+	if (b_phong->k_spec < 0.9)
 		return ;
 	spec[0] = point_from_vector(&b_phong->obj_color, K_METAL);
 	spec[1] = v_from_values((1 - K_METAL), (1 - K_METAL), (1 - K_METAL));
@@ -160,7 +163,7 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		if (!shadows(scene->objects, &shadow_ray, shadow_ray.dir.mod))
 			light_construction(&b_phong, tmp, ans);
 		else
-			printf("SHADOW!\n");
+			;//printf("SHADOW!\n");
 		tmp = tmp->next;
 	}
 	return (col_to_int(&b_phong.total_color));

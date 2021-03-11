@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/06 21:40:28 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/11 23:24:16 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void			parse_square(char *line, t_scene *scene)
 	skip_spaces(&line);
 	new->normal = parse_vector(&line);
 	v_normalize(&new->normal);
+	print_vector(&new->normal, "norm:");
 	skip_spaces(&line);
 	new->a = atof_modified(&line);
 	new->asq = new->a * new->a;
@@ -105,22 +106,24 @@ void			parse_cylinder(char *line, t_scene *scene)
 	t_cylinder	*new;
 	t_vector	col;
 
-	printf("1\n00");
 	if(!(new = (t_cylinder *)malloc(sizeof(t_cylinder))))
 		error_throw(-1);
 	skip_spaces(&line);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
-	new->dir = parse_point(&line);
+	new->axis = parse_point(&line);
 	skip_spaces(&line);
 	new->r = atof_modified(&line) / 2;
 	new->rsq = new->r * new->r;
 	skip_spaces(&line);
+	new->len = atof_modified(&line);
+	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);
-	if (*line != '\0')
+	if (*line != '\0' || !check_vector_input(&new->axis))
 		error_throw(-2);
-	v_normalize(&new->dir);
+	v_normalize(&new->axis);
+	//printf("1\n");
 	add_object(scene, create_object((void *)new, col, OBJ_CYL));
 }
 
@@ -130,34 +133,33 @@ void			parse_line(char *line, t_scene *scene)
 	char		*s;
 	
 	s = line;
-	printf("%c%c\n", line[0], line[1]);
+	//printf("%c%c\n", line[0], line[1]);
 	if (!line || *line == '\0')
 		return ;
 	else if (s[0] == 'R' && (s++))
 		parse_resolution(s, scene);
+	else if (s[0] == 'c' && s[1] == 'y' && (s += 2))
+	{
+		//printf("??\n");
+		parse_cylinder(s, scene);
+	}
+	//check if any camera added
 	else if (s[0] == 'c' && (s++))
 		parse_cameras(s, scene);
 	else if (s[0] == 'A' && (s++))
 		parse_amb_light(s, scene);
+	else if (s[0] == 'l' && s[1] == 'd' && (s += 2))
+		parse_lights(s, scene, DIRECT);
 	else if (s[0] == 'l' && (s++))
 		parse_lights(s, scene, POINTING);
 	else if (s[0] == 's' && s[1] == 'p' && (s += 2))
 		parse_sphere(s, scene);
 	else if (s[0] == 'p' && s[1] == 'l' && (s += 2))
 		parse_plane(s, scene); 
-	else if (s[0] == 'd' && (s++))
-		parse_lights(s, scene, 2);
 	else if (s[0] == 's' && s[1] == 'q' && (s += 2))
 		parse_square(s, scene);
-	else if (s[0] == 'l' && s[1] == 'd' && (s += 2))
-		parse_lights(s,scene,DIRECT);
 	else if (s[0] == 't' && s[1] == 'r' && (s += 2))
 		parse_triangle(s, scene);
-	else if (s[0] == 'c' && s[1] == 'y' && (s += 2))
-	{
-		printf("??\n");
-		parse_cylinder(s, scene);
-	}
 	else
 		error_throw(-2);
 }

@@ -5,6 +5,7 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 			srcs/hit_objects/hit_triangle.c \
 			srcs/hit_objects/hit_sphere.c \
 			srcs/hit_objects/hit_square.c \
+			srcs/hit_objects/hit_cylinder.c \
 			srcs/hit_objects/intersection.c \
 			srcs/hit_objects/hit_disk.c \
 			srcs/math/matrix.c \
