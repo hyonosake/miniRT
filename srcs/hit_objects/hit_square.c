@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_square.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:14:03 by alex              #+#    #+#             */
-/*   Updated: 2021/03/11 22:51:09 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/12 10:26:04 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ float			square_intersection(t_square *sq, t_ray *ray, float min_t)
 		//basis_normalize(&b);
 		p_inter = point_from_vector(&ray->dir, res);
 		a_new = v_sub(&ray->orig, &sq->orig);
-		a_new = v_from_basis(&b, &a_new);
-		p_inter = v_from_basis(&b, &p_inter);
-		p_inter = v_add(&a_new, &p_inter);
-		a_new = v_add(&a_new, &a_new);// v_from_v = (0,0,0);
 		a_p = v_sub(&a_new, &p_inter);
+		//a_new = v_from_basis(&b, &a_new);
+		p_inter = v_from_basis(&b, &p_inter);
+		// p_inter = v_add(&a_new, &p_inter);
+		//a_new = v_add(&a_new, &a_new);// v_from_v = (0,0,0);
 		dot = v_dot_product(&a_p, &b.j);
 		if (dot >= -sq->a / 2 && dot <= sq->a / 2)
 		{

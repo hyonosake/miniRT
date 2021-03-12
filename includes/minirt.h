@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/09 17:54:48 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:05:00 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # define MAX 1000000
-# define MIN 0.000001
+# define MIN 0.2
 # define BACKGROUND_COLOR 0x0
 # define P_LIGHT 1
 # define D_LIGHT 2
@@ -31,13 +31,13 @@
 # define OBJ_SQUARE 3
 # define OBJ_TRIAN 4
 # define OBJ_CYL 5
+# define OBJ_DISK 6
 # define AMBIENT 1
 # define DIRECT 2
 # define POINTING 3
 # define K_LAMB 0.4
-# define K_SPEC 0.6
-# define K_METAL 0.2
-# define SIGMA 50
+# define K_SPEC 0.9
+# define SIGMA 80
 # define KEY_TAB 48
 # define KEY_ESC 53
 # define KEY_W 13

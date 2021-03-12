@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/11 23:15:05 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:39:51 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_intersect		*init_objects(t_object *object, float res, t_ray *ray)
 	//t_vector		tmp;
 	if (!object || res == MAX)
 		return NULL;
-	if (object->type == OBJ_SPHERE || object->type == INSIDE_OBJ)
+	if (object->type == OBJ_SPHERE)
 		ans = init_sphere(object, res, ray);
 	else if (object->type == OBJ_PLANE)
 		ans = init_plane((t_plane *)object->content, res, ray, &object->color);
@@ -28,6 +28,8 @@ t_intersect		*init_objects(t_object *object, float res, t_ray *ray)
 		ans = init_trian((t_trian *)object->content, res, ray, &object->color);
 	else if (object->type == OBJ_CYL)
 		ans = init_cylinder(object, res, ray);
+	else if (object->type == OBJ_DISK)
+		ans = init_plane((t_plane *)object->content, res, ray, &object->color);
 	else
 		ans = NULL;
 	//if (ans)
@@ -54,7 +56,7 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 	while (tmp)
 	{
 		if (tmp->type == OBJ_SPHERE)
-			res = sphere_intersection(ray, tmp, min_t);
+			res = sphere_intersection((t_sphere *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_PLANE)
 			res = plane_intersection((t_plane *)tmp->content, min_t, ray);
 		else if (tmp->type == OBJ_SQUARE)
@@ -62,7 +64,9 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 		else if (tmp->type == OBJ_TRIAN)
 			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_CYL)
-			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);	
+			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
+		else if (tmp->type == OBJ_DISK)
+			res = disk_intersection((t_disk *)tmp->content, ray, min_t);
 		else
 			printf("parser ray_obj failed\ttype = %d\n", tmp->type);
 		if (res < min_t && res > MIN)

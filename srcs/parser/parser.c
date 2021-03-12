@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/11 23:24:16 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:44:28 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,29 @@ void			parse_triangle(char *line, t_scene *scene)
 	tmp[0] = v_sub(&new->saved_p[0], &new->saved_p[1]);
 	tmp[1] = v_sub(&new->saved_p[0], &new->saved_p[2]);
 	new->normal = v_cross_product(&tmp[0], &tmp[1]);
-	//v_normalize(&new->normal);
+	v_normalize(&new->normal);
 	add_object(scene, create_object((void *)new, col, OBJ_TRIAN));
+}
+
+
+void			make_disk(t_cylinder *cy, t_vector col, t_scene *scene)
+{
+	t_disk		*new;
+	t_vector	tmp;
+	
+	if(!(new = (t_disk *)malloc(sizeof(t_disk))))
+		error_throw(-1);
+	new->normal = cy->axis;
+	tmp = point_from_vector(&cy->axis, cy->len * 0.5);
+	new->saved_orig = v_add(&cy->orig, &tmp);
+	//print_vector(&new->orig,"disk1 orig")
+	tmp = point_from_vector(&col, 0.5);
+	add_object(scene, create_object((void *)new, tmp, OBJ_DISK));
+	tmp = point_from_vector(&cy->axis, -cy->len * 0.5);
+	new->saved_orig = v_add(&cy->orig, &tmp);
+	tmp = point_from_vector(&col, 0.5);
+	
+	add_object(scene, create_object((void *)new, tmp, OBJ_DISK));
 }
 
 void			parse_cylinder(char *line, t_scene *scene)
@@ -119,11 +140,11 @@ void			parse_cylinder(char *line, t_scene *scene)
 	new->len = atof_modified(&line);
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
+	new->is_inside = 0;
 	skip_spaces(&line);
 	if (*line != '\0' || !check_vector_input(&new->axis))
 		error_throw(-2);
 	v_normalize(&new->axis);
-	//printf("1\n");
 	add_object(scene, create_object((void *)new, col, OBJ_CYL));
 }
 
@@ -139,11 +160,9 @@ void			parse_line(char *line, t_scene *scene)
 	else if (s[0] == 'R' && (s++))
 		parse_resolution(s, scene);
 	else if (s[0] == 'c' && s[1] == 'y' && (s += 2))
-	{
-		//printf("??\n");
 		parse_cylinder(s, scene);
-	}
 	//check if any camera added
+	//check if any lights (amb, ls) added
 	else if (s[0] == 'c' && (s++))
 		parse_cameras(s, scene);
 	else if (s[0] == 'A' && (s++))
@@ -174,10 +193,11 @@ void			parse_sphere(char *line, t_scene *scene)
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->r = atof_modified(&line) / 2;
-	new->rsq = pow(new->r, 2);
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);
+	new->rsq = pow(new->r, 2);
+	new->is_inside = 0;
 	if (*line != '\0' || new->r <= 0)
 		error_throw(-2);
 	add_object(scene, create_object((void *)new, col, OBJ_SPHERE));

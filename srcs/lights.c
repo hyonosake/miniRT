@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/09 17:53:14 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/12 13:24:19 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,27 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 	tmp = objs;
 	//if (!prev)
 	//	prev = tmp;
+	//printf("looking for less than %.2f\n", min_t);
 	while (tmp)
 	{
-		if (tmp->type == OBJ_SPHERE || tmp->type == INSIDE_OBJ)
-		{
-			//printf("shadow ");
-			res = sphere_intersection(ray, tmp, min_t);
-		}
+		if (tmp->type == OBJ_SPHERE)
+			res = sphere_intersection((t_sphere *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_PLANE)
 			res = plane_intersection((t_plane *)tmp->content, min_t, ray);
 		else if (tmp->type == OBJ_SQUARE)
 			res = square_intersection((t_square *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_TRIAN)
-		{
-			//printf("shadow\t");
 			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
-		}
+		else if (tmp->type == OBJ_CYL)
+			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
 		else
 			printf("parser shadows failed\ttype = %d\n", tmp->type);	
+		//printf("found %.2f\n", res);
 		if (res < min_t && res > MIN)
+		{
+			//printf("blob\n");
 			return (1);
+		}
 		tmp = tmp->next;
 	}
 	return (0);
@@ -124,10 +125,11 @@ void				specular_highlight(t_light_complex *b_phong, t_intersect *ans)
 	bisect = v_add(&ans->to_cam, &b_phong->to_light);
 	v_normalize(&bisect);
 	b_phong->k_spec = return_max_positive(v_dot_product(&bisect, &ans->normal));
-	if (b_phong->k_spec < 0.9)
-		return ;
-	spec[0] = point_from_vector(&b_phong->obj_color, K_METAL);
-	spec[1] = v_from_values((1 - K_METAL), (1 - K_METAL), (1 - K_METAL));
+	// if (b_phong->k_spec < 0.9)
+	// 	return ;
+	spec[0] = point_from_vector(&b_phong->obj_color, (1 - K_SPEC));
+	spec[1] = b_phong->l_color;
+	v_by_scalar(&spec[1], K_SPEC);
 	spec[0] = v_add(&spec[0], &spec[1]);
 	b_phong->spec = color_multiply(&b_phong->obj_color, &spec[0],
 									pow(b_phong->k_spec, SIGMA) * b_phong->k_light);
@@ -140,7 +142,6 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	t_light			*tmp;
 	t_light_complex	b_phong;
 	t_ray			shadow_ray;
-	//t_vector		to_light;
 	//int				shadow;
 	if (ans == NULL)
 		return (BACKGROUND_COLOR);
@@ -156,30 +157,48 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 			b_phong.to_light = point_from_vector(&tmp->orig, -1);
 		else
 			b_phong.to_light = v_sub(&ans->p_inter, &tmp->orig);
-		//to_light = v_sub(&ans->p_inter, &tmp->orig);
-		//b_phong.k_fading = shadow_ray.dir.mod;
+		// to_light = v_sub(&ans->p_inter, &tmp->orig);
+		b_phong.k_fading = shadow_ray.dir.mod;
+		if (ans->to_cam.xv == 0 && ans->to_cam.yv == 0 && ans->to_cam.zv == -1)
+		{
+			printf("once in a lifetime..\n");
+			//print_vector(&scene->cameras->orig);
+			print_vector(&ans->p_inter, "p_inter");
+			print_vector(&ans->normal, "norm");
+			print_vector(&b_phong.to_light, "to_l");
+			print_vector(&ans->to_cam, "to_c");
+		}
 		shadow_ray = new_ray(&b_phong.to_light, &ans->p_inter);
 		v_normalize(&b_phong.to_light);
 		if (!shadows(scene->objects, &shadow_ray, shadow_ray.dir.mod))
+		{
+			//printf("huh?\n");
 			light_construction(&b_phong, tmp, ans);
+		}
 		else
 			;//printf("SHADOW!\n");
 		tmp = tmp->next;
 	}
-	return (col_to_int(&b_phong.total_color));
+	return (col_to_int(&b_phong.total_color, ans->p_inter.mod));
 }
 
-int		col_to_int(t_vector	*coeffs)
+int		col_to_int(t_vector	*coeffs, float to_cam)
 {
 	int rgb[3];
 	int i;
-
+	float	coeff;
+	coeff = 100000 / pow(to_cam, 1.5);
+	if (coeff > 1)
+		coeff = 1;
+	if (coeff < 0.2)
+		coeff = 0.2;
 	i = 0;
-	rgb[0] = coeffs->xv * 255;
-	rgb[1] = coeffs->yv * 255;
-	rgb[2] = coeffs->zv * 255;
+	rgb[0] = coeffs->xv * 255 * coeff;
+	rgb[1] = coeffs->yv * 255 * coeff;
+	rgb[2] = coeffs->zv * 255 * coeff;
 	while (i < 3)
 	{
+		rgb[0] = coeffs->xv * 255 * coeff;
 		if (rgb[i] > 255)
 			rgb[i] = 255;
 		i++;

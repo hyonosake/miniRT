@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/09 12:53:10 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/12 10:41:49 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 	//{
 		tmp = v_sub(&ray->orig, &plane->orig);
 		float t = v_dot_product(&tmp, &plane->normal) / denom;
+		//printf("t = %.2f\n",t);
 		if (t > 0 && t < min_t)
 			return t;
 		return (min_t);

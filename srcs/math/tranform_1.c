@@ -137,6 +137,8 @@ void			transform_objects(t_vector *orig, t_object *objs, t_vector *dir)
 		else if  (tmp->type == OBJ_CYL)
 			((t_cylinder *)tmp->content)->orig =
 				v_sub(orig, &((t_cylinder *)tmp->content)->saved_orig);	
+		else if  (tmp->type == OBJ_DISK)
+			((t_disk *)c)->orig = v_sub(orig, &((t_disk *)c)->saved_orig);
 		tmp = tmp->next;			
 	}
 }
