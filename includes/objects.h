@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/12 14:44:16 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/13 00:11:14 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ typedef struct			s_cylinder
 	t_vector			orig;
 	t_vector			saved_orig;
 	t_vector			axis;
+	t_vector			norm;
+	float				t[2];
 	float				r;
 	float				rsq;
 	float				len;

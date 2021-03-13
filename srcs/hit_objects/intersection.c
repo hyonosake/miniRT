@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/12 14:39:51 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/13 00:28:25 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 			printf("parser ray_obj failed\ttype = %d\n", tmp->type);
 		if (res < min_t && res > MIN)
 		{
+			//if (ray->dir.xv == 0 && ray->dir.yv == 0 && ray->dir.zv == 1)
+			//{
+			//	printf("intersected in central pixel, type: %d\n", ans->type);
+			//}
 			min_t = res;
 			ans = tmp;
 		}

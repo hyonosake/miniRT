@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:33:58 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/12 02:01:13 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/13 03:00:59 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void			loop_through_pixels(t_scene *scene)
 		scene->canvas.y_pixel = 0;
 		while(scene->canvas.y_pixel < scene->canvas.height)
 		{
+			//if (scene->canvas.x_pixel < 700 &&  scene->canvas.y_pixel > 600)
+			//printf("pixel [%d %d]\n", scene->canvas.x_pixel, scene->canvas.y_pixel);
 			ray_transform(&ray, scene, &b);
 			ans = ray_objects_intersection(scene->objects, &ray);
 			col = blinn_phong(ans, scene);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/12 10:41:49 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/13 00:56:40 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,19 @@
 
 float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 {
-	t_vector	tmp;
-
-
-	float denom = v_dot_product(&plane->normal, &ray->dir);
-	//if (ft_fabs(denom) > MIN)
-	//{
-		tmp = v_sub(&ray->orig, &plane->orig);
-		float t = v_dot_product(&tmp, &plane->normal) / denom;
-		//printf("t = %.2f\n",t);
-		if (t > 0 && t < min_t)
-			return t;
-		return (min_t);
-		
-	//}
-	return (min_t);
-	//float		coeffs[2];
-	//float		res;
-	//tmp = v_sub(&ray->orig, &plane->orig);
-	//coeffs[0] = v_dot_product(&tmp, &plane->normal);
-	//tmp = plane->normal;
-	//coeffs[1] = v_dot_product(&ray->dir, &plane->normal);
-	//if (coeffs[1] > 0)
-	//	return (min_t);
-	//if (coeffs[1] == 0)
-	//	coeffs[1] = MIN;
-	//res = coeffs[0] / coeffs[1];
-	////printf("res = %.2f\n", res);
-	//if (res < min_t && res > MIN) 
-	//	return (res);
-	//return (min_t);
+	t_vector	centers;
+	float		dots[2];
+	float		ret_val;
+	centers = v_sub(&ray->orig, &plane->orig);
+	dots[0] = v_dot_product(&plane->normal, &centers);
+	dots[1] = v_dot_product(&ray->dir, &plane->normal);
+	if (dots[1] == 0)
+		dots[1] = MIN;
+	ret_val = dots[0] / dots[1];
+	if (ret_val > min_t || ret_val < MIN)
+		ret_val = min_t;
+	//printf("ret_val:%.2f\n", ret_val);
+	return (ret_val);
 }
 
 t_intersect		*init_plane(t_plane *pl, float res, t_ray *ray, t_vector *col)

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/06 22:17:53 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/12 23:19:36 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,27 @@ void	print_objects(t_scene *scene)
 			print_vector(&heh->orig, "orig:");
 			print_vector(&heh->normal, "normal:");
 			printf("side:\t%.2f\n", heh->a);
+		}
+		if (tmp->type == OBJ_DISK)
+		{
+			t_disk *heh;
+			heh = (t_disk *)tmp->content;
+			printf("\t   --- A DISK ---\n");
+			print_vector(&heh->orig, "orig:");
+			print_vector(&heh->orig, "saved_orig:");
+			print_vector(&heh->normal, "normal:");
+			printf("r = %.2f\n", heh->radius);
+		}
+			if (tmp->type == OBJ_CYL)
+		{
+			t_cylinder *heh;
+			heh = (t_cylinder *)tmp->content;
+			printf("\t   --- A CYL ---\n");
+			print_vector(&heh->saved_orig, "orig:");
+			print_vector(&heh->orig, "saved_orig:");
+			print_vector(&heh->axis, "normal:");
+			printf("r = %.2f\n", heh->r);
+			printf("len = %.2f\n", heh->len);
 		}
 		print_vector(&tmp->color,"color:");
 		printf("--------------------------------------\n");
