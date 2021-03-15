@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/13 00:28:25 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 10:51:28 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ t_intersect		*init_objects(t_object *object, float res, t_ray *ray)
 	else if (object->type == OBJ_CYL)
 		ans = init_cylinder(object, res, ray);
 	else if (object->type == OBJ_DISK)
+	{
+		//printf("qq\n");
 		ans = init_plane((t_plane *)object->content, res, ray, &object->color);
+	}
 	else
 		ans = NULL;
 	//if (ans)
@@ -66,7 +69,12 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 		else if (tmp->type == OBJ_CYL)
 			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_DISK)
+		{
+			//printf("qq\n");
 			res = disk_intersection((t_disk *)tmp->content, ray, min_t);
+			//if (res < MAX)
+				//printf("res = %.2f\n", res);
+		}
 		else
 			printf("parser ray_obj failed\ttype = %d\n", tmp->type);
 		if (res < min_t && res > MIN)

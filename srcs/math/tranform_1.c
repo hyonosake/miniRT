@@ -97,22 +97,12 @@ void			transform_lights(t_scene *scene)
 	while(tmp)
 	{
 		if (tmp->type == POINTING)
-		{
-<<<<<<< HEAD
-			// print_vector(&scene->cameras->saved_orig ,"cam pos");
-			// print_vector(&tmp->saved_orig ,"l pos\t");
-=======
-			//print_vector(&scene->cameras->saved_orig ,"cam pos");
-			//print_vector(&tmp->saved_orig ,"l pos\t");
->>>>>>> b77465c3407587569c1b46e3c26daffd3b3b0b4d
 			tmp->orig = v_sub(&scene->cameras->saved_orig, &tmp->saved_orig);
-			//print_vector(&tmp->orig ,"l orig\t");
-		}
 		tmp = tmp->next;
 	}
 }
 
-void			transform_objects(t_vector *orig, t_object *objs, t_vector *dir)
+void			transform_objects(t_vector *orig, t_object *objs)
 {
 	t_object	*tmp;
 	void		*c;
@@ -125,11 +115,11 @@ void			transform_objects(t_vector *orig, t_object *objs, t_vector *dir)
 		c = tmp->content;
 		if (tmp->type == OBJ_SPHERE)
 			((t_sphere *)c)->orig = v_sub(orig, &((t_sphere *)c)->saved_orig);
-		else if  (tmp->type == OBJ_PLANE)
+		else if  (tmp->type == OBJ_PLANE || tmp->type == OBJ_DISK)
 		{
 			((t_plane *)c)->orig = v_sub(orig, &((t_plane *)c)->saved_orig);
-			if (v_dot_product((&((t_plane *)c)->normal), dir) > 0)
-				v_by_scalar((&((t_plane *)c)->normal), -1);
+			//if (v_dot_product((&((t_plane *)c)->normal), dir) > 0)
+			//	v_by_scalar((&((t_plane *)c)->normal), -1);
 		}
 		else if  (tmp->type == OBJ_SQUARE)
 			((t_square *)c)->orig = v_sub(orig, &((t_square *)c)->saved_orig);
@@ -142,8 +132,8 @@ void			transform_objects(t_vector *orig, t_object *objs, t_vector *dir)
 		else if  (tmp->type == OBJ_CYL)
 			((t_cylinder *)tmp->content)->orig =
 				v_sub(orig, &((t_cylinder *)tmp->content)->saved_orig);	
-		else if  (tmp->type == OBJ_DISK)
-			((t_disk *)c)->orig = v_sub(orig, &((t_disk *)c)->saved_orig);
+		//else if  (tmp->type == OBJ_DISK)
+		//	((t_disk *)c)->orig = v_sub(orig, &((t_disk *)c)->saved_orig);
 		tmp = tmp->next;			
 	}
 }
@@ -167,8 +157,7 @@ void			transform_scene(t_scene *scene)
 {
 	scene->r_basis = basis_init(&scene->cameras->dir);
 	transform_lights(scene);
-	transform_objects(&scene->cameras->saved_orig, scene->objects,
-						&scene->cameras->dir);
+	transform_objects(&scene->cameras->saved_orig, scene->objects);
 	transform_cameras(scene->cameras);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/13 01:14:36 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 10:06:10 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void			parse_cylinder(char *line, t_scene *scene)
 	new->axis = parse_point(&line);
 	skip_spaces(&line);
 	//print_point("")
-	new->r = atof_modified(&line) / 2;
+	new->r = atof_modified(&line)* 0.5;
 	new->rsq = new->r * new->r;
 	skip_spaces(&line);
 	new->len = atof_modified(&line);
@@ -146,6 +146,28 @@ void			parse_cylinder(char *line, t_scene *scene)
 	add_object(scene, create_object((void *)new, col, OBJ_CYL));
 }
 
+void			parse_disk(char *line, t_scene *scene)
+{
+	t_disk		*new;
+	t_vector	col;
+
+	if(!(new = (t_disk *)malloc(sizeof(t_disk))))
+		error_throw(-1);
+	skip_spaces(&line);
+	//printf("char %c\n", *line);
+	new->saved_orig = parse_point(&line);
+	skip_spaces(&line);
+	new->normal = parse_vector(&line);
+	new->radius = atof_modified(&line) * 0.5;
+	skip_spaces(&line);
+	col = parse_color_triplet(&line);
+	skip_spaces(&line);
+	v_normalize(&new->normal);
+	if (*line != '\0' || !check_vector_input(&new->normal))
+		error_throw(-2);
+	add_object(scene, create_object((void *)new, col, OBJ_DISK));
+	
+}
 
 void			parse_line(char *line, t_scene *scene)
 {
@@ -155,7 +177,7 @@ void			parse_line(char *line, t_scene *scene)
 	//printf("%c%c\n", line[0], line[1]);
 	if (!line || *line == '\0')
 		return ;
-	else if (s[0] == 'R' && (s++))
+	else if (s[0] == 'R' && (++s))
 		parse_resolution(s, scene);
 	else if (s[0] == 'c' && s[1] == 'y' && (s += 2))
 		parse_cylinder(s, scene);
@@ -177,6 +199,8 @@ void			parse_line(char *line, t_scene *scene)
 		parse_square(s, scene);
 	else if (s[0] == 't' && s[1] == 'r' && (s += 2))
 		parse_triangle(s, scene);
+	else if (s[0] == 'd' && (++s))
+		parse_disk(s, scene);
 	else
 		error_throw(-2);
 }

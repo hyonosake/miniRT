@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_square.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:14:03 by alex              #+#    #+#             */
-/*   Updated: 2021/03/14 17:08:24 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/15 09:21:26 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ float			square_intersection(t_square *sq, t_ray *ray, float min_t)
 	t_vector	a_p;
 	float		res;
 	float		dot;
-	
+
 	if ((res = plane_intersection((t_plane *)sq, min_t, ray)) < min_t)
 	{
 		b = basis_init(&sq->normal);

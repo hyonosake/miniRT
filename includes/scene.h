@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:29:54 by alex              #+#    #+#             */
-/*   Updated: 2021/03/09 11:01:39 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 10:42:56 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct		s_scene
 }					t_scene;
 
 t_scene				*define_scene(void);
-void				transform_objects(t_vector *orig, t_object *objs, t_vector *dir);
+void				transform_objects(t_vector *orig, t_object *objs);
 void				transform_scene(t_scene *scene);
 void				transform_lights(t_scene *scene);
 void				add_canvas(t_scene *scene, t_canvas *new);

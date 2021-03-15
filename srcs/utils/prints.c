@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/12 23:19:36 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 11:09:22 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,17 @@ void	print_cameras(t_scene *scene)
 	print_vector(&tmp->saved_orig, "init orig:");
 	printf("fov:\t%.3f rad\n", tmp->fov);
 	printf("--------------------------------------\n");
-	tmp = tmp->next;
-	while (tmp != scene->cameras)
-	{
-		printf("\n------------ CAM No %d --------------\n", tmp->id);
-		print_vector(&tmp->dir, "dir:\t");
-		print_vector(&tmp->orig, "orig:\t");
-		print_vector(&tmp->saved_orig, "init orig:");
-		printf("fov:\t%.3f rad\n", tmp->fov);
-		printf("--------------------------------------\n");
-		tmp = tmp->next;
-	}
+	//tmp = tmp->next;
+	//while (tmp != scene->cameras)
+	//{
+	//	printf("\n------------ CAM No %d --------------\n", tmp->id);
+	//	print_vector(&tmp->dir, "dir:\t");
+	//	print_vector(&tmp->orig, "orig:\t");
+	//	print_vector(&tmp->saved_orig, "init orig:");
+	//	printf("fov:\t%.3f rad\n", tmp->fov);
+	//	printf("--------------------------------------\n");
+	//	tmp = tmp->next;
+	//}
 }
 
 void	print_amb_light(t_scene *scene)

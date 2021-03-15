@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/13 00:18:48 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 11:03:40 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,10 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 	v_normalize(&ans->normal);
 	v_normalize(&ans->to_cam);
 	if (v_dot_product(&ans->to_cam, &ans->normal) < 0)
+	{
+		//printf("hopp\n");
 		v_by_scalar(&ans->normal, -1);
+	}
 	tmp = scene->lights;
 	light_complex_init(ans, scene, &b_phong);
 	//check dot normal and to_cam here for inside objs;
@@ -164,15 +167,15 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 			b_phong.to_light = v_sub(&ans->p_inter, &tmp->orig);
 		// to_light = v_sub(&ans->p_inter, &tmp->orig);
 		b_phong.k_fading = shadow_ray.dir.mod;
-		if (ans->to_cam.xv == 0 && ans->to_cam.yv == 0 && ans->to_cam.zv == -1)
-		{
-			printf("once in a lifetime..\n");
-			//print_vector(&scene->cameras->orig);
-			print_vector(&ans->p_inter, "p_inter");
-			print_vector(&ans->normal, "norm");
-			print_vector(&b_phong.to_light, "to_l");
-			print_vector(&ans->to_cam, "to_c");
-		}
+		//if (ans->to_cam.xv == 0 && ans->to_cam.yv == 0 && ans->to_cam.zv == -1)
+		//{
+		//	printf("once in a lifetime..\n");
+		//	//print_vector(&scene->cameras->orig);
+		//	print_vector(&ans->p_inter, "p_inter");
+		//	print_vector(&ans->normal, "norm");
+		//	print_vector(&b_phong.to_light, "to_l");
+		//	print_vector(&ans->to_cam, "to_c");
+		//}
 		shadow_ray = new_ray(&b_phong.to_light, &ans->p_inter);
 		v_normalize(&b_phong.to_light);
 		if (!shadows(scene->objects, &shadow_ray, shadow_ray.dir.mod))

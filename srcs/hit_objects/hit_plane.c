@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/13 00:56:40 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 10:49:46 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,14 @@ float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 	float		dots[2];
 	float		ret_val;
 	centers = v_sub(&ray->orig, &plane->orig);
+	//if (v_dot_product(&ray->dir, &plane->normal) < 0)
+	//print_vector(&centers, "centers:");
 	dots[0] = v_dot_product(&plane->normal, &centers);
+	//printf("dots[0] = %.10f\n", dots[0]);
+	//if (dots[0] > MIN)
+	//	dots[0] *= -1;
 	dots[1] = v_dot_product(&ray->dir, &plane->normal);
+	//printf("dots[1]  =%.3f\n", dots[1]);
 	if (dots[1] == 0)
 		dots[1] = MIN;
 	ret_val = dots[0] / dots[1];
@@ -43,12 +49,11 @@ t_intersect		*init_plane(t_plane *pl, float res, t_ray *ray, t_vector *col)
 	//print_vector(&ans->p_inter, "inter p:");
 	ans->to_cam = point_from_vector(&ray->dir, -1);
 	ans->normal = pl->normal;
+	v_normalize(&ans->normal);
 	//if (v_dot_product(&ans->normal, &ans->to_cam) < 0)
 	//{
 	//	printf("changer\n");
 	//	v_by_scalar(&ans->normal, -1);
 	//}
-	//v_normalize(&ans->normal);
-
 	return (ans);	
 }

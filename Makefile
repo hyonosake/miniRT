@@ -49,10 +49,10 @@ norm:
 			norminette srcs/*/*.c  includes/*.h > norm.txt
 run:		
 			make
-			./miniRT samples/square.rt
+			./miniRT samples/sample.rt
 mlxmake:
 	make -C mlx/ all
 	mv mlx/libmlx.a .
 	make -C mlx/ clean
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re run
 .SILENT:
