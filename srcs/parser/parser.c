@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/12 14:44:28 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/13 01:14:36 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void			parse_square(char *line, t_scene *scene)
 	skip_spaces(&line);
 	new->normal = parse_vector(&line);
 	v_normalize(&new->normal);
-	print_vector(&new->normal, "norm:");
+	//print_vector(&new->normal, "norm:");
 	skip_spaces(&line);
 	new->a = atof_modified(&line);
 	new->asq = new->a * new->a;
@@ -102,7 +102,7 @@ void			parse_triangle(char *line, t_scene *scene)
 }
 
 
-void			make_disk(t_cylinder *cy, t_vector col, t_scene *scene)
+void			make_disk(t_cylinder *cy, t_vector col, t_scene *scene, int flag)
 {
 	t_disk		*new;
 	t_vector	tmp;
@@ -110,15 +110,10 @@ void			make_disk(t_cylinder *cy, t_vector col, t_scene *scene)
 	if(!(new = (t_disk *)malloc(sizeof(t_disk))))
 		error_throw(-1);
 	new->normal = cy->axis;
-	tmp = point_from_vector(&cy->axis, cy->len * 0.5);
-	new->saved_orig = v_add(&cy->orig, &tmp);
-	//print_vector(&new->orig,"disk1 orig")
+	new->radius = cy->r;
+	tmp = point_from_vector(&cy->axis, flag * cy->len * 0.5);
+	new->saved_orig = v_add(&cy->saved_orig, &tmp);
 	tmp = point_from_vector(&col, 0.5);
-	add_object(scene, create_object((void *)new, tmp, OBJ_DISK));
-	tmp = point_from_vector(&cy->axis, -cy->len * 0.5);
-	new->saved_orig = v_add(&cy->orig, &tmp);
-	tmp = point_from_vector(&col, 0.5);
-	
 	add_object(scene, create_object((void *)new, tmp, OBJ_DISK));
 }
 
@@ -134,6 +129,7 @@ void			parse_cylinder(char *line, t_scene *scene)
 	skip_spaces(&line);
 	new->axis = parse_point(&line);
 	skip_spaces(&line);
+	//print_point("")
 	new->r = atof_modified(&line) / 2;
 	new->rsq = new->r * new->r;
 	skip_spaces(&line);
@@ -145,6 +141,8 @@ void			parse_cylinder(char *line, t_scene *scene)
 	if (*line != '\0' || !check_vector_input(&new->axis))
 		error_throw(-2);
 	v_normalize(&new->axis);
+	make_disk(new, col, scene, 1);
+	make_disk(new, col, scene, -1);
 	add_object(scene, create_object((void *)new, col, OBJ_CYL));
 }
 

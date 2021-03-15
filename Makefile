@@ -36,7 +36,7 @@ all:		$(NAME)
 %.o: %.c
 			$(CC) $(FLAGS) -O3 -msse3 -I ./includes/ -I ./mlx/ -c $< -o $@
 
-$(NAME):	${OBJS}
+$(NAME):	${OBJS} #mlxmake
 			$(CC) -g $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -O3 -msse3 -o $(NAME)
 
 clean:		
@@ -50,5 +50,9 @@ norm:
 run:		
 			make
 			./miniRT samples/square.rt
+mlxmake:
+	make -C mlx/ all
+	mv mlx/libmlx.a .
+	make -C mlx/ clean
 .PHONY: all clean fclean re
 .SILENT:

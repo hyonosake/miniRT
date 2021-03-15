@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:32:45 by alex              #+#    #+#             */
-/*   Updated: 2021/03/09 09:06:58 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/12 23:27:23 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void			parse_amb_light(char *line, t_scene *scene);
 void			parse_resolution(char *line, t_scene *scene);
 void			parse_input(t_scene *scene, int ac, char **av);
 void			parse_lights(char *line, t_scene *scene, int type);
+void			make_disk(t_cylinder *cy, t_vector col, t_scene *scene, int flag);
 int				ft_isdigit(char ch);
 int				ft_isspace(char ch);
 int				atoi_modified(char **line);

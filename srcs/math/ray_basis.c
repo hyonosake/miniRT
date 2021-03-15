@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_basis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:09:11 by alex              #+#    #+#             */
-/*   Updated: 2021/03/12 02:01:18 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/13 03:01:56 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_basis			basis_init(t_vector *forward)
 	b.k = *forward;
 	if (v_isnull(&b.i))
 	{
-		printf("v_isnull\n");
+		//printf("v_isnull\n");
 		up = v_from_values(0, 0, -1);
 		b.i = v_cross_product(&up, forward);
 	}

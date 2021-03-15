@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/09 09:05:12 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/13 03:27:29 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ t_vector		point_from_vector(t_vector *v1, float d);
 t_vector		v_from_values(float x, float y, float z);
 t_vector		v_from_basis(t_basis *basis, t_vector *c);
 t_vector 		v_cross_product(t_vector *v1, t_vector *v2);
-t_basis			*basis_create();
-t_basis			*find_minor_add(t_basis *b);
+//t_basis			basis_create();
+t_basis			find_minor_add(t_basis *b);
 t_basis			basis_init(t_vector *forward);
-t_basis			*find_transp_matrix(t_vector *dir);
+t_basis			find_transp_matrix(t_vector *dir);
 t_ray			new_ray(t_vector *v, t_vector *p);
 float			find_det_three(t_basis *b);
 float			v_dot_product(t_vector *v1, t_vector *v2);

@@ -98,8 +98,13 @@ void			transform_lights(t_scene *scene)
 	{
 		if (tmp->type == POINTING)
 		{
+<<<<<<< HEAD
 			// print_vector(&scene->cameras->saved_orig ,"cam pos");
 			// print_vector(&tmp->saved_orig ,"l pos\t");
+=======
+			//print_vector(&scene->cameras->saved_orig ,"cam pos");
+			//print_vector(&tmp->saved_orig ,"l pos\t");
+>>>>>>> b77465c3407587569c1b46e3c26daffd3b3b0b4d
 			tmp->orig = v_sub(&scene->cameras->saved_orig, &tmp->saved_orig);
 			//print_vector(&tmp->orig ,"l orig\t");
 		}

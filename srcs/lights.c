@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/12 13:24:19 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/13 00:18:48 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_CYL)
 			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
+		else if (tmp->type == OBJ_DISK)
+			res = disk_intersection((t_disk *)tmp->content, ray, min_t);
 		else
 			printf("parser shadows failed\ttype = %d\n", tmp->type);	
 		//printf("found %.2f\n", res);
@@ -147,8 +149,11 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		return (BACKGROUND_COLOR);
 	v_normalize(&ans->normal);
 	v_normalize(&ans->to_cam);
+	if (v_dot_product(&ans->to_cam, &ans->normal) < 0)
+		v_by_scalar(&ans->normal, -1);
 	tmp = scene->lights;
 	light_complex_init(ans, scene, &b_phong);
+	//check dot normal and to_cam here for inside objs;
 	while (tmp)
 	{
 		b_phong.l_type = tmp->type;
