@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:14:03 by alex              #+#    #+#             */
-/*   Updated: 2021/03/15 09:21:26 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 19:21:03 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,24 @@ float			square_intersection(t_square *sq, t_ray *ray, float min_t)
 		}
 	}
 	return (min_t);
+}
+
+t_intersect		*init_square(t_square *sq, float res, t_ray *ray, t_vector *col)
+{
+	t_intersect	*ans;
+
+	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
+		error_throw(-1);
+	ans->res = res;
+	ans->type = OBJ_SQUARE;
+	ans->color = *col;
+	ans->p_inter = point_from_vector(&ray->dir, res);
+	ans->p_inter = v_sub(&ray->orig, &ans->p_inter);
+	//printf("res = %.2f\n", ans->res);
+	//if (ans->p_inter.xv == 0 && ans->p_inter.yv == 0)
+	//	print_vector(&ans->p_inter, "disk_p_inter:");
+	ans->to_cam = point_from_vector(&ray->dir, -1);
+	ans->normal = sq->normal;
+	v_normalize(&ans->normal);
+	return (ans);	
 }

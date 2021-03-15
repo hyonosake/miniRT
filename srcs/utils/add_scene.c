@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:03:13 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/09 11:44:05 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:54:44 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ t_scene		*define_scene(void)
 
 	if (!(new = (t_scene *)malloc(sizeof(t_scene))))
 		error_throw(-1);
-	// new->canvas = NULL;
 	new->cameras = NULL;
 	new->objects = NULL;
 	new->lights = NULL;
-	// new->ambient = NULL;
-	new->mlx_init = NULL;
-	new->mlx_window = NULL;
+	new->mlx.image = NULL;
+	new->mlx.init = NULL;
+	new->mlx.addr = NULL;
+	new->mlx.window = NULL;
 	return (new);
 }
 

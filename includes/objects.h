@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/13 00:11:14 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 19:30:56 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct			s_camera
 	struct s_camera		*next;
 	struct s_camera		*prev;
 	t_vector			dir;
+	void				*mlx_image;
 	t_vector			orig;
 	t_vector			saved_orig;
 	float				fov;

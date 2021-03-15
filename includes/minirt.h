@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/12 14:05:00 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/15 20:21:00 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,7 @@
 # include "lights.h"
 
 int				main(int ac, char **av);
+void			mlx_fill(t_scene *scene);
+void			my_pixel_put(t_mlx *mlx, int x_pix, int y_pix, int col);
+
 #endif

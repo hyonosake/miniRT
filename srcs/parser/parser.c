@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/15 14:52:43 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/15 20:57:08 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		parse_input(t_scene *scene, int ac, char **av)
 		error_throw(-2);
 	while (av[1][i] != '.' && av[1][i])
 		i++;
-	if (!av[1][i] || (av[1][i+1] != 'r' && av[1][i+2] != 't') || fd < 0)
+	if (!av[1][i] || (av[1][i+1] != 'r' && av[1][i+2] != 't') || fd < 0  || av[1][i + 3] != 0)
 		error_throw(-3);
 	while((res = get_next_line(fd, &line)) > 0)
 	{
@@ -173,7 +173,7 @@ void			parse_line(char *line, t_scene *scene)
 	char		*s;
 	
 	s = line;
-	//printf("%c%c\n", line[0], line[1]);
+
 	if (!line || *line == '\0')
 		return ;
 	else if (s[0] == 'R' && (++s))

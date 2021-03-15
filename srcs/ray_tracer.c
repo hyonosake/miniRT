@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:33:58 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/13 03:00:59 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:51:18 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,17 @@ void			loop_through_pixels(t_scene *scene)
 		scene->canvas.y_pixel = 0;
 		while(scene->canvas.y_pixel < scene->canvas.height)
 		{
-			//if (scene->canvas.x_pixel < 700 &&  scene->canvas.y_pixel > 600)
-			//printf("pixel [%d %d]\n", scene->canvas.x_pixel, scene->canvas.y_pixel);
 			ray_transform(&ray, scene, &b);
 			ans = ray_objects_intersection(scene->objects, &ray);
 			col = blinn_phong(ans, scene);
-			mlx_pixel_put(scene->mlx_init, scene->mlx_window, scene->canvas.x_pixel,
-						  scene->canvas.y_pixel,col);
+			my_pixel_put(&scene->mlx, scene->canvas.x_pixel,
+			scene->canvas.y_pixel, col);
+			//mlx_pixel_put(scene->mlx.init, scene->mlx.window, scene->canvas.x_pixel,
+			//				scene->canvas.y_pixel, col);
 			scene->canvas.y_pixel++;
 		}
 		scene->canvas.x_pixel++;
 		free(ans);
 	}
+	write(1, "haha\n", 5);
 }

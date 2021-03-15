@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:22:18 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/15 16:18:59 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/15 21:04:34 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_vector		create_normal(t_cylinder *cy, float res, t_ray *ray)
 	ap = v_sub(&cy->orig, &op);
 	v_normalize(&ap);
 	tau = v_cross_product(&cy->axis, &ap);
-	return(v_cross_product(&cy->axis, &tau));
+	return(v_cross_product(&tau, &cy->axis));
 }
 
 

@@ -152,8 +152,7 @@ void	transform_cameras(t_camera *cams)
 	}
 }
 
-
-void			transform_scene(t_scene *scene)
+void		transform_scene(t_scene *scene)
 {
 	scene->r_basis = basis_init(&scene->cameras->dir);
 	transform_lights(scene);

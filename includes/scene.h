@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:29:54 by alex              #+#    #+#             */
-/*   Updated: 2021/03/15 10:42:56 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 19:57:44 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,27 @@ typedef struct		s_light
 	char			type;
 }					t_light;
 
+typedef struct		s_mlx
+{
+	char			*addr;		
+	void			*init;
+	void			*image;
+	void			*window;
+	int				lsize;
+	int				bpp;
+	int				endian;
+	
+}					t_mlx;
+
 typedef struct		s_scene
 {
+	t_mlx			mlx;
+	t_camera		*cameras;
+	t_canvas		canvas;
 	t_object		*objects;
 	t_basis			r_basis;
 	t_light			*lights;
 	t_light			ambient;
-	t_camera		*cameras;
-	t_canvas		canvas;
-	void			*mlx_init;
-	void			*mlx_image;
-	void			*mlx_window;
 }					t_scene;
 
 t_scene				*define_scene(void);
