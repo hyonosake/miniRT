@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:13:30 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/12 14:46:13 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/14 16:41:05 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ float			cylinder_intersection(t_cylinder *cy, t_ray *ray, float min_t)
 	t_vector	co;
 	t_vector	cp;
 	//a = v_dot_product(&ray->dir, &ray->dir) *
-	print_vector(&cy->orig, "cy")
+	// print_vector(&cy->orig, "cy");
 	co = v_sub(&cy->orig, &ray->orig);
 	a = v_dot_product(&ray->dir, &cy->axis) * v_dot_product(&ray->dir, &cy->axis) - 1;
 	b = 2 * (v_dot_product(&co, &cy->axis) * v_dot_product(&ray->dir, & cy->axis) -
