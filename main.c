@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:37:24 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/15 11:11:54 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 15:03:47 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int				main(int ac, char **av)
 	link_cameras(scene->cameras);
 	//print_cameras(scene);
 	//print_scene(scene);
-	print_objects(scene);
+	//print_objects(scene);
 	printf("\n============= INIT =============\n");
 	transform_scene(scene);
-	//print_objects(scene);
+	print_objects(scene);
 	//error_throw(-1);
 	//print_cameras(scene);
 	//print_scene(scene);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/15 10:49:46 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 16:47:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 	t_vector	centers;
 	float		dots[2];
 	float		ret_val;
+
 	centers = v_sub(&ray->orig, &plane->orig);
-	//if (v_dot_product(&ray->dir, &plane->normal) < 0)
+	if (v_dot_product(&ray->dir, &plane->normal) > 0)
+		v_by_scalar(&plane->normal, -1);
 	//print_vector(&centers, "centers:");
 	dots[0] = v_dot_product(&plane->normal, &centers);
 	//printf("dots[0] = %.10f\n", dots[0]);
-	//if (dots[0] > MIN)
-	//	dots[0] *= -1;
+	// if (dots[0] > MIN)
+	// 	dots[0] *= -1;
 	dots[1] = v_dot_product(&ray->dir, &plane->normal);
 	//printf("dots[1]  =%.3f\n", dots[1]);
 	if (dots[1] == 0)

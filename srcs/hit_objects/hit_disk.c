@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_disk.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 08:16:39 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/15 10:51:11 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 16:42:28 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ float			disk_intersection(t_disk *disk, t_ray *ray, float min_t)
 	t_vector	ap;
 	t_vector	p_inter;
 	///print_vector(&disk->orig, "disk origin:");
+	if (v_dot_product(&ray->dir, &disk->normal) > 0)
+		v_by_scalar(&disk->normal, -1);
 	if ((res = plane_intersection((t_plane *)disk, min_t, ray)) < min_t)
 	{
 		//printf("d\n");
@@ -30,6 +32,7 @@ float			disk_intersection(t_disk *disk, t_ray *ray, float min_t)
 		//print_vector(&disk->orig, "disc->orig");
 	//}
 		p_inter = point_from_vector(&ray->dir, res);
+		p_inter = v_sub(&ray->orig, &p_inter);
 		ap = v_sub(&disk->orig, &p_inter);
 		if (ap.mod < disk->radius)
 			return (res);

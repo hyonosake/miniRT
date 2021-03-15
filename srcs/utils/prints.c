@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/15 11:09:22 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 14:53:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ void	print_objects(t_scene *scene)
 			heh = (t_disk *)tmp->content;
 			printf("\t   --- A DISK ---\n");
 			print_vector(&heh->orig, "orig:");
-			print_vector(&heh->orig, "saved_orig:");
+			print_vector(&heh->saved_orig, "saved_orig:");
 			print_vector(&heh->normal, "normal:");
 			printf("r = %.2f\n", heh->radius);
 		}

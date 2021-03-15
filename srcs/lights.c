@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/15 11:03:40 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 16:38:15 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		return (BACKGROUND_COLOR);
 	v_normalize(&ans->normal);
 	v_normalize(&ans->to_cam);
-	if (v_dot_product(&ans->to_cam, &ans->normal) < 0)
+	if (v_dot_product(&ans->to_cam, &ans->normal) <= 0)
 	{
 		//printf("hopp\n");
 		v_by_scalar(&ans->normal, -1);

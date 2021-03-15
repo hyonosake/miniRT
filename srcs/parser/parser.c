@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/15 10:06:10 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/15 14:52:43 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void			parse_square(char *line, t_scene *scene)
 	skip_spaces(&line);
 	new->normal = parse_vector(&line);
 	v_normalize(&new->normal);
-	//print_vector(&new->normal, "norm:");
 	skip_spaces(&line);
 	new->a = atof_modified(&line);
 	new->asq = new->a * new->a;
