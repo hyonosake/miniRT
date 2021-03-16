@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/16 17:18:22 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 23:47:01 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,10 @@ int				blinn_phong(t_intersect *ans, t_scene *scene)
 		s_ray = new_ray(&lmod.to_light, &ans->p_inter);
 		if (!shadows(scene->objects, &s_ray, lmod.k_fading))
 		{
+			//printf("%.2f\n", ans->res);
+			//print_vector(&ans->to_cam, "to_c:");
+			//print_vector(&ans->normal, "norm:");
+			//print_vector(&lmod.to_light, "to_l");
 			lmod.k_diff = v_dot_product(&lmod.to_light, &ans->normal);
 			if (lmod.k_diff < 0)
 				lmod.k_diff = 0;
@@ -149,7 +153,13 @@ int				blinn_phong(t_intersect *ans, t_scene *scene)
 			//print_vector(&lmod.total_color, "col:");
 		}
 		else ;
-			//printf("shadows!\n");
+		//{
+		//	printf("SHADOW\n%.2f\n", ans->res);
+		//	print_vector(&ans->to_cam, "to_c:");
+		//	print_vector(&ans->normal, "norm:");
+		//	print_vector(&lmod.to_light, "to_l");
+		//}
+		//	printf("shadows!\n");
 		tmp = tmp->next;
 	}
 	return (col_to_int(&lmod.total_color, 1));

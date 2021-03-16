@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:37:24 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/16 16:30:11 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 23:06:45 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int		press_key(int key, t_scene *scene)
 	else if (key == C)
 		print_cameras(scene);
 	transform_scene(scene);
+	//mlx_destroy_image(scene->mlx.init, scene->mlx.image);
 	loop_through_pixels(scene);
 	mlx_put_image_to_window(scene->mlx.init, scene->mlx.window, scene->mlx.image,0,0);
 	return (0);

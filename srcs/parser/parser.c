@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/16 14:00:57 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 23:44:48 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void			parse_cylinder(char *line, t_scene *scene)
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
 	new->is_inside = 0;
+	new->lhalf = new->len * 0.5;
 	skip_spaces(&line);
 	if (*line != '\0' || !check_vector_input(&new->axis))
 		error_throw(-2);

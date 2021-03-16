@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:22:18 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/16 17:26:57 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 23:46:33 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,42 +26,21 @@ t_vector		create_normal(t_cylinder *cy, float res, t_ray *ray)
 	return(v_cross_product(&cy->axis, &tau));
 }
 
-
-float			check_cylinder_output(t_cylinder *cy, t_ray *ray, float val)
-{
-	float		dots;
-	t_vector	ap;
-
-	if (val < MIN)
-	{
-		//printf("0.00 ");
-		return (-1);
-	}
-	ap = point_from_vector(&ray->dir, val);
-	ap = v_sub(&ray->orig, &ap);
-	ap = v_sub(&cy->orig, &ap);
-	dots = ft_fabs(v_dot_product(&cy->axis, &ap));
-	//printf("%.2f\t", dots);
-	if (dots > cy->len * 0.5 + 5)
-		return (-1);
-	else
-		return (dots);
-	
-}
-
 float			correct_solution(t_cylinder *cy, float min_t, t_ray *ray)
 {
 	float		dots[2];
-
-	//printf("dots\t");
-	dots[0] = check_cylinder_output(cy, ray, cy->t[0]);
-	dots[1] = check_cylinder_output(cy, ray, cy->t[1]);
-	if (dots[0] < 0 && dots[1] < 0)
-		return (min_t);
-	else if (dots[0] > 0 && dots[1] < 0)
-		return_min_positive(dots[1], cy->t[0], min_t);
-	else if (dots[1] > 0 && dots[0] < 0)
-		return_min_positive(dots[0], cy->t[1], min_t);
+	t_vector	ap;
+	
+	ap = point_from_vector(&ray->dir, cy->t[0]);
+	ap = v_sub(&cy->orig, &ap);
+	dots[0] = ft_fabs(v_dot_product(&cy->axis, &ap));
+	ap = point_from_vector(&ray->dir, cy->t[1]);
+	ap = v_sub(&cy->orig, &ap);
+	dots[1] = ft_fabs(v_dot_product(&cy->axis, &ap));
+	if (dots[0] > cy->lhalf)
+		cy->t[0] = -1;
+	if (dots[1] > cy->lhalf)
+		cy->t[1] = -1;
 	return (return_min_positive(cy->t[0], cy->t[1], min_t));
 }
 
@@ -111,6 +90,7 @@ t_intersect		*init_cylinder(t_object *cy, float res, t_ray *ray)
 	ans->res = res;
 	ans->p_inter = point_from_vector(&ray->dir, res);
 	ans->p_inter = v_sub(&ray->orig, &ans->p_inter);
+	//print_vector(&ans->p_inter, "inter p");
 	ans->normal = ((t_cylinder *)cy->content)->norm;
 	v_normalize(&ans->normal);
 	ans->to_cam = point_from_vector(&ray->dir, -1);

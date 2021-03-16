@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/16 13:21:21 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 23:44:12 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct			s_cylinder
 	float				r;
 	float				rsq;
 	float				len;
+	float				lhalf;
 	char				is_inside;
 }						t_cylinder;
 
