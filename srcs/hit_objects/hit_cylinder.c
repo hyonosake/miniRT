@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:22:18 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/15 21:04:34 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 17:26:57 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,54 +23,54 @@ t_vector		create_normal(t_cylinder *cy, float res, t_ray *ray)
 	ap = v_sub(&cy->orig, &op);
 	v_normalize(&ap);
 	tau = v_cross_product(&cy->axis, &ap);
-	return(v_cross_product(&tau, &cy->axis));
+	return(v_cross_product(&cy->axis, &tau));
 }
 
 
-float			check_cylinder_output(t_cylinder *cy,float min_t, t_ray *ray)
+float			check_cylinder_output(t_cylinder *cy, t_ray *ray, float val)
+{
+	float		dots;
+	t_vector	ap;
+
+	if (val < MIN)
+	{
+		//printf("0.00 ");
+		return (-1);
+	}
+	ap = point_from_vector(&ray->dir, val);
+	ap = v_sub(&ray->orig, &ap);
+	ap = v_sub(&cy->orig, &ap);
+	dots = ft_fabs(v_dot_product(&cy->axis, &ap));
+	//printf("%.2f\t", dots);
+	if (dots > cy->len * 0.5 + 5)
+		return (-1);
+	else
+		return (dots);
+	
+}
+
+float			correct_solution(t_cylinder *cy, float min_t, t_ray *ray)
 {
 	float		dots[2];
-	t_vector	ap;
-	float		ret_val;
-	//check for t1 first
-	ret_val = min_t;
-	if (cy->t[0] < MIN)
-		cy->t[0] = -MIN;
-	if (cy->t[1] < MIN)
-		cy->t[1] = -MIN;
-	ap = point_from_vector(&ray->dir, cy->t[0]);
-	ap = v_sub(&cy->orig, &ap);
-	dots[0] = ft_fabs(v_dot_product(&cy->axis, &ap));
-	if (dots[0] > cy->len * 0.5)
-		dots[0] = -1;
-	else if (dots[0] < MIN)
-		dots[0] = MIN;
-	ap = point_from_vector(&ray->dir, cy->t[1]);
-	ap = v_sub(&cy->orig, &ap);
-	dots[1] = ft_fabs(v_dot_product(&cy->axis, &ap));
-	//if (ray->dir.xv == 0 && ray->dir.yv == 0 && ray->dir.zv == 1)	
-		//printf("dots %.2f %.2f\n", dots[0], dots[1]);
-	if (dots[1] > cy->len * 0.5)
-		dots[1] = -1;
+
+	//printf("dots\t");
+	dots[0] = check_cylinder_output(cy, ray, cy->t[0]);
+	dots[1] = check_cylinder_output(cy, ray, cy->t[1]);
 	if (dots[0] < 0 && dots[1] < 0)
 		return (min_t);
-	if (dots[0] < 0)
-		cy->t[0] = -1;
-	if (dots[1] < 0)
-		cy->t[1] = -1;
-	//printf("pair of dots:[%.2f %.2f]\npair of nums: [%.2f %.2f]\n", dots[0], dots[1],
-	//																cy->t[0], cy->t[1]);
+	else if (dots[0] > 0 && dots[1] < 0)
+		return_min_positive(dots[1], cy->t[0], min_t);
+	else if (dots[1] > 0 && dots[0] < 0)
+		return_min_positive(dots[0], cy->t[1], min_t);
 	return (return_min_positive(cy->t[0], cy->t[1], min_t));
 }
-
-
 
 float			cylinder_intersection(t_cylinder *cy, t_ray *ray, float min_t)
 {
 	float		a;
 	float		b;
 	float		c;
-	float ret_val;
+	float		ret_val;
 	float		det;
 	t_vector	co;
 
@@ -84,18 +84,19 @@ float			cylinder_intersection(t_cylinder *cy, t_ray *ray, float min_t)
 		return (min_t);
 	cy->t[0] = (- b + sqrt(det) ) / (2 * a);
 	cy->t[1] = (- b - sqrt(det) ) / (2 * a);
-	// if (ray->dir.xv == 0 && ray->dir.yv == 0 && ray->dir.zv == 1)	
-	// 	printf("%.2f %.2f\n", cy->t[0], cy->t[1]);
-	if (cy->t[0] > -MIN && cy->t[0] < MIN)
-		cy->t[0] = -1;
-	if (cy->t[1] > -MIN && cy->t[1] < MIN)
-		cy->t[1] = -1;
-	if (cy->t[0] < 0 && cy->t[1] < 0)
+	//printf("t: [%.2f %.2f] ? %.2f\t", cy->t[0], cy->t[1], min_t);
+	//if ((cy->t[0] > MIN && cy->t[1] < -MIN) || (cy->t[1] > MIN && cy->t[0] < -MIN))
+	//{
+	//	printf("qq! [%.2f %.2f]\n", cy->t[0], cy->t[1]);
+	//	cy->is_inside = 1;
+	//}
+	if ((cy->t[0] < MIN && cy->t[1] < MIN) ||
+		(cy->t[0] > min_t && cy->t[1] > min_t))
 		return (min_t);
-	ret_val = check_cylinder_output(cy,min_t, ray);
-	//printf("I should ret %.2f\n", ret_val);
+	ret_val = correct_solution(cy, min_t, ray);
 	if (ret_val < min_t)
 		cy->norm = create_normal(cy, ret_val, ray);
+	//printf("and i ret %.2f\n", ret_val);
 	return (ret_val);
 }
 
@@ -109,13 +110,9 @@ t_intersect		*init_cylinder(t_object *cy, float res, t_ray *ray)
 	ans->color = cy->color;
 	ans->res = res;
 	ans->p_inter = point_from_vector(&ray->dir, res);
+	ans->p_inter = v_sub(&ray->orig, &ans->p_inter);
 	ans->normal = ((t_cylinder *)cy->content)->norm;
 	v_normalize(&ans->normal);
-	if (cy->type == INSIDE_OBJ)
-	{
-		cy->type = OBJ_CYL;
-		v_by_scalar(&ans->normal, -1);
-	}
 	ans->to_cam = point_from_vector(&ray->dir, -1);
 	ans->type = cy->type;
 	return (ans);

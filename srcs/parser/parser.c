@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/15 20:57:08 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 14:00:57 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ void			parse_cylinder(char *line, t_scene *scene)
 	if (*line != '\0' || !check_vector_input(&new->axis))
 		error_throw(-2);
 	v_normalize(&new->axis);
-	make_disk(new, col, scene, 1);
-	make_disk(new, col, scene, -1);
+	//make_disk(new, col, scene, 1);
+	//make_disk(new, col, scene, -1);
 	add_object(scene, create_object((void *)new, col, OBJ_CYL));
 }
 

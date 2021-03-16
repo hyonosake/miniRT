@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 10:24:41 by alex              #+#    #+#             */
-/*   Updated: 2021/03/05 23:42:44 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 13:14:40 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ void			free_objects(t_object *objs)
 
 void			free_scene(t_scene *scene)
 {
+	free(scene->mlx.init);
+	free(scene->mlx.addr);
+	free(scene->mlx.image);
+	free(scene->mlx.window);
 	free_lights(scene->lights);
 	free_cameras(scene->cameras);
 	free_objects(scene->objects);

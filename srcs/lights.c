@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/15 21:03:57 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 17:18:22 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,10 @@
 int					shadows(t_object *objs, t_ray *ray, float min_t)
 {
 	t_object		*tmp;
-	//static t_object	*prev;
-	float		res;
+	float			res;
 
 	v_normalize(&ray->dir);
 	tmp = objs;
-	//if (!prev)
-	//	prev = tmp;
-	//printf("looking for less than %.2f\n", min_t);
 	while (tmp)
 	{
 		if (tmp->type == OBJ_SPHERE)
@@ -36,15 +32,26 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 		else if (tmp->type == OBJ_TRIAN)
 			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_CYL)
+		{
+			//printf("========== shadow ===========\n");
+			//print_vector(&ray->orig, "ray->orig");
 			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
+			//printf("==============================\n");
+		}
 		else if (tmp->type == OBJ_DISK)
 			res = disk_intersection((t_disk *)tmp->content, ray, min_t);
 		else
 			printf("parser shadows failed\ttype = %d\n", tmp->type);	
 		if (res < min_t && res > MIN)
-			return (1);
+		{
+			return (tmp->type);
+		}
 		tmp = tmp->next;
 	}
+	//printf("let there be light\n");
+	//t_vector temp = point_from_vector(&ray->dir, res);
+	//temp = v_sub(&ray->orig, &temp);
+	//print_vector(&temp, "p_inters");
 	return (0);
 }
 
@@ -109,7 +116,7 @@ void				turn_into_magic(t_light_complex *b_phong, t_intersect *ans)
 
 //}
 
-int					blinn_phong(t_intersect *ans, t_scene *scene)
+int				blinn_phong(t_intersect *ans, t_scene *scene)
 {
 	t_light_complex lmod;
 	t_light			*tmp;
@@ -117,11 +124,11 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 
 	if (!ans)
 		return (BACKGROUND_COLOR);
-	//printf("???\n");
 	tmp = scene->lights;
-	//print_vector(&ans->color)
 	lmod.total_color = color_multiply(&ans->color, &scene->ambient.color,
 										scene->ambient.intensity);
+	if (v_dot_product(&ans->to_cam, &ans->normal) < 0)
+		v_by_scalar(&ans->normal, -1);
 	while(tmp)
 	{
 		if (tmp->type == DIRECT)
@@ -132,8 +139,7 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		lmod.k_fading = lmod.to_light.mod;
 		v_normalize(&lmod.to_light);
 		s_ray = new_ray(&lmod.to_light, &ans->p_inter);
-		if (!shadows(scene->objects, &s_ray, lmod.k_fading) ||
-			v_dot_product(&ans->to_cam, &ans->normal) < 0)
+		if (!shadows(scene->objects, &s_ray, lmod.k_fading))
 		{
 			lmod.k_diff = v_dot_product(&lmod.to_light, &ans->normal);
 			if (lmod.k_diff < 0)
@@ -143,6 +149,7 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 			//print_vector(&lmod.total_color, "col:");
 		}
 		else ;
+			//printf("shadows!\n");
 		tmp = tmp->next;
 	}
 	return (col_to_int(&lmod.total_color, 1));

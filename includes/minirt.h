@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/15 20:21:00 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 16:05:53 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# define MAX 1000000
-# define MIN 0.2
-# define BACKGROUND_COLOR 0x0
 # define P_LIGHT 1
 # define D_LIGHT 2
 # define OBJ_SPHERE 1
 # define INSIDE_OBJ -1
-# define MAGIC 0
-# define VECTORIZE_COLOR 0.00392
 # define OBJ_PLANE 2
 # define OBJ_SQUARE 3
 # define OBJ_TRIAN 4
@@ -38,12 +33,7 @@
 # define K_LAMB 0.4
 # define K_SPEC 0.9
 # define SIGMA 80
-# define KEY_TAB 48
-# define KEY_ESC 53
-# define KEY_W 13
-# define KEY_A 0
-# define KEY_S 1
-# define KEY_D 2
+# include "def_vals.h"
 # include "../mlx/mlx.h"
 # include "get_next_line.h"
 # include "vectors.h"

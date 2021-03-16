@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/15 21:07:05 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 13:53:01 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,15 @@ float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 	float		ret_val;
 
 	centers = v_sub(&ray->orig, &plane->orig);
-	if (v_dot_product(&ray->dir, &plane->normal) > 0)
-		v_by_scalar(&plane->normal, -1);
-	//print_vector(&centers, "centers:");
+	//if (v_dot_product(&ray->dir, &plane->normal) > 0)
+	//	v_by_scalar(&plane->normal, -1);
 	dots[0] = v_dot_product(&plane->normal, &centers);
-	//printf("dots[0] = %.10f\n", dots[0]);
-	// if (dots[0] > MIN)
-	// 	dots[0] *= -1;
 	dots[1] = v_dot_product(&ray->dir, &plane->normal);
-	//printf("dots[1]  =%.3f\n", dots[1]);
 	if (dots[1] == 0)
 		dots[1] = MIN;
 	ret_val = dots[0] / dots[1];
 	if (ret_val > min_t || ret_val < MIN)
 		ret_val = min_t;
-	//printf("ret_val:%.2f\n", ret_val);
 	return (ret_val);
 }
 

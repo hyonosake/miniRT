@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/15 19:30:56 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/16 13:21:21 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct			s_intersect
 	t_vector			to_cam;
 	t_vector			color;
 	float				res;
+	unsigned int		int_col;
 	char				type;
 }						t_intersect;
 

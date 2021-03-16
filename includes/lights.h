@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 09:07:26 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/12 13:17:08 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/16 13:23:19 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ void				light_complex_init(t_intersect *ans, t_scene *scene, t_light_complex *b_
 void				light_construction(t_light_complex *b_phong, t_light *l, t_intersect *ans);
 void				specular_highlight(t_light_complex *b_phong, t_intersect *ans);
 int					blinn_phong(t_intersect *ans, t_scene *scene);
-int					col_to_int(t_vector	*coeffs, float to_cam);
+int					col_to_int(t_vector *coeffs, float to_cam);
 #endif
