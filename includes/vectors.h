@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/13 03:27:29 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/17 08:31:14 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,7 @@ void			v_by_scalar(t_vector *v, float d);
 void			transform_vector(t_basis *trans, t_vector *v);
 void			transform_point(t_vector *orig, t_vector *p, t_basis *trans);
 int 			v_isnull(t_vector *v1);
+float			return_positive(float r1, float r2, float min_t);
+float			return_min_positive(float r1, float r2, float min_t);
+float			define_what_to_ret(float r1, float r2, float min_t);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/16 16:05:53 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/17 11:05:49 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define DIRECT 2
 # define POINTING 3
 # define K_LAMB 0.4
-# define K_SPEC 0.9
+# define K_SPEC 0.6
 # define SIGMA 80
 # include "def_vals.h"
 # include "../mlx/mlx.h"

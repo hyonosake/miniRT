@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/16 23:47:01 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/17 11:07:56 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,6 @@ t_vector			color_multiply(t_vector *v1, t_vector *v2, double k)
 	return (new);
 }
 
-float				return_max_positive(float c)
-{
-	if (c < 0)
-		return (0);
-	else if (c > 1.0)
-		return (1.0);
-	else
-		return (c);
-}
-
 void				turn_into_magic(t_light_complex *b_phong, t_intersect *ans)
 {
 	float			k;
@@ -125,6 +115,8 @@ int				blinn_phong(t_intersect *ans, t_scene *scene)
 	if (!ans)
 		return (BACKGROUND_COLOR);
 	tmp = scene->lights;
+	//ans->to_cam = v_sub(&ans->p_inter, &scene->cameras->orig);
+	v_normalize(&ans->to_cam);
 	lmod.total_color = color_multiply(&ans->color, &scene->ambient.color,
 										scene->ambient.intensity);
 	if (v_dot_product(&ans->to_cam, &ans->normal) < 0)
@@ -135,22 +127,26 @@ int				blinn_phong(t_intersect *ans, t_scene *scene)
 			lmod.to_light = point_from_vector(&tmp->orig, -1);
 		else
 			lmod.to_light = v_sub(&ans->p_inter, &tmp->orig);
-	
 		lmod.k_fading = lmod.to_light.mod;
 		v_normalize(&lmod.to_light);
 		s_ray = new_ray(&lmod.to_light, &ans->p_inter);
 		if (!shadows(scene->objects, &s_ray, lmod.k_fading))
 		{
-			//printf("%.2f\n", ans->res);
-			//print_vector(&ans->to_cam, "to_c:");
-			//print_vector(&ans->normal, "norm:");
-			//print_vector(&lmod.to_light, "to_l");
 			lmod.k_diff = v_dot_product(&lmod.to_light, &ans->normal);
 			if (lmod.k_diff < 0)
 				lmod.k_diff = 0;
-			lmod.diffuse = color_multiply(&ans->color, &tmp->color, lmod.k_diff * tmp->intensity);
+			lmod.diffuse = color_multiply(&ans->color, &tmp->color,
+				lmod.k_diff * tmp->intensity);
 			lmod.total_color = v_add(&lmod.total_color, &lmod.diffuse);
-			//print_vector(&lmod.total_color, "col:");
+			lmod.spec = v_add(&ans->to_cam, &lmod.to_light);
+			v_normalize(&lmod.spec);
+			lmod.k_spec = v_dot_product(&lmod.spec, &ans->normal);
+			if (lmod.k_spec < 0)
+				lmod.k_spec = 0;
+			lmod.k_spec = pow(lmod.k_spec, 90) * tmp->intensity;
+			lmod.spec = tmp->color;
+			v_by_scalar(&lmod.spec, lmod.k_spec);
+			lmod.total_color = v_add(&lmod.total_color, &lmod.spec);
 		}
 		else ;
 		//{
@@ -162,7 +158,7 @@ int				blinn_phong(t_intersect *ans, t_scene *scene)
 		//	printf("shadows!\n");
 		tmp = tmp->next;
 	}
-	return (col_to_int(&lmod.total_color, 1));
+	return (col_to_int(&lmod.total_color, 100 / ans->to_cam.mod));
 }
 
 int			col_to_int(t_vector *coeffs, float to_cam)
@@ -170,6 +166,10 @@ int			col_to_int(t_vector *coeffs, float to_cam)
 	int		rgb[3];
 	int		i;
 
+	if (to_cam > 1)
+		to_cam = 1;
+	else if (to_cam < 0.2)
+		to_cam = 0.2;
 	i = 0;
 	rgb[0] = coeffs->xv * 255 * to_cam;
 	rgb[1] = coeffs->yv * 255 * to_cam;

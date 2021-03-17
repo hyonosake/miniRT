@@ -19,6 +19,7 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 			srcs/parser/parsing_utils.c \
 			srcs/utils/add_scene.c \
 			srcs/utils/error.c \
+			srcs/utils/utils.c \
 			srcs/utils/free.c \
 			srcs/utils/prints.c \
 			srcs/lights.c \
