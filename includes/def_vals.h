@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   def_vals.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 16:03:36 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/16 16:29:40 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/17 14:23:02 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # define MAX 100000
 # define MIN 0.2
 # define BACKGROUND_COLOR 0x0
+# define RES_X	1920
+# define RES_y	1080
 # define VECTORIZE_COLOR 0.00392
 # define MAGIC 0
 # define KEY_TAB 48

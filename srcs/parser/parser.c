@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/17 11:09:18 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/17 14:13:12 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ void		parse_input(t_scene *scene, int ac, char **av)
 	
 	fd = open(av[1], O_RDONLY);
 	i = 0;
+	if (fd < 0)
+		error_throw(-3);
 	if (ac == 3)
 		//parse save
 		;
 	if (ac < 2 || ac > 3)
 		error_throw(-2);
-	while (av[1][i] != '.' && av[1][i])
+	while (av[1][i])
 		i++;
-	if (!av[1][i] || (av[1][i+1] != 'r' && av[1][i+2] != 't') || fd < 0  || av[1][i + 3] != 0)
+	if ((av[1][--i] != 't' || av[1][--i] != 'r' || av[1][--i] != '.'))
 		error_throw(-3);
 	while((res = get_next_line(fd, &line)) > 0)
 	{
@@ -65,6 +67,7 @@ void			parse_square(char *line, t_scene *scene)
 	v_normalize(&new->normal);
 	skip_spaces(&line);
 	new->a = atof_modified(&line);
+	//invalid input if no a included.
 	new->asq = new->a * new->a;
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);

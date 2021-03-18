@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_square.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:14:03 by alex              #+#    #+#             */
-/*   Updated: 2021/03/15 19:21:03 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/17 13:56:34 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ float			square_intersection(t_square *sq, t_ray *ray, float min_t)
 		basis_normalize(&b);
 		a_p = point_from_vector(&ray->dir, res);
 		a_p = v_sub(&sq->orig, &a_p);
-		dot = v_dot_product(&a_p, &b.j);
-		if (dot >= -sq->a / 2 && dot <= sq->a / 2)
+		dot = ft_fabs(v_dot_product(&a_p, &b.j));
+		if (dot <= sq->a * 0.5)
 		{
-			dot = v_dot_product(&a_p, &b.i);
-			if (dot >= -sq->a / 2 && dot <= sq->a / 2)
+			dot = ft_fabs(v_dot_product(&a_p, &b.i));
+			if (dot <= sq->a * 0.5)
 				return (res);
 		}
 	}

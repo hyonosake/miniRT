@@ -28,7 +28,7 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 
 OBJS =		${SRCS:.c=.o}
 MLX_FLAGS =	-Lminilibx -framework OpenGL -framework AppKit -lminilibx 
-FLAGS =		-g -Wall -Wextra #-Werror
+FLAGS =		-g -Wall -Wextra -Werror
 RM =		rm -rf
 CC =		gcc
 
