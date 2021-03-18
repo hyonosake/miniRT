@@ -6,16 +6,18 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/16 23:44:12 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/18 15:55:00 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OBJECTS_H
 # define OBJECTS_H
+
 # include "minirt.h"
+
 typedef struct			s_object
 {
-	struct	s_object	*next;
+	struct s_object		*next;
 	t_vector			color;
 	void				*content;
 	char				type;
@@ -43,7 +45,7 @@ typedef struct			s_square
 	t_vector			saved_orig;
 	t_vector			normal;
 	float				a;
-	float				asq;
+	float				ahalf;
 }						t_square;
 
 typedef struct			s_trian
@@ -51,7 +53,7 @@ typedef struct			s_trian
 	t_vector			p[3];
 	t_vector			normal;
 	t_vector			saved_p[3];
-	t_vector			magic_nums;
+	float				coords[3];
 }						t_trian;
 
 typedef struct			s_intersect

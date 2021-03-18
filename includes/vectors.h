@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/17 08:31:14 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/18 16:12:55 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ t_vector		v_sub(t_vector *v1, t_vector *v2);
 t_vector		point_from_vector(t_vector *v1, float d);
 t_vector		v_from_values(float x, float y, float z);
 t_vector		v_from_basis(t_basis *basis, t_vector *c);
-t_vector 		v_cross_product(t_vector *v1, t_vector *v2);
-//t_basis			basis_create();
+t_vector		v_cross_product(t_vector *v1, t_vector *v2);
 t_basis			find_minor_add(t_basis *b);
 t_basis			basis_init(t_vector *forward);
 t_basis			find_transp_matrix(t_vector *dir);
@@ -54,8 +53,8 @@ void			basis_normalize(t_basis *b);
 void			v_by_scalar(t_vector *v, float d);
 void			transform_vector(t_basis *trans, t_vector *v);
 void			transform_point(t_vector *orig, t_vector *p, t_basis *trans);
-int 			v_isnull(t_vector *v1);
 float			return_positive(float r1, float r2, float min_t);
 float			return_min_positive(float r1, float r2, float min_t);
 float			define_what_to_ret(float r1, float r2, float min_t);
+int				v_isnull(t_vector *v1);
 #endif

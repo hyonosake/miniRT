@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/17 22:12:12 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/18 16:27:52 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minirt.h"
-
-
+#include "../includes/minirt.h"
 
 int					shadows(t_object *objs, t_ray *ray, float min_t)
 {
@@ -34,9 +32,13 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 		else if (tmp->type == OBJ_CYL)
 			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
 		else if (tmp->type == OBJ_DISK)
+		{
+			//printf("shadow ");
 			res = disk_intersection((t_disk *)tmp->content, ray, min_t);
+			//printf("res:");
+		}
 		else
-			printf("parser shadows failed\ttype = %d\n", tmp->type);	
+			error_throw("parser shadows failed\n");
 		if (res < min_t && res > MIN)
 		{
 			return (tmp->type);
@@ -46,41 +48,7 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 	return (0);
 }
 
-
-t_vector			color_multiply(t_vector *v1, t_vector *v2, double k)
-{
-	t_vector		new;
-	
-	new.xv = v1->xv * v2->xv * k;
-	new.yv = v1->yv * v2->yv * k;
-	new.zv = v1->zv * v2->zv * k;
-	new.mod = 0;
-	return (new);
-}
-
-void				turn_into_magic(t_l_comp *b_phong, t_intersect *ans)
-{
-	float			k;
-	t_vector		reference;
-	
-	reference = v_from_values(0,1,0);
-	if (MAGIC == 1)
-	{
-		k = v_dot_product(&reference, &ans->normal);
-		if (k > 0)
-		{
-			b_phong->obj_color.xv = k * 0.9;
-			b_phong->obj_color.yv = (1 - k) * 0.9;
-		}
-		else
-		{
-			b_phong->obj_color.xv = (1 + k) * 0.9;
-			b_phong->obj_color.yv = - k * 0.9;
-		}
-		b_phong->obj_color.zv = 0.3;
-	}
-}
-void				calc_spec_part(t_intersect *ans,t_l_comp *lmod,
+void				calc_spec_part(t_intersect *ans, t_l_comp *lmod,
 							t_light *l)
 {
 	lmod->spec = v_add(&ans->to_cam, &lmod->to_light);
@@ -91,12 +59,11 @@ void				calc_spec_part(t_intersect *ans,t_l_comp *lmod,
 	lmod->k_spec = pow(lmod->k_spec, 90) * l->intensity;
 	lmod->spec = l->color;
 	v_by_scalar(&lmod->spec, lmod->k_spec);
-	lmod->total_color = v_add(&lmod->total_color, &lmod->spec);					
+	lmod->total_color = v_add(&lmod->total_color, &lmod->spec);
 }
 
-
-void				calculate_multi_color(t_intersect *ans,t_l_comp *lmod,
-							t_light *l, t_scene *scene)
+void				calculate_multi_color(t_intersect *ans, t_l_comp *lmod,
+							t_light *l)
 {
 	lmod->k_diff = v_dot_product(&lmod->to_light, &ans->normal);
 	if (lmod->k_diff < 0)
@@ -106,27 +73,26 @@ void				calculate_multi_color(t_intersect *ans,t_l_comp *lmod,
 	lmod->total_color = v_add(&lmod->total_color, &lmod->diffuse);
 }
 
+void				color_define(t_intersect *ans, t_l_comp *lmod,
+									t_scene *scene)
+{
+	if (v_dot_product(&ans->to_cam, &ans->normal) < 0)
+		v_by_scalar(&ans->normal, -1);
+	lmod->total_color = color_multiply(&ans->color, &scene->ambient.color,
+										scene->ambient.intensity);
+}
+
 int					blinn_phong(t_intersect *ans, t_scene *scene)
 {
 	t_l_comp		lmod;
 	t_light			*tmp;
-	t_intersect		*reflect;
-	t_ray			reflected_ray;
-	t_vector		r;
 	t_ray			s_ray;
+
 	if (!ans)
 		return (BACKGROUND_COLOR);
 	tmp = scene->lights;
-	// v_normalize(&ans->to_cam);
-	if (v_dot_product(&ans->to_cam, &ans->normal) < 0)
-		v_by_scalar(&ans->normal, -1);
-	r = point_from_vector(&ans->normal, (2 * v_dot_product(&scene->cameras->dir, &ans->normal)));
-	r = v_sub(&r, &ans->normal);
-	reflected_ray = new_ray(&r, &ans->p_inter);
-	//reflected_ray = 
-	lmod.total_color = color_multiply(&ans->color, &scene->ambient.color,
-										scene->ambient.intensity);
-	while(tmp)
+	color_define(ans, &lmod, scene);
+	while (tmp)
 	{
 		if (tmp->type == DIRECT)
 			lmod.to_light = point_from_vector(&tmp->orig, -1);
@@ -137,32 +103,10 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 		s_ray = new_ray(&lmod.to_light, &ans->p_inter);
 		if (!shadows(scene->objects, &s_ray, lmod.k_fading))
 		{
-			calculate_multi_color(ans, &lmod, tmp, scene);
-			calc_spec_part(ans, &lmod,&tmp);
+			calculate_multi_color(ans, &lmod, tmp);
+			calc_spec_part(ans, &lmod, tmp);
 		}
 		tmp = tmp->next;
 	}
 	return (col_to_int(&lmod.total_color, 100 / ans->to_cam.mod));
-}
-
-int			col_to_int(t_vector *coeffs, float to_cam)
-{
-	int		rgb[3];
-	int		i;
-
-	if (to_cam > 1)
-		to_cam = 1;
-	else if (to_cam < 0.2)
-		to_cam = 0.2;
-	i = 0;
-	rgb[0] = coeffs->xv * 255 * to_cam;
-	rgb[1] = coeffs->yv * 255 * to_cam;
-	rgb[2] = coeffs->zv * 255 * to_cam;
-	while (i < 3)
-	{
-		if (rgb[i] > 255)
-			rgb[i] = 255;
-		++i;
-	}
-	return (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
 }

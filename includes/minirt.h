@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/17 11:05:49 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/18 16:21:50 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,19 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <time.h>
+# include "def_vals.h"
+# include "../mlx/mlx.h"
+# include "get_next_line.h"
+# include "vectors.h"
+# include "objects.h"
+# include "scene.h"
+# include "intersection.h"
+# include "parser.h"
+# include "utils.h"
+# include "ray_tracer.h"
+# include "lights.h"
+# include "bmpmake.h"
 # define P_LIGHT 1
 # define D_LIGHT 2
 # define OBJ_SPHERE 1
@@ -33,20 +46,7 @@
 # define K_LAMB 0.4
 # define K_SPEC 0.6
 # define SIGMA 80
-# include "def_vals.h"
-# include "../mlx/mlx.h"
-# include "get_next_line.h"
-# include "vectors.h"
-# include "objects.h"
-# include "scene.h"
-# include "intersection.h"
-# include "parser.h"
-# include "utils.h"
-# include "ray_tracer.h"
-# include "lights.h"
 
+int				press_key(int key, t_scene *scene);
 int				main(int ac, char **av);
-void			mlx_fill(t_scene *scene);
-void			my_pixel_put(t_mlx *mlx, int x_pix, int y_pix, int col);
-
 #endif

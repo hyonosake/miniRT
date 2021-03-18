@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   bmpmake.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/06 01:35:20 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 12:02:06 by ffarah           ###   ########.fr       */
+/*   Created: 2021/03/18 12:34:38 by ffarah            #+#    #+#             */
+/*   Updated: 2021/03/18 15:46:09 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
+#ifndef BMPMAKE_H
+# define BMPMAKE_H
+# include "minirt.h"
 
-void	error_throw(char *message)
+typedef struct	s_bmp_save
 {
-	int i;
+	char		bmphead[BMPHEAD + BMPINFO];
+	char		*name;
+	int			fsize;
+	int			fd;
+	int			row;
+}				t_bmp_save;
 
-	i = ft_strlen(message);
-	write(1, message, i);
-	exit(-1);
-}
+void			fill_bmphead(t_bmp_save *new, t_canvas *canv);
+void			save_to_bmp(t_canvas *canv, t_mlx *mlx);
+void			ft_memset(void *ptr, int n);
+char			*get_name_utc();
+char			*add_bmp_in_filename(char *utc);
+
+#endif

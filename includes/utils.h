@@ -6,13 +6,15 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 08:57:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/17 08:16:40 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/18 16:20:35 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
+
 # include "minirt.h"
+
 void			free_ray(t_ray *ray);
 void			free_cameras(t_camera *cams);
 void			free_lights(t_light *lights);
@@ -29,4 +31,7 @@ void			print_lights(t_scene *scene);
 void			print_objects(t_scene *scene);
 void			print_scene(t_scene *scene);
 void			print_basis(t_basis *b);
+void			mlx_fill(t_scene *scene);
+void			my_pixel_put(t_mlx *mlx, int x_pix, int y_pix, int col);
+void			link_cameras(t_camera *cams);
 #endif

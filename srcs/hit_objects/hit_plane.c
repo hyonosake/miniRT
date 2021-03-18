@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/17 13:59:02 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/18 14:48:55 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 	float		ret_val;
 
 	centers = v_sub(&ray->orig, &plane->orig);
-	// if (v_dot_product(&ray->dir, &plane->normal) > 0)
-	// 	v_by_scalar(&plane->normal, -1);
 	dots[0] = v_dot_product(&plane->normal, &centers);
 	if (ft_fabs(dots[0]) < MIN)
 		dots[0] = -MIN;
@@ -38,7 +36,7 @@ t_intersect		*init_plane(t_plane *pl, float res, t_ray *ray, t_vector *col)
 	t_intersect	*ans;
 
 	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
-		error_throw(-1);
+		error_throw(MALLOC_ERR);
 	ans->res = res;
 	ans->type = OBJ_PLANE;
 	ans->color = *col;
@@ -47,5 +45,5 @@ t_intersect		*init_plane(t_plane *pl, float res, t_ray *ray, t_vector *col)
 	ans->to_cam = point_from_vector(&ray->dir, -1);
 	ans->normal = pl->normal;
 	v_normalize(&ans->normal);
-	return (ans);	
+	return (ans);
 }

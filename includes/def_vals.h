@@ -3,21 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   def_vals.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 16:03:36 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/17 14:23:02 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/18 15:46:21 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEF_VALS_H
 # define DEF_VALS_H
+
 # define THETA 0.1
 # define MAX 100000
 # define MIN 0.2
 # define BACKGROUND_COLOR 0x0
-# define RES_X	1920
-# define RES_y	1080
+# define MAXRES_X 5120
+# define MAXRES_Y 2880
+# define RES_X 1200
+# define RES_Y 800
 # define VECTORIZE_COLOR 0.00392
 # define MAGIC 0
 # define KEY_TAB 48
@@ -33,4 +36,9 @@
 # define RR 124
 # define ML 10000
 # define MR 10001
+# define MALLOC_ERR "Error during memory allocation. Aborting\n"
+# define INPUT_ERR "Error Input. Aborting\n"
+# define BMPHEAD 14
+# define BMPINFO 40
+
 #endif

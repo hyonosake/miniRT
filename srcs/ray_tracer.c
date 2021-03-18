@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:33:58 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/17 22:12:03 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/18 12:32:52 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ void			ray_transform(t_ray *ray, t_scene *scene, t_basis *b)
 {
 	t_vector	c;
 	if (!ray)
-		error_throw(-1);
+		error_throw(MALLOC_ERR);
 	c.xv = scene->canvas.x_pixel - scene->canvas.width * 0.5;
 	c.yv = scene->canvas.height * 0.5 - scene->canvas.y_pixel;
 	c.zv = scene->canvas.width * 0.5 / tan(scene->cameras->fov * 0.5);
