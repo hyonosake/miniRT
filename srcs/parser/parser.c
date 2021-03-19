@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/18 15:20:57 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:19:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void			make_disk(t_cylinder *cy, t_vector col,
 	tmp = point_from_vector(&cy->axis, flag * cy->len * 0.5);
 	new->saved_orig = v_add(&cy->saved_orig, &tmp);
 	tmp = point_from_vector(&col, 0.5);
-	add_object(scene, create_object((void *)new, tmp, OBJ_DISK));
+	add_object(scene, create_object((void *)new, tmp, DISK));
 }
 
 void			parse_disk(char *line, t_scene *scene)
@@ -46,7 +46,7 @@ void			parse_disk(char *line, t_scene *scene)
 	v_normalize(&new->normal);
 	if (*line != '\0' || !check_vector_input(&new->normal))
 		error_throw(INPUT_ERR);
-	add_object(scene, create_object((void *)new, col, OBJ_DISK));
+	add_object(scene, create_object((void *)new, col, DISK));
 }
 
 void			parse_line(char *line, t_scene *scene)
@@ -117,5 +117,5 @@ void			parse_cylinder(char *line, t_scene *scene)
 	v_normalize(&new->axis);
 	make_disk(new, col, scene, 1);
 	make_disk(new, col, scene, -1);
-	add_object(scene, create_object((void *)new, col, OBJ_CYL));
+	add_object(scene, create_object((void *)new, col, CYL));
 }

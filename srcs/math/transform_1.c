@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transform_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 16:03:41 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 16:07:58 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:19:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ void			transform_objects(t_vector *orig, t_object *objs)
 	while (tmp)
 	{
 		c = tmp->content;
-		if (tmp->type == OBJ_SPHERE)
+		if (tmp->type == SPHERE)
 			((t_sphere *)c)->orig = v_sub(orig, &((t_sphere *)c)->saved_orig);
-		else if (tmp->type == OBJ_PLANE || tmp->type == OBJ_DISK)
+		else if (tmp->type == PLANE || tmp->type == DISK)
 			((t_plane *)c)->orig = v_sub(orig, &((t_plane *)c)->saved_orig);
-		else if (tmp->type == OBJ_SQUARE)
+		else if (tmp->type == SQUARE)
 			((t_square *)c)->orig = v_sub(orig, &((t_square *)c)->saved_orig);
-		else if (tmp->type == OBJ_TRIAN)
+		else if (tmp->type == TRIAN)
 			transform_trian((t_trian *)tmp->content, orig);
-		else if (tmp->type == OBJ_CYL)
+		else if (tmp->type == CYL)
 			((t_cylinder *)tmp->content)->orig =
 			v_sub(orig, &((t_cylinder *)tmp->content)->saved_orig);
-		else if (tmp->type == OBJ_DISK)
+		else if (tmp->type == DISK)
 			((t_disk *)c)->orig = v_sub(orig, &((t_disk *)c)->saved_orig);
 		tmp = tmp->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_triangle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 20:22:23 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 16:15:02 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:21:36 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ float			triangle_inter(t_trian *tr, t_ray *ray, float min_t)
 	float		inv_det;
 	t_vector	tmp[5];
 	float		coords[3];
-	float		t;
 
 	tmp[0] = v_sub(&tr->p[0], &tr->p[1]);
 	tmp[1] = v_sub(&tr->p[0], &tr->p[2]);
@@ -43,7 +42,7 @@ float			triangle_inter(t_trian *tr, t_ray *ray, float min_t)
 	tr->coords[1] = v_dot_product(&ray->dir, &tmp[2]) * inv_det;
 	if (coords[1] < 0.0 || tr->coords[0] + tr->coords[1] > 1.0)
 		return (min_t);
-	t = v_dot_product(&tmp[1], &tmp[2]) * inv_det;
+	tr->coords[2] = v_dot_product(&tmp[1], &tmp[2]) * inv_det;
 	if (tr->coords[2] < min_t && tr->coords[2] > MIN)
 		return (tr->coords[2]);
 	return (min_t);
@@ -56,7 +55,7 @@ t_intersect		*init_trian(t_trian *tr, float res, t_ray *ray, t_vector *col)
 	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
 		error_throw(MALLOC_ERR);
 	ans->res = res;
-	ans->type = OBJ_TRIAN;
+	ans->type = TRIAN;
 	if (MAGIC)
 		turn_triangle_rgb(tr->coords[0], tr->coords[1], col);
 	ans->color = *col;

@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:22:18 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 14:48:22 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:21:10 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
-t_vector		create_normal(t_cylinder *cy, float res, t_ray *ray)
+t_vector		create_cy_normal(t_cylinder *cy, t_intersect *ans, t_ray *ray)
 {
 	t_vector	tau;
 	t_vector	ap;
 	t_vector	op;
 
-	op = point_from_vector(&ray->dir, res);
-	op = v_sub(&ray->orig, &op);
+	op = v_sub(&ray->orig, &ans->p_inter);
 	ap = v_sub(&cy->orig, &op);
 	v_normalize(&ap);
 	tau = v_cross_product(&cy->axis, &ap);
@@ -68,8 +67,6 @@ float			cylinder_intersection(t_cylinder *cy, t_ray *ray, float min_t)
 		(cy->t[0] > min_t && cy->t[1] > min_t))
 		return (min_t);
 	ret_val = correct_solution(cy, min_t, ray, &co);
-	if (ret_val < min_t)
-		cy->norm = create_normal(cy, ret_val, ray);
 	return (ret_val);
 }
 

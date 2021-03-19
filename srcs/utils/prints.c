@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 01:14:28 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 16:26:56 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:19:47 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void			print_objects(t_scene *scene)
 	while (tmp)
 	{
 		printf("\n-------------- OBJ No %d --------------\n", ++i);
-		if (tmp->type == OBJ_SPHERE)
+		if (tmp->type == SPHERE)
 		{
 			heh_sp = (t_sphere *)tmp->content;
 			printf("\t   --- A SPHERE ---\n");
@@ -91,7 +91,7 @@ void			print_objects(t_scene *scene)
 			print_vector(&heh_sp->saved_orig, "init orig:");
 			printf("r = \t%.3f\n", heh_sp->r);
 		}
-		else if (tmp->type == OBJ_PLANE)
+		else if (tmp->type == PLANE)
 		{
 			heh_pl = (t_plane *)tmp->content;
 			printf("\t   --- A PLANE ---\n");
@@ -99,7 +99,7 @@ void			print_objects(t_scene *scene)
 			print_vector(&heh_pl->saved_orig, "init orig:");
 			print_vector(&heh_pl->normal, "normal:");
 		}
-		else if (tmp->type == OBJ_SQUARE)
+		else if (tmp->type == SQUARE)
 		{
 			heh_sq = (t_square *)tmp->content;
 			printf("\t   --- A SQUARE ---\n");
@@ -107,7 +107,7 @@ void			print_objects(t_scene *scene)
 			print_vector(&heh_sq->normal, "normal:");
 			printf("side:\t%.2f\n", heh_sq->a);
 		}
-		else if (tmp->type == OBJ_DISK)
+		else if (tmp->type == DISK)
 		{
 			heh_d = (t_disk *)tmp->content;
 			printf("\t   --- A DISK ---\n");
@@ -116,7 +116,7 @@ void			print_objects(t_scene *scene)
 			print_vector(&heh_d->normal, "normal:");
 			printf("r = %.2f\n", heh_d->radius);
 		}
-		else if (tmp->type == OBJ_CYL)
+		else if (tmp->type == CYL)
 		{
 			heh_cy = (t_cylinder *)tmp->content;
 			printf("\t   --- A CYL ---\n");

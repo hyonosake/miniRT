@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:37:24 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 16:24:19 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 16:02:52 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int				press_key(int key, t_scene *scene)
 {
 	if (key == KEY_TAB)
 	{
-		mlx_destroy_image(scene->mlx.init, scene->mlx.image);
+		//mlx_destroy_image(scene->mlx.init, scene->mlx.image);
 		scene->cameras = scene->cameras->next;
 	}
 	else if (key == KEY_ESC)
@@ -56,6 +56,8 @@ int				press_key(int key, t_scene *scene)
 	loop_through_pixels(scene);
 	mlx_put_image_to_window(scene->mlx.init,
 					scene->mlx.window, scene->mlx.image, 0, 0);
+	mlx_string_put(scene->mlx.init, scene->mlx.window, 20, 20,
+					0x00ff00, "cam No");
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 16:21:50 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:19:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@
 # include "bmpmake.h"
 # define P_LIGHT 1
 # define D_LIGHT 2
-# define OBJ_SPHERE 1
+# define SPHERE 1
 # define INSIDE_OBJ -1
-# define OBJ_PLANE 2
-# define OBJ_SQUARE 3
-# define OBJ_TRIAN 4
-# define OBJ_CYL 5
-# define OBJ_DISK 6
+# define PLANE 2
+# define SQUARE 3
+# define TRIAN 4
+# define CYL 5
+# define DISK 6
 # define AMBIENT 1
 # define DIRECT 2
 # define POINTING 3

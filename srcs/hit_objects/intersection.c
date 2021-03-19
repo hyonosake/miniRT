@@ -3,14 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/18 16:17:06 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:20:41 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+
+void			find_object_normal(t_object *obj, t_intersect *ans, t_ray *ray)
+{
+	if (obj->type == DISK || obj->type == PLANE ||
+		obj->type == TRIAN || obj->type == SQUARE)
+		ans->normal = ((t_plane *)obj->content)->normal;
+	else if (obj->type == SPHERE)
+		ans->normal = v_sub(&((t_sphere *)obj->content)->orig, &ans->p_inter);
+	else if (obj->type == CYL)
+		ans->normal = create_cy_normal((t_cylinder *)obj->content, ans, ray);
+	else
+		ans = NULL;
+	v_normalize(&ans->normal);
+}
+
+t_intersect		*init_intersect_struct(t_object *object, float res, t_ray *ray)
+{
+	t_intersect	*ans;
+
+	if (!object || res == MAX)
+		return (NULL);
+	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
+		error_throw(MALLOC_ERR);
+	ans->res = res;
+	ans->type = object->type;
+	ans->color = object->color;
+	ans->p_inter = point_from_vector(&ray->dir, res);
+	ans->to_cam = point_from_vector(&ray->dir, -1);
+	find_object_normal(object, ans, ray);
+	return (ans);
+}
 
 t_intersect		*init_objects(t_object *object, float res, t_ray *ray)
 {
@@ -18,51 +49,65 @@ t_intersect		*init_objects(t_object *object, float res, t_ray *ray)
 
 	if (!object || res == MAX)
 		return (NULL);
-	if (object->type == OBJ_SQUARE)
+	if (object->type == SQUARE)
 		ans = init_square((t_square *)object->content, res, ray,
 			&object->color);
-	else if (object->type == OBJ_PLANE)
+	else if (object->type == PLANE)
 		ans = init_plane((t_plane *)object->content, res, ray, &object->color);
-	else if (object->type == OBJ_SPHERE)
+	else if (object->type == SPHERE)
 		ans = init_sphere(object, res, ray);
-	else if (object->type == OBJ_TRIAN)
+	else if (object->type == TRIAN)
 		ans = init_trian((t_trian *)object->content, res, ray, &object->color);
-	else if (object->type == OBJ_CYL)
+	else if (object->type == CYL)
 		ans = init_cylinder(object, res, ray);
-	else if (object->type == OBJ_DISK)
+	else if (object->type == DISK)
 		ans = init_disk((t_disk *)object->content, res, ray, &object->color);
 	else
 		ans = NULL;
 	return (ans);
 }
 
-t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
+float			solve_for_plane_like(t_object *object, t_object *curr_min,
+									t_ray *ray, float min_t)
+{
+	float		res;
+
+	res = plane_intersection(((t_plane *)object->content), min_t, ray);
+	if (res < min_t)
+	{
+		if ((object->type == SQUARE &&
+			square_intersection((t_square *)object->content, ray, res)) ||
+			(object->type == DISK &&
+			disk_intersection((t_disk *)object->content, ray, res)) ||
+			object->type == PLANE)
+		{
+			curr_min = object;
+			return (res);
+		}
+	}
+	return (min_t);
+}
+
+t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray,
+											float min_t)
 {
 	t_object	*tmp;
 	t_object	*ans;
 	float		res;
-	float		min_t;
 
-	min_t = MAX;
 	tmp = objs;
 	ans = NULL;
 	res = min_t;
 	while (tmp)
 	{
-		if (tmp->type == OBJ_SPHERE)
+		if (tmp->type == PLANE || tmp->type == SQUARE || tmp->type == DISK)
+			res = solve_for_plane_like(tmp, ans, ray, min_t);
+		else if (tmp->type == SPHERE)
 			res = sphere_intersection(tmp->content, ray, min_t);
-		else if (tmp->type == OBJ_PLANE)
-			res = plane_intersection((t_plane *)tmp->content, min_t, ray);
-		else if (tmp->type == OBJ_SQUARE)
-			res = square_intersection((t_square *)tmp->content, ray, min_t);
-		else if (tmp->type == OBJ_TRIAN)
+		else if (tmp->type == TRIAN)
 			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
-		else if (tmp->type == OBJ_CYL)
+		else if (tmp->type == CYL)
 			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
-		else if (tmp->type == OBJ_DISK)
-			res = disk_intersection((t_disk *)tmp->content, ray, min_t);
-		else
-			error_throw("Error during ray_object intersection");
 		if (res < min_t && res > MIN)
 		{
 			min_t = res;
@@ -70,5 +115,5 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray)
 		}
 		tmp = tmp->next;
 	}
-	return (init_objects(ans, min_t, ray));
+	return (init_intersect_struct(ans, min_t, ray));
 }

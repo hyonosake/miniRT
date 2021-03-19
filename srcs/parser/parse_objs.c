@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 13:07:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 15:35:35 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:19:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void			parse_square(char *line, t_scene *scene)
 	if (*line != '\0' || !check_vector_input(&new->normal) ||
 		new->a <= 0.0)
 		error_throw(INPUT_ERR);
-	add_object(scene, create_object((void *)new, col, OBJ_SQUARE));
+	add_object(scene, create_object((void *)new, col, SQUARE));
 }
 
 t_vector		get_tr_normal(t_trian *tr)
@@ -67,7 +67,7 @@ void			parse_triangle(char *line, t_scene *scene)
 		error_throw(INPUT_ERR);
 	new->normal = get_tr_normal(new);
 	v_normalize(&new->normal);
-	add_object(scene, create_object((void *)new, col, OBJ_TRIAN));
+	add_object(scene, create_object((void *)new, col, TRIAN));
 }
 
 void			parse_sphere(char *line, t_scene *scene)
@@ -88,7 +88,7 @@ void			parse_sphere(char *line, t_scene *scene)
 	new->is_inside = 0;
 	if (*line != '\0' || new->r <= 0)
 		error_throw(INPUT_ERR);
-	add_object(scene, create_object((void *)new, col, OBJ_SPHERE));
+	add_object(scene, create_object((void *)new, col, SPHERE));
 }
 
 void			parse_plane(char *line, t_scene *scene)
@@ -108,5 +108,5 @@ void			parse_plane(char *line, t_scene *scene)
 	skip_spaces(&line);
 	if (*line != '\0' || !check_vector_input(&new->normal))
 		error_throw(INPUT_ERR);
-	add_object(scene, create_object((void *)new, col, OBJ_PLANE));
+	add_object(scene, create_object((void *)new, col, PLANE));
 }

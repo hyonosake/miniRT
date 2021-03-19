@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 16:27:52 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:25:55 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,20 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 {
 	t_object		*tmp;
 	float			res;
+	static t_object *shad;
 
 	v_normalize(&ray->dir);
 	tmp = objs;
 	while (tmp)
 	{
-		if (tmp->type == OBJ_SPHERE)
+		if (tmp->type == PLANE || tmp->type == SQUARE || tmp->type == DISK)
+			res = solve_for_plane_like(tmp, shad, ray, min_t);
+		else if (tmp->type == SPHERE)
 			res = sphere_intersection((t_sphere *)tmp->content, ray, min_t);
-		else if (tmp->type == OBJ_PLANE)
-			res = plane_intersection((t_plane *)tmp->content, min_t, ray);
-		else if (tmp->type == OBJ_SQUARE)
-			res = square_intersection((t_square *)tmp->content, ray, min_t);
-		else if (tmp->type == OBJ_TRIAN)
+		else if (tmp->type == TRIAN)
 			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
-		else if (tmp->type == OBJ_CYL)
+		else if (tmp->type == CYL)
 			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
-		else if (tmp->type == OBJ_DISK)
-		{
-			//printf("shadow ");
-			res = disk_intersection((t_disk *)tmp->content, ray, min_t);
-			//printf("res:");
-		}
-		else
-			error_throw("parser shadows failed\n");
 		if (res < min_t && res > MIN)
 		{
 			return (tmp->type);

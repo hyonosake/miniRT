@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/18 14:48:55 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:19:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_intersect		*init_plane(t_plane *pl, float res, t_ray *ray, t_vector *col)
 	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
 		error_throw(MALLOC_ERR);
 	ans->res = res;
-	ans->type = OBJ_PLANE;
+	ans->type = PLANE;
 	ans->color = *col;
 	ans->p_inter = point_from_vector(&ray->dir, res);
 	ans->p_inter = v_sub(&ray->orig, &ans->p_inter);
