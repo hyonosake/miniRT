@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/03/18 15:12:10 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/20 01:14:26 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void			parse_cameras(char *line, t_scene *scene)
 		error_throw(MALLOC_ERR);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
-	new->dir = parse_vector(&line);
+	new->dir = parse_point(&line);
 	skip_spaces(&line);
 	new->fov = atoi_modified(&line);
 	skip_spaces(&line);
@@ -59,30 +59,6 @@ void			parse_cameras(char *line, t_scene *scene)
 	new->id = i++;
 	v_normalize(&new->dir);
 	add_camera(scene, new);
-}
-
-t_vector		parse_color_triplet(char **line)
-{
-	float		rgb[3];
-	t_vector	rgb_v;
-
-	rgb[0] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
-	skip_spaces(line);
-	if (**line != ',')
-		error_throw(INPUT_ERR);
-	++(*line);
-	rgb[1] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
-	skip_spaces(line);
-	if (**line != ',')
-		error_throw(INPUT_ERR);
-	++(*line);
-	skip_spaces(line);
-	rgb[2] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
-	skip_spaces(line);
-	rgb_v = v_from_values(rgb[0], rgb[1], rgb[2]);
-	if (**line || !check_vector_input(&rgb_v))
-		error_throw(INPUT_ERR);
-	return (rgb_v);
 }
 
 void			parse_amb_light(char *line, t_scene *scene)

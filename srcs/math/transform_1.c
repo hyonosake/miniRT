@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transform_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 16:03:41 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/19 15:19:56 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/20 00:08:48 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void			transform_trian(t_trian *tr, t_vector *orig)
 	tr->p[0] = v_sub(orig, &tr->saved_p[0]);
 	tr->p[1] = v_sub(orig, &tr->saved_p[1]);
 	tr->p[2] = v_sub(orig, &tr->saved_p[2]);
+	tr->exc[0] = v_sub(&tr->p[0], &tr->p[1]);
+	tr->exc[1] = v_sub(&tr->p[0], &tr->p[2]);
+	//tr->normal = v_cross_product(&tr->exc[0], &tr->exc[1]);
 }
 
 void			transform_objects(t_vector *orig, t_object *objs)

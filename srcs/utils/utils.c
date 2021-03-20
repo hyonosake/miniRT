@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 08:01:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 15:34:04 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 20:12:47 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ float			define_what_to_ret(float r1, float r2, float min_t)
 void			mlx_fill(t_scene *scene)
 {
 	scene->mlx.init = mlx_init();
-	scene->mlx.window = mlx_new_window(scene->mlx.init,
-						scene->canvas.width, scene->canvas.height, "tracer");
 	scene->mlx.image = mlx_new_image(scene->mlx.init,
 						scene->canvas.width, scene->canvas.height);
 	scene->mlx.addr = mlx_get_data_addr(scene->mlx.image, &scene->mlx.bpp,
 						&scene->mlx.lsize, &scene->mlx.endian);
+	scene->mlx.window = mlx_new_window(scene->mlx.init,
+			scene->canvas.width, scene->canvas.height, "miniRT by ffarah");
 }
 
 void			my_pixel_put(t_mlx *mlx, int x_pix, int y_pix, int col)

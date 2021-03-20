@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:11:38 by alex              #+#    #+#             */
-/*   Updated: 2021/03/19 15:19:27 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/20 02:49:01 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,4 @@ float			plane_intersection(t_plane *plane, float min_t, t_ray *ray)
 	if (ret_val > min_t || ret_val < MIN)
 		ret_val = min_t;
 	return (ret_val);
-}
-
-t_intersect		*init_plane(t_plane *pl, float res, t_ray *ray, t_vector *col)
-{
-	t_intersect	*ans;
-
-	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
-		error_throw(MALLOC_ERR);
-	ans->res = res;
-	ans->type = PLANE;
-	ans->color = *col;
-	ans->p_inter = point_from_vector(&ray->dir, res);
-	ans->p_inter = v_sub(&ray->orig, &ans->p_inter);
-	ans->to_cam = point_from_vector(&ray->dir, -1);
-	ans->normal = pl->normal;
-	v_normalize(&ans->normal);
-	return (ans);
 }

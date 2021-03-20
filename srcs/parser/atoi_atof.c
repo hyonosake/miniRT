@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:02:49 by alex              #+#    #+#             */
-/*   Updated: 2021/03/18 16:17:34 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/20 03:08:21 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@ int					define_sign(char **s)
 	return (sign);
 }
 
-void				skip_spaces(char **line)
-{
-	while (**line == ' ' || **line == '\t')
-		++(*line);
-}
-
-int					ft_isdigit(char ch)
-{
-	if (ch >= '0' && ch <= '9')
-		return (1);
-	return (0);
-}
-
 int					atoi_modified(char **line)
 {
 	int				result;
@@ -57,27 +44,71 @@ int					atoi_modified(char **line)
 
 float				atof_modified(char **line)
 {
-	long long int	parts[2];
-	int				flag;
-	int				power;
-	float			min;
+	float			result;
+	float			m_power;
+	float			sign;
 
-	power = 0;
-	flag = 1;
-	min = define_sign(line);
-	parts[0] = atoi_modified(line);
+	m_power = 0.1;
+	sign = define_sign(line);
+	result = atoi_modified(line);
 	if (**line == ',' || !**line || ft_isspace(**line))
-		return ((float)parts[0] * min);
+		return ((float)result * sign);
 	else if (**line != '.')
 		error_throw(INPUT_ERR);
-	*line += 1;
-	flag = 1;
-	parts[1] = 0;
+	++(*line);
 	while (ft_isdigit(**line))
 	{
-		parts[1] = parts[1] * 10 + (**line - '0');
-		*line += 1;
-		power += 1;
+		result += (**line - '0') * m_power;
+		m_power *= 0.1;
+		++(*line);
 	}
-	return (min * ((float)parts[0] + (float)parts[1] / pow(10, power)));
+	return (sign * ((float)result));
+}
+
+t_vector			parse_point(char **line)
+{
+	float			index[3];
+
+	skip_spaces(line);
+	index[0] = atof_modified(line);
+	skip_spaces(line);
+	if (**line != ',')
+		error_throw(INPUT_ERR);
+	++(*line);
+	skip_spaces(line);
+	index[1] = atof_modified(line);
+	skip_spaces(line);
+	if (**line != ',')
+		error_throw(INPUT_ERR);
+	++(*line);
+	skip_spaces(line);
+	index[2] = atof_modified(line);
+	if (**line && !(ft_isspace(**line)))
+		error_throw(INPUT_ERR);
+	return (v_from_values(index[0], index[1], index[2]));
+}
+
+t_vector		parse_color_triplet(char **line)
+{
+	float		rgb[3];
+	t_vector	rgb_v;
+
+	if (**line == ',')
+		error_throw(INPUT_ERR);
+	rgb[0] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
+	skip_spaces(line);
+	if (**line != ',')
+		error_throw(INPUT_ERR);
+	++(*line);
+	rgb[1] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
+	skip_spaces(line);
+	if (**line != ',')
+		error_throw(INPUT_ERR);
+	++(*line);
+	skip_spaces(line);
+	rgb[2] = 1.0 * atoi_modified(line) * VECTORIZE_COLOR;
+	rgb_v = v_from_values(rgb[0], rgb[1], rgb[2]);
+	if (**line || !check_vector_input(&rgb_v))
+		error_throw(INPUT_ERR);
+	return (rgb_v);
 }

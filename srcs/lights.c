@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/19 15:25:55 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/20 02:45:54 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int					shadows(t_object *objs, t_ray *ray, float min_t)
 		else if (tmp->type == CYL)
 			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
 		if (res < min_t && res > MIN)
-		{
 			return (tmp->type);
-		}
 		tmp = tmp->next;
 	}
 	return (0);
@@ -91,6 +89,12 @@ int					blinn_phong(t_intersect *ans, t_scene *scene)
 			lmod.to_light = v_sub(&ans->p_inter, &tmp->orig);
 		lmod.k_fading = lmod.to_light.mod;
 		v_normalize(&lmod.to_light);
+		if (v_dot_product(&lmod.to_light, &ans->normal) < 0)
+		{
+			tmp = tmp->next;
+			continue ;
+		}
+		
 		s_ray = new_ray(&lmod.to_light, &ans->p_inter);
 		if (!shadows(scene->objects, &s_ray, lmod.k_fading))
 		{

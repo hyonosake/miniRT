@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/19 15:19:20 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/20 03:09:16 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			parse_disk(char *line, t_scene *scene)
 	skip_spaces(&line);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
-	new->normal = parse_vector(&line);
+	new->normal = parse_point(&line);
 	new->radius = atof_modified(&line) * 0.5;
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);

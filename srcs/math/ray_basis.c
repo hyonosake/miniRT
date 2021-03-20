@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:09:11 by alex              #+#    #+#             */
-/*   Updated: 2021/03/18 16:03:10 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 23:25:51 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_basis			basis_init(t_vector *forward)
 	up = v_from_values(0, 1, 0);
 	v_normalize(&up);
 	b.i = v_cross_product(&up, forward);
+	//b.i = v_cross_product(forward, &up);
 	b.k = *forward;
 	if (v_isnull(&b.i))
 	{
@@ -34,6 +35,7 @@ t_basis			basis_init(t_vector *forward)
 		b.i = v_cross_product(&up, forward);
 	}
 	b.j = v_cross_product(forward, &b.i);
+	//b.j = v_cross_product(&b.i, forward);
 	basis_normalize(&b);
 	return (b);
 }

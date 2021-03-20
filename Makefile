@@ -16,7 +16,7 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 			srcs/math/vector_utils.c \
 			srcs/math/vectors.c \
 			srcs/parser/atoi_atof.c \
-			srcs/parser/parse_c_r_l.c \
+			srcs/parser/parse_scene_elems.c \
 			srcs/parser/parse_objs.c \
 			srcs/parser/parser.c \
 			srcs/parser/parsing_utils.c \
@@ -32,7 +32,7 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 			main.c
 
 OBJS =		${SRCS:.c=.o}
-MLX_FLAGS =	-Lminilibx -framework OpenGL -framework AppKit -lminilibx 
+MLX_FLAGS =	-fsanitize=address -Lminilibx -framework OpenGL -framework AppKit -lminilibx 
 FLAGS =		-g -Wall -Wextra -Werror
 RM =		rm -rf
 CC =		gcc

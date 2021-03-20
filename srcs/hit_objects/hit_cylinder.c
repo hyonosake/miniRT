@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:22:18 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/19 15:21:10 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/19 18:52:14 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,4 @@ float			cylinder_intersection(t_cylinder *cy, t_ray *ray, float min_t)
 		return (min_t);
 	ret_val = correct_solution(cy, min_t, ray, &co);
 	return (ret_val);
-}
-
-t_intersect		*init_cylinder(t_object *cy, float res, t_ray *ray)
-{
-	t_intersect	*ans;
-
-	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
-		error_throw(MALLOC_ERR);
-	ans->color = cy->color;
-	ans->res = res;
-	ans->p_inter = point_from_vector(&ray->dir, res);
-	ans->p_inter = v_sub(&ray->orig, &ans->p_inter);
-	ans->normal = ((t_cylinder *)cy->content)->norm;
-	v_normalize(&ans->normal);
-	ans->to_cam = point_from_vector(&ray->dir, -1);
-	ans->type = cy->type;
-	return (ans);
 }

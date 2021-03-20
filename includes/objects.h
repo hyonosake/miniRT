@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/19 10:59:16 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/20 03:09:08 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct			s_sphere
 	t_vector			saved_orig;
 	float				r;
 	float				rsq;
-	char				is_inside;
 }						t_sphere;
 
 typedef struct			s_plane
@@ -52,6 +51,7 @@ typedef struct			s_trian
 {
 	t_vector			p[3];
 	t_vector			normal;
+	t_vector			exc[2];
 	t_vector			saved_p[3];
 	float				coords[3];
 }						t_trian;
@@ -86,7 +86,6 @@ typedef struct			s_cylinder
 	float				rsq;
 	float				len;
 	float				lhalf;
-	char				is_inside;
 }						t_cylinder;
 
 typedef struct			s_camera

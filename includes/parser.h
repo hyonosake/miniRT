@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:32:45 by alex              #+#    #+#             */
-/*   Updated: 2021/03/18 16:23:22 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/20 01:14:04 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minirt.h"
 
 t_vector		parse_point(char **line);
-t_vector		parse_vector(char **line);
+t_vector		parse_point(char **line);
 t_vector		parse_color_triplet(char **line);
 t_object		*create_object(void *content, t_vector color, int type);
 float			atof_modified(char **line);

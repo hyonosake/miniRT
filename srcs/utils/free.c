@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 10:24:41 by alex              #+#    #+#             */
-/*   Updated: 2021/03/18 15:34:52 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 19:09:00 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ void			free_objects(t_object *objs)
 	}
 }
 
-void			free_scene(t_scene *scene)
+int				free_scene(t_scene *scene)
 {
+	mlx_destroy_image(scene->mlx.init, scene->mlx.image);
+	mlx_destroy_window(scene->mlx.init, scene->mlx.window);
 	free_lights(scene->lights);
 	free_cameras(scene->cameras);
 	free_objects(scene->objects);
 	free(scene);
+	return (1);
 }

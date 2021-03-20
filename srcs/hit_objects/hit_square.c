@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_square.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:14:03 by alex              #+#    #+#             */
-/*   Updated: 2021/03/19 15:20:23 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/20 02:48:27 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,4 @@ int				square_intersection(t_square *sq, t_ray *ray, float res)
 			return (1);
 	}
 	return (0);
-}
-
-t_intersect		*init_square(t_square *sq, float res, t_ray *ray, t_vector *col)
-{
-	t_intersect	*ans;
-
-	if (!(ans = (t_intersect *)malloc(sizeof(t_intersect))))
-		error_throw(MALLOC_ERR);
-	ans->res = res;
-	ans->type = SQUARE;
-	ans->color = *col;
-	ans->p_inter = point_from_vector(&ray->dir, res);
-	ans->p_inter = v_sub(&ray->orig, &ans->p_inter);
-	ans->to_cam = point_from_vector(&ray->dir, -1);
-	ans->normal = sq->normal;
-	v_normalize(&ans->normal);
-	return (ans);
 }

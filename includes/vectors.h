@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 16:12:55 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/19 23:39:28 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_ray
 {
 	t_vector	dir;
 	t_vector	orig;
+	t_vector	saved_orig;
 }				t_ray;
 
 typedef struct	s_basis

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 13:07:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/19 15:19:56 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/20 01:20:15 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,15 @@ void			parse_square(char *line, t_scene *scene)
 
 	if (!(new = (t_square *)malloc(sizeof(t_square))))
 		error_throw(MALLOC_ERR);
-	skip_spaces(&line);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
-	new->normal = parse_vector(&line);
+	new->normal = parse_point(&line);
 	v_normalize(&new->normal);
 	skip_spaces(&line);
 	new->a = atof_modified(&line);
-	printf("a = %.2f\n", new->a);
 	new->ahalf = new->a * 0.5;
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
-	print_vector(&col, "col:");
 	skip_spaces(&line);
 	if (*line != '\0' || !check_vector_input(&new->normal) ||
 		new->a <= 0.0)
@@ -85,7 +82,6 @@ void			parse_sphere(char *line, t_scene *scene)
 	col = parse_color_triplet(&line);
 	skip_spaces(&line);
 	new->rsq = pow(new->r, 2);
-	new->is_inside = 0;
 	if (*line != '\0' || new->r <= 0)
 		error_throw(INPUT_ERR);
 	add_object(scene, create_object((void *)new, col, SPHERE));
@@ -101,7 +97,7 @@ void			parse_plane(char *line, t_scene *scene)
 	skip_spaces(&line);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
-	new->normal = parse_vector(&line);
+	new->normal = parse_point(&line);
 	v_normalize(&new->normal);
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);

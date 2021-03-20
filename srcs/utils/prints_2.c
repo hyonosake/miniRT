@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 15:24:09 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 16:25:18 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/20 02:59:55 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	print_vector(t_vector *v, char *s)
 		return ;
 	}
 	if (!s)
-		printf("[%.3f %.3f %.3f]\tmod = %.3f\n", v->xv, v->yv, v->zv, v->mod);
+		printf("[%.3f %.3f %.3f]\tmod = %.3f\n",
+			v->xv, v->yv, v->zv, v->mod);
 	printf("%s\t[%.3f %.3f %.3f]\tmod = %.3f\n",
 		s, v->xv, v->yv, v->zv, v->mod);
 }

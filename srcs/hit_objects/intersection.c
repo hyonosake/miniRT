@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/19 15:20:41 by alex             ###   ########.fr       */
+/*   Updated: 2021/03/20 02:46:07 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,25 @@
 
 void			find_object_normal(t_object *obj, t_intersect *ans, t_ray *ray)
 {
-	if (obj->type == DISK || obj->type == PLANE ||
-		obj->type == TRIAN || obj->type == SQUARE)
+	if (obj->type == TRIAN)
+		ans->normal = ((t_trian *)obj->content)->normal;
+	else if (obj->type == DISK)
+		ans->normal = ((t_disk *)obj->content)->normal;
+	else if (obj->type == PLANE)
 		ans->normal = ((t_plane *)obj->content)->normal;
+	else if (obj->type == SQUARE)
+		ans->normal = ((t_square *)obj->content)->normal;
 	else if (obj->type == SPHERE)
 		ans->normal = v_sub(&((t_sphere *)obj->content)->orig, &ans->p_inter);
 	else if (obj->type == CYL)
 		ans->normal = create_cy_normal((t_cylinder *)obj->content, ans, ray);
-	else
-		ans = NULL;
 	v_normalize(&ans->normal);
 }
 
 t_intersect		*init_intersect_struct(t_object *object, float res, t_ray *ray)
 {
 	t_intersect	*ans;
+	///float		magic[3];
 
 	if (!object || res == MAX)
 		return (NULL);
@@ -36,34 +40,19 @@ t_intersect		*init_intersect_struct(t_object *object, float res, t_ray *ray)
 		error_throw(MALLOC_ERR);
 	ans->res = res;
 	ans->type = object->type;
+	//if (ans->type == TRIAN && MAGIC)
+	//{
+	//	magic[0] = ((t_trian *)object->content)->coords[0];
+	//	magic[1] = ((t_trian *)object->content)->coords[1];
+	//	magic[2] = ((t_trian *)object->content)->coords[2];
+	//	ans->color = v_from_values(magic[0], magic[1], magic[2]);
+	//}
+	//else
 	ans->color = object->color;
 	ans->p_inter = point_from_vector(&ray->dir, res);
+	//ans->p_inter = v_sub(&ray->orig, &ans->p_inter);
 	ans->to_cam = point_from_vector(&ray->dir, -1);
 	find_object_normal(object, ans, ray);
-	return (ans);
-}
-
-t_intersect		*init_objects(t_object *object, float res, t_ray *ray)
-{
-	t_intersect	*ans;
-
-	if (!object || res == MAX)
-		return (NULL);
-	if (object->type == SQUARE)
-		ans = init_square((t_square *)object->content, res, ray,
-			&object->color);
-	else if (object->type == PLANE)
-		ans = init_plane((t_plane *)object->content, res, ray, &object->color);
-	else if (object->type == SPHERE)
-		ans = init_sphere(object, res, ray);
-	else if (object->type == TRIAN)
-		ans = init_trian((t_trian *)object->content, res, ray, &object->color);
-	else if (object->type == CYL)
-		ans = init_cylinder(object, res, ray);
-	else if (object->type == DISK)
-		ans = init_disk((t_disk *)object->content, res, ray, &object->color);
-	else
-		ans = NULL;
 	return (ans);
 }
 
