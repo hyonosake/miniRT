@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:37:24 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/20 00:43:16 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 14:06:25 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void			scene_prep(t_scene *scene)
 	mlx_put_image_to_window(scene->mlx.init,
 						scene->mlx.window, scene->mlx.image, 0, 0);
 	mlx_string_put(scene->mlx.init, scene->mlx.window, 20, 20,
-					0x00ff00, "cam");
+					0x00ff00, "Just a little messgae here <3");
 }
 
 int				press_key(int key, t_scene *scene)
 {
-	if (key == KEY_TAB)
+	if (key == KEY_TAB || key == KEY_SPACE)
 		scene->cameras = scene->cameras->next;
 	else if (key == KEY_ESC)
 	{
@@ -61,6 +61,8 @@ int				press_key(int key, t_scene *scene)
 		rotate_cam(key, scene->cameras, scene);
 	else if (key == C)
 		print_cameras(scene);
+	else if (key == SCREEN_SAVE)
+		save_to_bmp(&scene->canvas, &scene->mlx);
 	transform_scene(scene);
 	scene_prep(scene);
 	return (0);
@@ -69,7 +71,6 @@ int				press_key(int key, t_scene *scene)
 void			create_bmp_file(t_scene *scene)
 {
 	save_to_bmp(&scene->canvas, &scene->mlx);
-	mlx_destroy_image(scene->mlx.init, scene->mlx.image);
 	free_scene(scene);
 }
 
@@ -79,12 +80,13 @@ int				main(int ac, char **av)
 
 	scene = define_scene();
 	parse_input(scene, ac, av);
-	link_cameras(scene->cameras);
 	check_scene(scene);
+	link_cameras(scene->cameras);
 	transform_scene(scene);
 	mlx_fill(scene);
+	loop_through_pixels(scene);
 	mlx_hook(scene->mlx.window, 2, 0, press_key, scene);
-	mlx_hook(scene->mlx.window, 17, 1L << 17, free_scene, 0);
+	mlx_hook(scene->mlx.window, 17, 0, free_scene, scene);
 	if (!scene->is_bmp)
 		scene_prep(scene);
 	else

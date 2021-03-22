@@ -26,6 +26,14 @@
 		"string_view": "c",
 		"unordered_map": "c",
 		"vector": "c",
-		"utils.h": "c"
+		"utils.h": "c",
+		"__functional_base": "c",
+		"__functional_base_03": "c",
+		"__tuple": "c",
+		"functional": "c",
+		"limits": "c",
+		"ratio": "c",
+		"tuple": "c",
+		"utility": "c"
 	}
 }

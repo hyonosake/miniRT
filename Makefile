@@ -21,6 +21,7 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 			srcs/parser/parser.c \
 			srcs/parser/parsing_utils.c \
 			srcs/utils/add_scene.c \
+			srcs/utils/bmp_utils.c \
 			srcs/utils/error.c \
 			srcs/utils/utils.c \
 			srcs/utils/free.c \
@@ -32,34 +33,38 @@ SRCS =		srcs/gnl/get_next_line_utils.c \
 			main.c
 
 OBJS =		${SRCS:.c=.o}
-MLX_FLAGS =	-fsanitize=address -Lminilibx -framework OpenGL -framework AppKit -lminilibx 
-FLAGS =		-g -Wall -Wextra -Werror
+DOBJS =		${SRCS:.c=.d}
+MLX_FLAGS =	 -Lmlx -lmlx -framework OpenGL -framework AppKit -O3 -msse3 #-fsanitize=address
+FLAGS =		-g  -MMD -Wall -Wextra -Werror -O3 -msse3
 RM =		rm -rf
 CC =		gcc
 
 all:		$(NAME)
 
 %.o: %.c
-			$(CC) $(FLAGS) -O3 -msse3 -I ./includes/ -I ./mlx/ -c $< -o $@
+			$(CC) $(FLAGS) -I ./includes/ -I ./mlx/ -c $< -o $@
 
-$(NAME):	${OBJS} #mlxmake
-			$(CC) -g $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -O3 -msse3 -o $(NAME)
+$(NAME):	${OBJS} mlxmake
+			$(CC) -g $(OBJS) $(MLX_FLAGS) -o $(NAME)
 
 clean:		
 			$(RM) $(OBJS)
+			$(RM) $(DOBJS)
+			make -C mlx/ clean
 fclean:		clean
+			$(RM) libmlx.a
 			$(RM) $(NAME)
 re:			fclean all
-norm:
-			rm norm.txt
-			norminette srcs/*/*.c  includes/*.h > norm.txt
+norm:		fclean
+			norminette srcs  includes/*.h
 run:		
 			make
 			./miniRT samples/sample.rt
 bonus:		all
 mlxmake:
 	make -C mlx/ all
-	mv mlx/libmlx.a .
-	make -C mlx/ clean
-.PHONY: all clean fclean re run
+	cp mlx/libmlx.a .
+	#make -C mlx/ clean
+.PHONY: all clean fclean re run bonus 
 .SILENT:
+-include $(DOBJS)

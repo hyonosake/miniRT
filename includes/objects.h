@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:53:25 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/20 03:09:08 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 11:24:11 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct			s_square
 	t_vector			orig;
 	t_vector			saved_orig;
 	t_vector			normal;
+	t_basis				b_sq;
 	float				a;
 	float				ahalf;
 }						t_square;
@@ -58,6 +59,7 @@ typedef struct			s_trian
 
 typedef struct			s_intersect
 {
+	t_object			hit_obj;
 	t_vector			normal;
 	t_vector			p_inter;
 	t_vector			to_cam;

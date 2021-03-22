@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/20 03:09:16 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 11:58:13 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void			parse_disk(char *line, t_scene *scene)
 
 	if (!(new = (t_disk *)malloc(sizeof(t_disk))))
 		error_throw(MALLOC_ERR);
+	if (!(++line))
+		error_throw(INPUT_ERR);
 	skip_spaces(&line);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
@@ -56,23 +58,23 @@ void			parse_line(char *line, t_scene *scene)
 	s = line;
 	if (!line || *line == '\0')
 		return ;
-	else if (s[0] == 'R' && (++s))
+	else if (s[0] == 'R')
 		parse_resolution(s, scene);
 	else if (s[0] == 'c' && s[1] == 'y' && (s += 2))
 		parse_cylinder(s, scene);
-	else if (s[0] == 'c' && (s++))
+	else if (s[0] == 'c')
 		parse_cameras(s, scene);
-	else if (s[0] == 'A' && (s++))
+	else if (s[0] == 'A')
 		parse_amb_light(s, scene);
-	else if (s[0] == 'l' && (s++))
+	else if (s[0] == 'l')
 		parse_lights(s, scene, POINTING);
-	else if (s[0] == 's' && s[1] == 'p' && (s += 2))
+	else if (s[0] == 's' && s[1] == 'p')
 		parse_sphere(s, scene);
-	else if (s[0] == 'p' && s[1] == 'l' && (s += 2))
+	else if (s[0] == 'p' && s[1] == 'l')
 		parse_plane(s, scene);
-	else if (s[0] == 's' && s[1] == 'q' && (s += 2))
+	else if (s[0] == 's' && s[1] == 'q')
 		parse_square(s, scene);
-	else if (s[0] == 't' && s[1] == 'r' && (s += 2))
+	else if (s[0] == 't' && s[1] == 'r')
 		parse_triangle(s, scene);
 	else
 		parse_bonuses(line, scene);
@@ -83,9 +85,9 @@ void			parse_bonuses(char *line, t_scene *scene)
 	char		*s;
 
 	s = line;
-	if (s[0] == 'l' && s[1] == 'd' && (s += 2))
+	if (s[0] == 'l' && s[1] == 'd')
 		parse_lights(s, scene, DIRECT);
-	else if (s[0] == 'd' && (++s))
+	else if (s[0] == 'd')
 		parse_disk(s, scene);
 	else
 		error_throw(INPUT_ERR);

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 13:07:59 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/20 01:20:15 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 11:53:50 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ void			parse_square(char *line, t_scene *scene)
 
 	if (!(new = (t_square *)malloc(sizeof(t_square))))
 		error_throw(MALLOC_ERR);
+	if (!(line += 2))
+		error_throw(INPUT_ERR);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->normal = parse_point(&line);
 	v_normalize(&new->normal);
 	skip_spaces(&line);
 	new->a = atof_modified(&line);
+	new->b_sq = basis_init(&new->normal);
+	basis_normalize(&new->b_sq);
 	new->ahalf = new->a * 0.5;
 	skip_spaces(&line);
 	col = parse_color_triplet(&line);
@@ -51,6 +55,8 @@ void			parse_triangle(char *line, t_scene *scene)
 
 	if (!(new = (t_trian *)malloc(sizeof(t_trian))))
 		error_throw(MALLOC_ERR);
+	if (!(line += 2))
+		error_throw(INPUT_ERR);
 	skip_spaces(&line);
 	new->saved_p[0] = parse_point(&line);
 	skip_spaces(&line);
@@ -74,6 +80,8 @@ void			parse_sphere(char *line, t_scene *scene)
 
 	if (!(new = (t_sphere *)malloc(sizeof(t_sphere))))
 		error_throw(MALLOC_ERR);
+	if (!(line += 2))
+		error_throw(INPUT_ERR);
 	skip_spaces(&line);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
@@ -94,6 +102,8 @@ void			parse_plane(char *line, t_scene *scene)
 
 	if (!(new = (t_plane *)malloc(sizeof(t_plane))))
 		error_throw(MALLOC_ERR);
+	if (!(line += 2))
+		error_throw(INPUT_ERR);
 	skip_spaces(&line);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);

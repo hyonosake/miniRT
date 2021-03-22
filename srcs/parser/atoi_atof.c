@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:02:49 by alex              #+#    #+#             */
-/*   Updated: 2021/03/20 03:08:21 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 12:08:34 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ t_vector			parse_point(char **line)
 	return (v_from_values(index[0], index[1], index[2]));
 }
 
-t_vector		parse_color_triplet(char **line)
+t_vector			parse_color_triplet(char **line)
 {
-	float		rgb[3];
-	t_vector	rgb_v;
+	float			rgb[3];
+	t_vector		rgb_v;
 
 	if (**line == ',')
 		error_throw(INPUT_ERR);

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 12:34:38 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/18 15:46:09 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 13:42:14 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void			save_to_bmp(t_canvas *canv, t_mlx *mlx);
 void			ft_memset(void *ptr, int n);
 char			*get_name_utc();
 char			*add_bmp_in_filename(char *utc);
+void			bitshift_nums(char *line, int num, int start_pos);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 08:57:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/19 18:07:23 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 12:09:21 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void			print_color(t_vector *color);
 void			print_cameras(t_scene *scene);
 void			print_amb_light(t_scene *scene);
 void			print_lights(t_scene *scene);
-void			print_objects(t_scene *scene);
 void			print_scene(t_scene *scene);
 void			print_basis(t_basis *b);
 void			mlx_fill(t_scene *scemakne);

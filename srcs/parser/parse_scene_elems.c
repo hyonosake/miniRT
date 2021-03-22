@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_c_r_l.c                                      :+:      :+:    :+:   */
+/*   parse_scene_elems.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/03/20 01:14:26 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 13:53:00 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void			parse_resolution(char *line, t_scene *scene)
 {
 	static int	i;
 
-	if (i)
+	if (i || !(++line))
 		error_throw(INPUT_ERR);
 	scene->canvas.width = atoi_modified(&line);
 	skip_spaces(&line);
@@ -44,6 +44,8 @@ void			parse_cameras(char *line, t_scene *scene)
 
 	if (!(new = (t_camera *)malloc(sizeof(t_camera))))
 		error_throw(MALLOC_ERR);
+	if (!(++line))
+		error_throw(INPUT_ERR);
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
 	new->dir = parse_point(&line);
@@ -65,10 +67,12 @@ void			parse_amb_light(char *line, t_scene *scene)
 {
 	static int	i;
 
-	if (i != 0)
+	if (i != 0 || !(++line))
 		error_throw(INPUT_ERR);
 	skip_spaces(&line);
 	scene->ambient.intensity = atof_modified(&line);
+	if (scene->ambient.intensity < 0 || scene->ambient.intensity > 1)
+		error_throw(INPUT_ERR);
 	skip_spaces(&line);
 	scene->ambient.color = parse_color_triplet(&line);
 	i++;
@@ -80,6 +84,8 @@ void			parse_lights(char *line, t_scene *scene, int type)
 
 	if (!(new = (t_light *)malloc(sizeof(t_light))))
 		error_throw(MALLOC_ERR);
+	if (!(line += 2))
+		error_throw(INPUT_ERR);
 	new->type = type;
 	new->saved_orig = parse_point(&line);
 	skip_spaces(&line);
@@ -88,7 +94,8 @@ void			parse_lights(char *line, t_scene *scene, int type)
 	new->color = parse_color_triplet(&line);
 	skip_spaces(&line);
 	new->next = NULL;
-	if (*line || (!check_vector_input(&new->orig) && new->type == DIRECT))
+	if (*line || (!check_vector_input(&new->orig) && new->type == DIRECT) ||
+		new->intensity < 0 || new->intensity > 1)
 		error_throw(INPUT_ERR);
 	add_light(scene, new);
 }

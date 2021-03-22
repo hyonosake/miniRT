@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:33:58 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/20 02:48:14 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 11:59:14 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ void			loop_through_pixels(t_scene *scene)
 	t_ray		ray;
 	t_intersect	*ans;
 	int			col;
-	t_basis		b;
 
-	b = basis_init(&scene->cameras->dir);
 	ray = new_ray(&scene->cameras->dir, &scene->cameras->orig);
 	ray.saved_orig = scene->cameras->saved_orig;
 	scene->canvas.x_pixel = 0;
@@ -42,7 +40,7 @@ void			loop_through_pixels(t_scene *scene)
 		scene->canvas.y_pixel = 0;
 		while (scene->canvas.y_pixel < scene->canvas.height)
 		{
-			ray_transform(&ray, scene, &b);
+			ray_transform(&ray, scene, &scene->r_basis);
 			ans = ray_objects_intersection(scene->objects, &ray, MAX);
 			col = blinn_phong(ans, scene);
 			my_pixel_put(&scene->mlx, scene->canvas.x_pixel,

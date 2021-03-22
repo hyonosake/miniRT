@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:56:01 by alex              #+#    #+#             */
-/*   Updated: 2021/03/20 02:46:07 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 12:07:58 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			find_object_normal(t_object *obj, t_intersect *ans, t_ray *ray)
 t_intersect		*init_intersect_struct(t_object *object, float res, t_ray *ray)
 {
 	t_intersect	*ans;
-	///float		magic[3];
+	float		magic[3];
 
 	if (!object || res == MAX)
 		return (NULL);
@@ -40,17 +40,16 @@ t_intersect		*init_intersect_struct(t_object *object, float res, t_ray *ray)
 		error_throw(MALLOC_ERR);
 	ans->res = res;
 	ans->type = object->type;
-	//if (ans->type == TRIAN && MAGIC)
-	//{
-	//	magic[0] = ((t_trian *)object->content)->coords[0];
-	//	magic[1] = ((t_trian *)object->content)->coords[1];
-	//	magic[2] = ((t_trian *)object->content)->coords[2];
-	//	ans->color = v_from_values(magic[0], magic[1], magic[2]);
-	//}
-	//else
-	ans->color = object->color;
+	if (ans->type == TRIAN && MAGIC)
+	{
+		magic[0] = ((t_trian *)object->content)->coords[0];
+		magic[1] = ((t_trian *)object->content)->coords[1];
+		magic[2] = ((t_trian *)object->content)->coords[2];
+		ans->color = v_from_values(magic[0], magic[1], magic[2]);
+	}
+	else
+		ans->color = object->color;
 	ans->p_inter = point_from_vector(&ray->dir, res);
-	//ans->p_inter = v_sub(&ray->orig, &ans->p_inter);
 	ans->to_cam = point_from_vector(&ray->dir, -1);
 	find_object_normal(object, ans, ray);
 	return (ans);
@@ -62,7 +61,7 @@ float			solve_for_plane_like(t_object *object, t_object *curr_min,
 	float		res;
 
 	res = plane_intersection(((t_plane *)object->content), min_t, ray);
-	if (res < min_t)
+	if (res < min_t && res > MIN)
 	{
 		if ((object->type == SQUARE &&
 			square_intersection((t_square *)object->content, ray, res)) ||
@@ -105,4 +104,28 @@ t_intersect		*ray_objects_intersection(t_object *objs, t_ray *ray,
 		tmp = tmp->next;
 	}
 	return (init_intersect_struct(ans, min_t, ray));
+}
+
+int				shadows(t_object *objs, t_ray *ray, float min_t)
+{
+	t_object	*tmp;
+	float		res;
+
+	v_normalize(&ray->dir);
+	tmp = objs;
+	while (tmp)
+	{
+		if (tmp->type == PLANE || tmp->type == SQUARE || tmp->type == DISK)
+			res = solve_for_plane_like(tmp, tmp, ray, min_t);
+		else if (tmp->type == SPHERE)
+			res = sphere_intersection((t_sphere *)tmp->content, ray, min_t);
+		else if (tmp->type == TRIAN)
+			res = triangle_inter((t_trian *)tmp->content, ray, min_t);
+		else if (tmp->type == CYL)
+			res = cylinder_intersection((t_cylinder *)tmp->content, ray, min_t);
+		if (res < min_t && res > MIN)
+			return (tmp->type);
+		tmp = tmp->next;
+	}
+	return (0);
 }

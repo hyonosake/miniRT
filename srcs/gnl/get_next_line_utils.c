@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 13:15:38 by alex              #+#    #+#             */
-/*   Updated: 2021/02/09 16:52:04 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 12:15:34 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int					ft_endl_index(char *s)
 	return (-1);
 }
 
-char				*ft_line_fill(char *leftover, int endl_index)
+char				*ft_before_endl(char *leftover, int endl_index)
 {
 	char			*res;
 	int				i;
@@ -91,7 +91,7 @@ char				*ft_line_fill(char *leftover, int endl_index)
 	return (res);
 }
 
-char				*ft_make_left_pretty(char *leftover, int endl_index)
+char				*ft_after_endl(char *leftover, int endl_index)
 {
 	char			*res;
 	int				i;

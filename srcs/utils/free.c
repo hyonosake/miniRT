@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 10:24:41 by alex              #+#    #+#             */
-/*   Updated: 2021/03/19 19:09:00 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/22 13:43:00 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,13 @@ void			free_objects(t_object *objs)
 
 int				free_scene(t_scene *scene)
 {
-	mlx_destroy_image(scene->mlx.init, scene->mlx.image);
+	mlx_clear_window(scene->mlx.init, scene->mlx.window);
 	mlx_destroy_window(scene->mlx.init, scene->mlx.window);
+	mlx_destroy_image(scene->mlx.init, scene->mlx.image);
 	free_lights(scene->lights);
 	free_cameras(scene->cameras);
 	free_objects(scene->objects);
 	free(scene);
+	exit(0);
 	return (1);
 }
