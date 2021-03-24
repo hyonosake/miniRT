@@ -52,7 +52,7 @@ clean:
 			$(RM) $(DOBJS)
 			make -C mlx/ clean
 fclean:		clean
-			$(RM) libmlx.a
+			$(RM) libmlx.dylib
 			$(RM) $(NAME)
 re:			fclean all
 norm:		fclean
@@ -63,7 +63,7 @@ run:
 bonus:		all
 mlxmake:
 	make -C mlx/ all
-	cp mlx/libmlx.a .
+	cp mlx/libmlx.dylib .
 	#make -C mlx/ clean
 .PHONY: all clean fclean re run bonus 
 .SILENT:

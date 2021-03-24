@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 23:39:48 by alex              #+#    #+#             */
-/*   Updated: 2021/03/22 12:15:48 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/24 08:21:41 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,34 @@ int				get_next_line(int fd, char **line)
 	return (rv == 0 ? 0 : 1);
 }
 
+void			check_input(t_scene *scene, int ac, char **av)
+{
+	int			i;
+
+	i = 0;
+	if (!av[1])
+		error_throw(INPUT_ERR);
+	if (ac == 2)
+	{
+		while (av[1][i])
+			++i;
+		if ((av[1][--i] != 't' || av[1][--i] != 'r' || av[1][--i] != '.'))
+			error_throw(INPUT_ERR);
+	}
+	else if (ac == 3 && ft_strcmp(av[2], "--save"))
+		scene->is_bmp = 1;
+	else
+		error_throw(INPUT_ERR);
+}
+
 void			parse_input(t_scene *scene, int ac, char **av)
 {
 	char		*line;
 	int			res;
-	int			i;
 	int			fd;
 
-	fd = open(av[1], O_RDONLY);
-	i = 0;
-	if (fd < 0 || (ac < 2 || ac > 3) || !av[1])
-		error_throw(INPUT_ERR);
-	if (ac == 3 && ft_strcmp(av[2], "--save", 6))
-		scene->is_bmp = 1;
-	while (av[1][i])
-		i++;
-	if ((av[1][--i] != 't' || av[1][--i] != 'r' || av[1][--i] != '.'))
+	check_input(scene, ac, av);
+	if ((fd = open(av[1], O_RDONLY)) < 0)
 		error_throw(INPUT_ERR);
 	while ((res = get_next_line(fd, &line)) > 0)
 	{
@@ -72,16 +84,16 @@ int				ft_free(char *res)
 	return (-1);
 }
 
-int				ft_strcmp(char *s1, char *s2, int n)
+int				ft_strcmp(char *s1, char *s2)
 {
-	int			i;
-
-	i = 0;
-	while (s1[i] && i < n)
+	if (!s1 || !s2)
+		error_throw(INPUT_ERR);
+	while (*s2 && *s1 && *s2 == *s1)
 	{
-		if (s1[i] != s2[i])
-			return (0);
-		i++;
+		++s1;
+		++s2;
 	}
-	return (1);
+	if (*s1 == *s2)
+		return (1);
+	return (0);
 }

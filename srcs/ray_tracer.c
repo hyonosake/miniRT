@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:33:58 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/22 11:59:14 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/24 08:26:23 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void			loop_through_pixels(t_scene *scene)
 			col = blinn_phong(ans, scene);
 			my_pixel_put(&scene->mlx, scene->canvas.x_pixel,
 			scene->canvas.y_pixel, col);
+			free(ans);
 			scene->canvas.y_pixel++;
 		}
 		scene->canvas.x_pixel++;
-		free(ans);
 	}
 }

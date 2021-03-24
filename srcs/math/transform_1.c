@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 16:03:41 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/22 11:51:18 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/24 08:51:51 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void			transform_lights(t_scene *scene)
 	{
 		if (tmp->type == POINTING)
 			tmp->orig = v_sub(&scene->cameras->saved_orig, &tmp->saved_orig);
+		else
+			tmp->orig = tmp->saved_orig;
 		tmp = tmp->next;
 	}
 }

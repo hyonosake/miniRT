@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 09:47:27 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/22 12:40:09 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/24 08:06:27 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ int		ft_free(char *res);
 int		ft_strlen(char *s);
 int		ft_endl_index(char *s);
 int		get_next_line(int fd, char **line);
-int		ft_strcmp(char *s1, char *s2, int n);
+int		ft_strcmp(char *s1, char *s2);
 # define BUFFER_SIZE 64
 #endif

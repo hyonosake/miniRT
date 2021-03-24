@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:33:35 by alex              #+#    #+#             */
-/*   Updated: 2021/03/22 11:58:13 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/24 08:50:01 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void			make_disk(t_cylinder *cy, t_vector col,
 	if (!(new = (t_disk *)malloc(sizeof(t_disk))))
 		error_throw(MALLOC_ERR);
 	new->normal = cy->axis;
-	new->radius = cy->r;
-	tmp = point_from_vector(&cy->axis, flag * cy->len * 0.5);
+	new->radius = cy->r * 1.01;
+	tmp = point_from_vector(&cy->axis, flag * cy->len * 0.50);
 	new->saved_orig = v_add(&cy->saved_orig, &tmp);
 	tmp = point_from_vector(&col, 0.5);
 	add_object(scene, create_object((void *)new, tmp, DISK));
@@ -85,7 +85,7 @@ void			parse_bonuses(char *line, t_scene *scene)
 	char		*s;
 
 	s = line;
-	if (s[0] == 'l' && s[1] == 'd')
+	if (s[0] == 'd' && s[1] == 'l')
 		parse_lights(s, scene, DIRECT);
 	else if (s[0] == 'd')
 		parse_disk(s, scene);

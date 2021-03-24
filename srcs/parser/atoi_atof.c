@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 22:02:49 by alex              #+#    #+#             */
-/*   Updated: 2021/03/22 12:08:34 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/24 08:15:30 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int					atoi_modified(char **line)
 
 	result = 0;
 	skip_spaces(line);
+	if (!ft_isdigit(**line))
+		error_throw(INPUT_ERR);
 	while (ft_isdigit(**line))
 	{
 		result = result * 10 + (**line - '0');

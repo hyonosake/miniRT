@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:37:24 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/22 14:06:25 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/24 08:33:55 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ void			check_scene(t_scene *scene)
 
 void			scene_prep(t_scene *scene)
 {
-	mlx_clear_window(scene->mlx.init, scene->mlx.window);
 	mlx_destroy_image(scene->mlx.init, scene->mlx.image);
 	scene->mlx.image = mlx_new_image(scene->mlx.init,
 		scene->canvas.width, scene->canvas.height);
+	scene->mlx.addr = mlx_get_data_addr(scene->mlx.image, &scene->mlx.bpp,
+		&scene->mlx.lsize, &scene->mlx.endian);
 	loop_through_pixels(scene);
+	mlx_clear_window(scene->mlx.init, scene->mlx.window);
 	mlx_put_image_to_window(scene->mlx.init,
 						scene->mlx.window, scene->mlx.image, 0, 0);
 	mlx_string_put(scene->mlx.init, scene->mlx.window, 20, 20,
@@ -82,9 +84,8 @@ int				main(int ac, char **av)
 	parse_input(scene, ac, av);
 	check_scene(scene);
 	link_cameras(scene->cameras);
-	transform_scene(scene);
 	mlx_fill(scene);
-	loop_through_pixels(scene);
+	transform_scene(scene);
 	mlx_hook(scene->mlx.window, 2, 0, press_key, scene);
 	mlx_hook(scene->mlx.window, 17, 0, free_scene, scene);
 	if (!scene->is_bmp)

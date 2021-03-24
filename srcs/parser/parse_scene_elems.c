@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:30:32 by alex              #+#    #+#             */
-/*   Updated: 2021/03/22 13:53:00 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/24 08:51:19 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 void			parse_resolution(char *line, t_scene *scene)
 {
 	static int	i;
+	int			w_max;
+	int			h_max;
 
 	if (i || !(++line))
 		error_throw(INPUT_ERR);
+	mlx_get_screen_size(scene->mlx.init, &w_max, &h_max);
 	scene->canvas.width = atoi_modified(&line);
 	skip_spaces(&line);
 	scene->canvas.height = atoi_modified(&line);
-	if (scene->canvas.width < 0 || scene->canvas.width > MAXRES_X)
-		scene->canvas.width = RES_X;
-	if (scene->canvas.height < 0 || scene->canvas.height > MAXRES_Y)
-		scene->canvas.height = RES_Y;
-	else if (scene->canvas.width < scene->canvas.height)
+	if (scene->canvas.width <= 0 || scene->canvas.height <= 0 ||
+	scene->canvas.width > w_max || scene->canvas.height > h_max)
 	{
-		scene->canvas.width = RES_X;
-		scene->canvas.height = RES_Y;
+		scene->canvas.width = w_max;
+		scene->canvas.height = h_max;
 	}
 	scene->canvas.ratio = 1.0 * scene->canvas.width / scene->canvas.height;
 	skip_spaces(&line);

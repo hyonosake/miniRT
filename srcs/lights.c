@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 20:56:34 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/22 12:05:30 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/03/24 08:52:23 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,16 @@ int					shadow_with_each_light(t_l_comp *lmod, t_light *l,
 	t_ray			shadow_ray;
 
 	if (l->type == DIRECT)
+	{
 		lmod->to_light = point_from_vector(&l->orig, -1);
+		lmod->k_fading = MAX;
+	}
 	else
+	{
 		lmod->to_light = v_sub(&ans->p_inter, &l->orig);
-	lmod->k_fading = lmod->to_light.mod;
-	v_normalize(&lmod->to_light);
+		lmod->k_fading = lmod->to_light.mod;
+		v_normalize(&lmod->to_light);
+	}
 	if (v_dot_product(&lmod->to_light, &ans->normal) < 0)
 		return (1);
 	shadow_ray = new_ray(&lmod->to_light, &ans->p_inter);
