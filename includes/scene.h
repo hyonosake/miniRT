@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 20:29:54 by alex              #+#    #+#             */
-/*   Updated: 2021/03/18 15:55:56 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/09/14 16:16:09 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define SCENE_H
 
 # include "minirt.h"
-
+# include <pthread.h>
+# define N_THREADS	8
 typedef struct		s_canvas
 {
 	int				width;
@@ -56,6 +57,13 @@ typedef struct		s_scene
 	t_light			ambient;
 	char			is_bmp;
 }					t_scene;
+
+typedef struct		s_threads
+{
+	pthread_t		thread;
+	t_scene			*scene;
+	int				range[2];
+}					t_threads;
 
 t_scene				*define_scene(void);
 void				transform_objects(t_vector *orig, t_object *objs);

@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:31 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/20 02:52:14 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/09/14 16:10:06 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minirt.h"
 
-void			loop_through_pixels(t_scene *scene);
+void			*render_scene(void *arg);
 void			rotate_x_axis(t_vector *v, float s, float c);
 void			rotate_y_axis(t_vector *v, float s, float c);
 void			rotate_cam(int key, t_camera *cam, t_scene *scene);

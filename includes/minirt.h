@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:23:49 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/22 12:18:23 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/09/14 16:05:07 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include "ray_tracer.h"
 # include "lights.h"
 # include "bmpmake.h"
+# include <string.h>
 # define P_LIGHT 1
 # define D_LIGHT 2
 # define SPHERE 1

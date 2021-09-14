@@ -6,7 +6,7 @@
 /*   By: ffarah <ffarah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:37:24 by ffarah            #+#    #+#             */
-/*   Updated: 2021/03/24 08:33:55 by ffarah           ###   ########.fr       */
+/*   Updated: 2021/09/14 16:14:50 by ffarah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,42 @@ void			check_scene(t_scene *scene)
 		error_throw(INPUT_ERR);
 }
 
+
+static t_threads	*create_threads(t_scene *scene)
+{
+	t_threads	*tapestry = (t_threads *)calloc(N_THREADS + 1, sizeof(t_threads));
+	int chunk;
+
+	chunk = scene->canvas.width / N_THREADS;
+	for (int i = 0; i < N_THREADS; i++)
+	{
+		tapestry[i].scene = calloc(1, sizeof(t_scene));
+		memcpy(tapestry[i].scene, scene, sizeof(t_scene));
+		tapestry[i].range[0] = chunk * i;
+		tapestry[i].range[1] = tapestry[i].range[0] + chunk;
+		printf("[%d - %d]\n", tapestry[i].range[0], tapestry[i].range[1]);
+	}
+	return (tapestry);
+}
+
+
+void			run_threads(t_scene *scene)
+{
+	int i = 0;
+
+	t_threads	*threads = create_threads(scene);
+
+	while (i < N_THREADS)
+	{
+		if ((pthread_create(&threads[i].thread, NULL, render_scene, &(threads[i]))) != 0)
+				error_throw("Error while creating thread: start_render()");
+		++i;
+	}
+	i = -1;
+	while (++i < N_THREADS)
+		pthread_join(threads[i].thread, NULL);
+}
+
 void			scene_prep(t_scene *scene)
 {
 	mlx_destroy_image(scene->mlx.init, scene->mlx.image);
@@ -40,7 +76,7 @@ void			scene_prep(t_scene *scene)
 		scene->canvas.width, scene->canvas.height);
 	scene->mlx.addr = mlx_get_data_addr(scene->mlx.image, &scene->mlx.bpp,
 		&scene->mlx.lsize, &scene->mlx.endian);
-	loop_through_pixels(scene);
+	run_threads(scene);
 	mlx_clear_window(scene->mlx.init, scene->mlx.window);
 	mlx_put_image_to_window(scene->mlx.init,
 						scene->mlx.window, scene->mlx.image, 0, 0);
