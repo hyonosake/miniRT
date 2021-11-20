@@ -1,5 +1,5 @@
 # ONGOING PROJECT
-Updating this project from C to C++ with following changes:
+##Updating this project from C to C++ with following changes:
 - Using ADT (vector, dequeue, stacks)
 - Class heirarchy with interfaces and inheritace
 - Enlarge supported objects
