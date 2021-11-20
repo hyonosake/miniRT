@@ -1,5 +1,5 @@
 # Raytracer
-## On-going project
+<!-- ## On-going project -->
 ## Updating this project from C to C++ with following changes:
 - Using ADT (vector, dequeue, stacks)
 - Class heirarchy with interfaces and inheritace
