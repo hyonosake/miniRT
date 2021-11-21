@@ -1,4 +1,6 @@
 # Raytracer
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=hyonosake)](https://github.com/anuraghazra/github-readme-stats)
+
 <!-- ## On-going project -->
 ## Updating this project from C to C++ with following changes:
 - Using ADT (vector, dequeue, stacks)
