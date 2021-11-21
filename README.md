@@ -23,4 +23,19 @@ Raytracing project built upon minilibx library for CPU-computation.
  - Object shadows
  - Generating BMP image
 
+<img width="1112" alt="Screen Shot 2021-11-21 at 4 14 49 PM" src="https://user-images.githubusercontent.com/60004189/142763353-1cece1db-ba0e-4cab-a779-9341545f80a5.png">
+
+# Inout formats
+- Spheres
+- Cylinders
+- Disks
+- Squares
+- Triangles
+<img width="1112" alt="Screen Shot 2021-11-21 at 4 05 59 PM" src="https://user-images.githubusercontent.com/60004189/142763457-72ab1ae7-a505-4c16-bcda-b5341b20b669.png">
+
+<img width="1068" alt="Screen Shot 2021-11-21 at 4 14 29 PM" src="https://user-images.githubusercontent.com/60004189/142763465-2137fca1-46db-4861-84f8-2a9071e9bffa.png">
+
+
+
+
 
